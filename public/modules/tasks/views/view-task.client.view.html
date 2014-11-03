@@ -1,6 +1,7 @@
 <section data-ng-controller="TasksController" data-ng-init="findOne()">
 	<div class="page-header">
 		<h1 data-ng-bind="task.name"></h1>
+
 	</div>
 	<div class="pull-right" data-ng-show="authentication.user._id == task.user._id">
 		<a class="btn btn-primary" href="/#!/tasks/{{task._id}}/edit">
@@ -12,7 +13,7 @@
 	</div>
 	<small>
 		<em class="text-muted">
-			Posted on
+			Created on
 			<span data-ng-bind="task.created | date:'mediumDate'"></span>
 			by
 			<span data-ng-bind="task.user.displayName"></span>

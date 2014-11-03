@@ -8,7 +8,7 @@
             <fieldset>
 
 
-                <!-- Text input-->
+
                 <div class="form-group">
                     <label class="col-md-2 control-label" for="name">Name</label>
                     <div class="col-md-4">
@@ -17,19 +17,31 @@
                     </div>
                 </div>
 
-                <!-- Textarea -->
+
                 <div class="form-group">
                     <label class="col-md-2 control-label" for="description">Description</label>
                     <div class="col-md-4">
-                        <textarea class="form-control" id="description" name="description" data-ng-model="description"></textarea>
+                        <textarea class="form-control" id="description" name="description" placeholder="Enter optional description" data-ng-model="description"></textarea>
                     </div>
                 </div>
 
-                <!-- File Button -->
                 <div class="form-group">
-                    <label class="col-md-2 control-label" for="filebutton">Script file</label>
+                    <label class="col-md-2 control-label" for="cron">Cron string</label>
                     <div class="col-md-4">
-                        <input id="filebutton" name="filebutton" class="input-file" type="file">
+                        <input id="cron" name="cron" type="text" placeholder="Cron string" class="form-control input-md" required="" data-ng-model="cron">
+
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-md-2 control-label" for="enabled">Enabled</label>
+                    <input class="col-md-1" type="checkbox" name="enabled" id="enabled" data-ng-model="enabled" value=1 checked>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-md-2 control-label" for="file-select">Script file</label>
+                    <div class="col-md-4">
+                        <input id="file-select" name="file-select" class="input-file" type="file" ng-file-select="onFileSelect($files)">
                     </div>
                 </div>
 
@@ -39,6 +51,8 @@
                 <div data-ng-show="error" class="text-danger">
                     <strong data-ng-bind="error"></strong>
                 </div>
+                <input type="hidden" name="new_filename" value="" data-ng-model="newFilename">
+                <input type="hidden" name="original_filename" value="" data-ng-model="originalFilename">
 
             </fieldset>
         </form>

@@ -5,12 +5,14 @@
     <div class="list-group">
         <a data-ng-repeat="task in tasks" data-ng-href="#!/tasks/{{task._id}}" class="list-group-item">
 			<small class="list-group-item-text">
-				Posted on
+				Created on
 				<span data-ng-bind="task.created | date:'medium'"></span>
 				by
 				<span data-ng-bind="task.user.displayName"></span>
 			</small>
 			<h4 class="list-group-item-heading" data-ng-bind="task.name"></h4>
+            <small data-ng-bind="task.scriptOriginalFilename"></small>:
+            <small class="small" data-ng-bind="task.cron"></small>
         </a>
     </div>
     <div class="alert alert-warning text-center" data-ng-hide="!tasks.$resolved || tasks.length">

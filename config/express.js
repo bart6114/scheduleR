@@ -5,6 +5,7 @@
  */
 var express = require('express'),
 	morgan = require('morgan'),
+	config = require('./config'),
 	bodyParser = require('body-parser'),
 	session = require('express-session'),
 	compress = require('compression'),
@@ -18,7 +19,8 @@ var express = require('express'),
 	flash = require('connect-flash'),
 	config = require('./config'),
 	consolidate = require('consolidate'),
-	path = require('path');
+	path = require('path'),
+	multipart = require('connect-multiparty');
 
 module.exports = function(db) {
 	// Initialize express app
@@ -42,6 +44,11 @@ module.exports = function(db) {
 		res.locals.url = req.protocol + '://' + req.headers.host + req.url;
 		next();
 	});
+
+	// set-up multipart
+	app.use(multipart({
+		uploadDir: config.uploadDir
+	}));
 
 	// Should be placed before express.static
 	app.use(compress({

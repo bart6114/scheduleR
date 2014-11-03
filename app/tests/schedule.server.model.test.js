@@ -29,8 +29,8 @@ describe('Schedule Model Unit Tests:', function() {
 
 		user.save(function() { 
 			schedule = new Schedule({
-				name: 'Schedule Name',
-				user: user
+				// Add model fields
+				// ...
 			});
 
 			done();
@@ -41,15 +41,6 @@ describe('Schedule Model Unit Tests:', function() {
 		it('should be able to save without problems', function(done) {
 			return schedule.save(function(err) {
 				should.not.exist(err);
-				done();
-			});
-		});
-
-		it('should be able to show an error when try to save without name', function(done) { 
-			schedule.name = '';
-
-			return schedule.save(function(err) {
-				should.exist(err);
 				done();
 			});
 		});
