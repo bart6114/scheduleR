@@ -1,0 +1,19 @@
+<section data-ng-controller="SchedulesController" data-ng-init="find()">
+    <div class="page-header">
+        <h1>Schedules</h1>
+    </div>
+    <div class="list-group">
+        <a data-ng-repeat="schedule in schedules" data-ng-href="#!/schedules/{{schedule._id}}" class="list-group-item">
+			<small class="list-group-item-text">
+				Posted on
+				<span data-ng-bind="schedule.created | date:'medium'"></span>
+				by
+				<span data-ng-bind="schedule.user.displayName"></span>
+			</small>
+			<h4 class="list-group-item-heading" data-ng-bind="schedule.name"></h4>
+        </a>
+    </div>
+    <div class="alert alert-warning text-center" data-ng-hide="!schedules.$resolved || schedules.length">
+    	No Schedules yet, why don't you <a href="/#!/schedules/create">create one</a>?
+    </div>
+</section>
