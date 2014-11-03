@@ -5,100 +5,100 @@
  */
 var mongoose = require('mongoose'),
 	errorHandler = require('./errors'),
-	Schedule = mongoose.model('Schedule'),
+	Task = mongoose.model('Task'),
 	_ = require('lodash');
 
 /**
- * Create a Schedule
+ * Create a Task
  */
 exports.create = function(req, res) {
-	var schedule = new Schedule(req.body);
-	schedule.user = req.user;
+	var task = new Task(req.body);
+	task.user = req.user;
 
-	schedule.save(function(err) {
+	task.save(function(err) {
 		if (err) {
 			return res.status(400).send({
 				message: errorHandler.getErrorMessage(err)
 			});
 		} else {
-			res.jsonp(schedule);
+			res.jsonp(task);
 		}
 	});
 };
 
 /**
- * Show the current Schedule
+ * Show the current Task
  */
 exports.read = function(req, res) {
-	res.jsonp(req.schedule);
+	res.jsonp(req.task);
 };
 
 /**
- * Update a Schedule
+ * Update a Task
  */
 exports.update = function(req, res) {
-	var schedule = req.schedule ;
+	var task = req.task ;
 
-	schedule = _.extend(schedule , req.body);
+	task = _.extend(task , req.body);
 
-	schedule.save(function(err) {
+	task.save(function(err) {
 		if (err) {
 			return res.status(400).send({
 				message: errorHandler.getErrorMessage(err)
 			});
 		} else {
-			res.jsonp(schedule);
+			res.jsonp(task);
 		}
 	});
 };
 
 /**
- * Delete an Schedule
+ * Delete an Task
  */
 exports.delete = function(req, res) {
-	var schedule = req.schedule ;
+	var task = req.task ;
 
-	schedule.remove(function(err) {
+	task.remove(function(err) {
 		if (err) {
 			return res.status(400).send({
 				message: errorHandler.getErrorMessage(err)
 			});
 		} else {
-			res.jsonp(schedule);
+			res.jsonp(task);
 		}
 	});
 };
 
 /**
- * List of Schedules
+ * List of Tasks
  */
-exports.list = function(req, res) { Schedule.find().sort('-created').populate('user', 'displayName').exec(function(err, schedules) {
+exports.list = function(req, res) { Task.find().sort('-created').populate('user', 'displayName').exec(function(err, tasks) {
 		if (err) {
 			return res.status(400).send({
 				message: errorHandler.getErrorMessage(err)
 			});
 		} else {
-			res.jsonp(schedules);
+			res.jsonp(tasks);
 		}
 	});
 };
 
 /**
- * Schedule middleware
+ * Task middleware
  */
-exports.scheduleByID = function(req, res, next, id) { Schedule.findById(id).populate('user', 'displayName').exec(function(err, schedule) {
+exports.taskByID = function(req, res, next, id) { Task.findById(id).populate('user', 'displayName').exec(function(err, task) {
 		if (err) return next(err);
-		if (! schedule) return next(new Error('Failed to load Schedule ' + id));
-		req.schedule = schedule ;
+		if (! task) return next(new Error('Failed to load Task ' + id));
+		req.task = task ;
 		next();
 	});
 };
 
 /**
- * Schedule authorization middleware
+ * Task authorization middleware
  */
 exports.hasAuthorization = function(req, res, next) {
-	if (req.schedule.user.id !== req.user.id) {
+	if (req.task.user.id !== req.user.id) {
 		return res.status(403).send('User is not authorized');
 	}
 	next();

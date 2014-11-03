@@ -7,13 +7,18 @@ var mongoose = require('mongoose'),
 	Schema = mongoose.Schema;
 
 /**
- * Schedule Schema
+ * Task Schema
  */
-var ScheduleSchema = new Schema({
+var TaskSchema = new Schema({
 	name: {
 		type: String,
 		default: '',
-		required: 'Please fill Schedule name',
+		required: 'Please enter task name',
+		trim: true
+	},
+	description: {
+		type: String,
+		default: '',
 		trim: true
 	},
 	enabled: {
@@ -30,4 +35,4 @@ var ScheduleSchema = new Schema({
 	}
 });
 
-mongoose.model('Schedule', ScheduleSchema);
+mongoose.model('Task', TaskSchema);
