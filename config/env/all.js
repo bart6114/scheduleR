@@ -6,7 +6,7 @@ module.exports = {
 		description: 'schedule R scripts',
 		keywords: 'R, scheduling'
 	},
-	uploadDir: '/home/bart/tmp/',
+	uploadDir: 'c:/tmp/',
 	port: process.env.PORT || 3000,
 	templateEngine: 'swig',
 	sessionSecret: 'MEAN',

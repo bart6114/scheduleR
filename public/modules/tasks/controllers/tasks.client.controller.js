@@ -7,8 +7,8 @@ angular.module('tasks').controller('TasksController', ['$scope', '$upload', '$st
 	function($scope, $upload, $stateParams, $location, Authentication, Tasks ) {
 		$scope.authentication = Authentication;
 		$scope.enabled = true;
-		$scope.newFilename = "";
-		$scope.originalFilename = "";
+		$scope.newFilename = '';
+		$scope.originalFilename = '';
 
 		$scope.onFileSelect = function($files) {
 			//$files: an array of files selected, each file has name, size, and type.
