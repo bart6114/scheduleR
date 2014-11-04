@@ -10,7 +10,8 @@ setwd(
   dirname(script_to_run)
   )
 
-
+tryCatch({
 source(
   basename(script_to_run), echo=TRUE
-  )
+  )},
+error = function(e) quit(save = "no", status = 1))
