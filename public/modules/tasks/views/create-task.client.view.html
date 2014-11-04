@@ -11,7 +11,7 @@
 
                 <div class="form-group">
                     <label class="col-md-2 control-label" for="name">Name</label>
-                    <div class="col-md-4">
+                    <div class="col-md-6">
                         <input id="name" name="name" type="text" placeholder="Name" class="form-control input-md" required="" data-ng-model="name">
 
                     </div>
@@ -20,30 +20,41 @@
 
                 <div class="form-group">
                     <label class="col-md-2 control-label" for="description">Description</label>
-                    <div class="col-md-4">
+                    <div class="col-md-6">
                         <textarea class="form-control" id="description" name="description" placeholder="Enter optional description" data-ng-model="description"></textarea>
                     </div>
                 </div>
 
                 <div class="form-group">
                     <label class="col-md-2 control-label" for="cron">Cron string</label>
-                    <div class="col-md-4">
+                    <div class="col-md-6">
                         <input id="cron" name="cron" type="text" placeholder="Cron string" class="form-control input-md" required="" data-ng-model="cron">
 
                     </div>
                 </div>
 
                 <div class="form-group">
+                    <label class="col-md-2 control-label" for="filename">Filename</label>
+                    <div class="col-md-6">
+                        <input id="filename" name="filename" type="text" placeholder="Enter filename including (relative) path" class="form-control input-md" required="" data-ng-model="filename">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-md-2 control-label" for="arguments">Extra arguments</label>
+                    <div class="col-md-6">
+                        <input id="arguments" name="arguments" type="text" placeholder="Additional arguments will be added to the Rscript run command" class="form-control input-md" required="" data-ng-model="arguments">
+                    </div>
+                </div>
+
+
+                <div class="form-group">
                     <label class="col-md-2 control-label" for="enabled">Enabled</label>
                     <input class="col-md-1" type="checkbox" name="enabled" id="enabled" data-ng-model="enabled" value=1 checked>
                 </div>
 
-                <div class="form-group">
-                    <label class="col-md-2 control-label" for="file-select">Script file</label>
-                    <div class="col-md-4">
-                        <input id="file-select" name="file-select" class="input-file" type="file" ng-file-select="onFileSelect($files)">
-                    </div>
-                </div>
+
+
 
                 <div class="form-group">
                     <input type="submit" class="btn btn-default pull-right">
@@ -51,8 +62,6 @@
                 <div data-ng-show="error" class="text-danger">
                     <strong data-ng-bind="error"></strong>
                 </div>
-                <input type="hidden" name="new_filename" value="" data-ng-model="newFilename">
-                <input type="hidden" name="original_filename" value="" data-ng-model="originalFilename">
 
             </fieldset>
         </form>

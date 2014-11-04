@@ -7,6 +7,8 @@ module.exports = {
 		keywords: 'R, scheduling'
 	},
 	uploadDir: 'c:/tmp/',
+	Rscript: 'Rscript',
+	runScript: 'R/run_script.R',
 	port: process.env.PORT || 3000,
 	templateEngine: 'swig',
 	sessionSecret: 'MEAN',
