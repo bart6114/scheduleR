@@ -3,11 +3,13 @@
 
 
 // Tasks controller
-angular.module('tasks').controller('TasksController', ['$scope', '$stateParams', '$location', 'Authentication', 'Tasks',
-	function($scope, $stateParams, $location, Authentication, Tasks ) {
+angular.module('tasks').controller('TasksController', ['$scope', '$stateParams', '$location', 'Authentication', 'Tasks', 'LogsArray',
+	function($scope, $stateParams, $location, Authentication, Tasks, Logs ) {
 		$scope.authentication = Authentication;
 		$scope.enabled = true;
-		
+
+
+
 
 		// Create new Task
 		$scope.create = function() {
@@ -68,9 +70,17 @@ angular.module('tasks').controller('TasksController', ['$scope', '$stateParams',
 
 		// Find existing Task
 		$scope.findOne = function() {
-			$scope.task = Tasks.get({ 
+
+			$scope.task = Tasks.get({
 				taskId: $stateParams.taskId
 			});
+
+			$scope.logs = Logs.get({
+				taskId: $stateParams.taskId
+			});
+
+
+
 		};
 	}
 ]);

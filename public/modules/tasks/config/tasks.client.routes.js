@@ -5,6 +5,10 @@ angular.module('tasks').config(['$stateProvider',
 	function($stateProvider) {
 		// Tasks state routing
 		$stateProvider.
+		state('viewLog', {
+			url: '/tasks/:taskId/logs/:logId',
+			templateUrl: 'modules/tasks/views/view-log.client.view.html'
+		}).
 		state('listTasks', {
 			url: '/tasks',
 			templateUrl: 'modules/tasks/views/list-tasks.client.view.html'

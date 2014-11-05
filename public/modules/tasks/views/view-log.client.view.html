@@ -1,0 +1,19 @@
+<section data-ng-controller="LogsController" data-ng-init="findOne()">
+	<div class="page-header">
+		<a href="/#!/tasks/{{task._id}}">
+			<h2 data-ng-bind="task.name"></h2>
+		</a>
+	</div>
+
+	<small>
+		<em class="text-muted">
+			Log created on
+			<span data-ng-bind="log.created | date: 'dd-MM-yyyy HH:MM:ss'"></span>
+			, execution was
+			<span data-ng-bind='log.success ? "successful" : "unsuccessful"'></span>
+		</em>
+	</small>
+	<br><br>
+	<pre data-ng-bind="log.msg"></pre>
+
+</section>
