@@ -65,7 +65,7 @@ Task.find({'enabled': true}).sort('-created').populate('user', 'displayName').ex
 			new CronJob(task.cron, function(){
 
 					run_cmd(task, config.Rscript,
-						['--verbose', config.runScript, task.filename, task.arguments],
+						['--verbose','--no-restore', config.runRscript, task.filename, task.arguments],
 						function(output) {
 							console.log (output);
 						}

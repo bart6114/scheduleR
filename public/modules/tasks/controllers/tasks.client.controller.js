@@ -3,8 +3,8 @@
 
 
 // Tasks controller
-angular.module('tasks').controller('TasksController', ['$scope', '$upload', '$stateParams', '$location', 'Authentication', 'Tasks',
-	function($scope, $upload, $stateParams, $location, Authentication, Tasks ) {
+angular.module('tasks').controller('TasksController', ['$scope', '$stateParams', '$location', 'Authentication', 'Tasks',
+	function($scope, $stateParams, $location, Authentication, Tasks ) {
 		$scope.authentication = Authentication;
 		$scope.enabled = true;
 		

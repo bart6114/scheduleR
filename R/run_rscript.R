@@ -1,4 +1,4 @@
-# TODO: set exit value
+
 args <- commandArgs(trailingOnly = TRUE)
 
 script_to_run <- args[1]
