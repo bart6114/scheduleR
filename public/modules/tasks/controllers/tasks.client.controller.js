@@ -15,8 +15,23 @@ angular.module('tasks').controller('TasksController', ['$scope', '$stateParams',
 		};
 
 
+		// add email address
+		$scope.addEmailAddress = function(value, target) {
+
+			target.push(value);
+			$scope.onError = '';
+			$scope.onAll = '';
+			$scope.onSuccess = '';
 
 
+		};
+
+		// delete email address
+		$scope.deleteEmailAddress = function(index, target) {
+			console.log(index, target);
+			target.splice(index, 1);
+
+		};
 		// Create new Task
 		$scope.create = function() {
 			// Create new Task object

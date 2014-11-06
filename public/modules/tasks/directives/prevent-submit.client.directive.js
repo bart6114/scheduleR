@@ -5,9 +5,10 @@ angular.module('tasks').directive('preventFormSubmitOnEnter', [
 		return {
         restrict:'A',
         link: function(scope,element,attr) {
-        	console.log(element);
+
             element.on('keydown',function(e) {
-                if (e.which === '13') {
+
+                if (e.which === 13) {
                     e.preventDefault();
                 }
             });
