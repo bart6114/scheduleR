@@ -38,7 +38,7 @@
 		</thead>
 		<tbody>
 		<tr data-ng-repeat="log in logs">
-			<td>{{log.created | date: "dd-MM-yyyy HH:MM:ss"}}</td>
+			<td>{{log.created | date: "dd-MM-yyyy HH:mm:ss"}}</td>
 			<td><a href="/#!/tasks/{{task._id}}/logs/{{log._id}}" class="label"
 				   data-ng-class="{'label-primary': success, 'label-warning': !success }">
 				{{log.success ? "success" : "error"}}
