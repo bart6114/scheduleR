@@ -8,6 +8,12 @@ angular.module('tasks').controller('TasksController', ['$scope', '$stateParams',
 		$scope.authentication = Authentication;
 		$scope.enabled = true;
 
+		$scope.mailAddresses = {
+			onAll: [],
+			onError: [],
+			onSuccess: []
+		};
+
 
 
 

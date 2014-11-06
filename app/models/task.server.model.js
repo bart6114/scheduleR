@@ -41,6 +41,14 @@ var TaskSchema = new Schema({
 		default: '',
 		trim: true
 	},
+	mailOnAll: [String],
+	mailOnError: [String],
+	mailOnSuccess: [String],
+	mailOnSuccessMsg: {
+		type: String,
+		default: '',
+		trim: true
+	},
 	created: {
 		type: Date,
 		default: Date.now

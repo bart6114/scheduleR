@@ -37,7 +37,7 @@ exports.read = function(req, res) {
 /**
  * Log middleware
  */
-exports.logByID = function(req, res, next, id) { ; Log.findById(id).exec(function(err, log) {
+exports.logByID = function(req, res, next, id) { Log.findById(id).exec(function(err, log) {
 	if (err) return next(err);
 	if (! log) return next(new Error('Failed to load Log ' + id));
 

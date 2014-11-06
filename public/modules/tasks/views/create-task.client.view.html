@@ -53,6 +53,18 @@
                     <input class="col-md-1" type="checkbox" name="enabled" id="enabled" data-ng-model="enabled" value=1 checked>
                 </div>
 
+                <br>
+                <h4>Notifications</h4>
+                <div class="form-group">
+                    <span class="label label-default" data-ng-repeat="addr in mailAddresses.onError track by $index">{{addr}}</span>
+                    <p>{{mailAddresses}}</p>
+                    <label class="col-md-2 control-label" for="onError">On error</label>
+                    <div class="col-md-6">
+                        <input id="onError" name="onError" type="text" placeholder="Enter email (and press enter)" class="form-control input-md" required="" 
+                        data-ng-model="onError" preventFormSubmitOnEnter> 
+                        <!-- data-ng-keyup="$event.keyCode == 13 && mailAddresses.onError.push(onError)" -->
+                    </div>
+                </div>
 
 
 
