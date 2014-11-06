@@ -14,7 +14,6 @@ var LogSchema = new Schema({
 	msg: {
 		type: String,
 		default: '',
-		required: 'Please enter msg',
 		trim: true
 	},
 	success: {
