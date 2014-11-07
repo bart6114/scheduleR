@@ -5,7 +5,7 @@
     <div class="list-group">
         <a data-ng-repeat="task in tasks" data-ng-href="#!/tasks/{{task._id}}" class="list-group-item">
 			<small class="list-group-item-text">
-				Created on
+				{{task}}Created on
 				<span data-ng-bind="task.created | date:'medium'"></span>
 				by
 				<span data-ng-bind="task.user.displayName"></span>

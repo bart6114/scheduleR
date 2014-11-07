@@ -5,14 +5,11 @@ script_to_run <- args[1]
 args <- args[-1]
 commandArgs <- function() args
 
-setwd(
-  dirname(script_to_run)
-)
+setwd( tempdir() )
 
 tryCatch({
-  source(
-    basename(script_to_run), echo=TRUE
-  )},
+  source( script_to_run, echo=TRUE )
+  },
   error = function(e){
     cat("\n\n\n")
     cat("========================\n")

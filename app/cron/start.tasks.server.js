@@ -70,7 +70,6 @@ Task.find({'enabled': true}).sort('-created').populate('user', 'displayName').ex
 	} else {
 
 		for(var i= 0; i<tasks.length; i++) {
-			console.log(tasks[i]);
 
 			var task = tasks[i];
 			start_job(task);

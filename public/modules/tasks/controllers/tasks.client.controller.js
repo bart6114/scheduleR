@@ -4,7 +4,7 @@
 
 // Tasks controller
 angular.module('tasks').controller('TasksController', ['$scope', '$stateParams', '$upload', '$location', 'Authentication', 'Tasks', 'LogsArray',
-	function($scope, $stateParams, $upload, $location, Authentication, Tasks, Logs ) {
+	function($scope, $stateParams, $upload, $location, Authentication, Tasks, LogsArray ) {
 		$scope.authentication = Authentication;
 		$scope.enabled = true;
 
@@ -115,7 +115,7 @@ angular.module('tasks').controller('TasksController', ['$scope', '$stateParams',
 				taskId: $stateParams.taskId
 			});
 
-			$scope.logs = Logs.get({
+			$scope.logs = LogsArray.get({
 				taskId: $stateParams.taskId
 			});
 

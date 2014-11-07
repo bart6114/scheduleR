@@ -64,4 +64,17 @@ var TaskSchema = new Schema({
 	}
 });
 
+TaskSchema.virtual('success').get(function() {
+  return this._success;
+});
+
+TaskSchema.virtual('success').set(function(success) {
+  return this._success = success;
+});
+
+TaskSchema.set('toObject', {
+  getters: true
+});
+
+
 mongoose.model('Task', TaskSchema);

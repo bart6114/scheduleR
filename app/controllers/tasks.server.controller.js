@@ -6,7 +6,9 @@
 var mongoose = require('mongoose'),
 	errorHandler = require('./errors'),
 	Task = mongoose.model('Task'),
-	_ = require('lodash');
+	Log = mongoose.model('Log'),
+	_ = require('lodash'),
+	async = require('async');
 
 /**
  * Create a Task
@@ -72,13 +74,32 @@ exports.delete = function(req, res) {
 /**
  * List of Tasks
  */
-exports.list = function(req, res) { Task.find().sort('-created').populate('user', 'displayName').exec(function(err, tasks) {
+
+exports.list = function(req, res) { 
+	Task.find()
+	.sort('-created')
+	.populate('user', 'displayName')
+	.exec(function(err, tasks) {
 		if (err) {
 			return res.status(400).send({
 				message: errorHandler.getErrorMessage(err)
 			});
 		} else {
-			res.jsonp(tasks);
+
+			async.map(tasks, function(task, callback) {
+				 Log.findOne()
+		    	.where({'task': task._id})
+		    	.sort({'created': -1})
+		    	.exec(function(err, log) {
+				      task.success = log.success;
+				      callback(null, task.toObject());
+				    });
+		    	
+			}, function(err, results){
+    			 console.log(results);
+				res.jsonp(results);
+			});
+			
 		}
 	});
 };
