@@ -9,8 +9,6 @@ setwd(
   dirname(script_to_run)
 )
 
-print(44)
-
 tryCatch({
   source(
     basename(script_to_run), echo=TRUE
