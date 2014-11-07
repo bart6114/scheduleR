@@ -31,7 +31,12 @@ var TaskSchema = new Schema({
 		required: 'Please enter cron string',
 		trim: true
 	},
-	filename: {
+	scriptOriginalFilename: {
+		type: String,
+		default: '',
+		trim: true
+	},
+	scriptNewFilename: {
 		type: String,
 		default: '',
 		trim: true

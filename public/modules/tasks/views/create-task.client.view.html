@@ -33,12 +33,22 @@
                     </div>
                 </div>
 
-                <div class="form-group">
+<!--                 <div class="form-group">
                     <label class="col-md-2 control-label" for="filename">Filename</label>
                     <div class="col-md-6">
                         <input id="filename" name="filename" type="text" placeholder="Enter filename including (relative) path" class="form-control input-md" required="" data-ng-model="filename">
                     </div>
                 </div>
+ -->
+
+                <div class="form-group">
+                    <label class="col-md-2 control-label" for="file-select">Script file</label>
+                    <div class="col-md-4">
+                        <input id="file-select" name="file-select" class="input-file" type="file" 
+                        ng-file-select="onFileSelect($files)" accept="*.R, *.r, *.Rmd, *.rmd">
+                    </div>
+                </div>
+
 
                 <div class="form-group">
                     <label class="col-md-2 control-label" for="arguments">Extra arguments</label>

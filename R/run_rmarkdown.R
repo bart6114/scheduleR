@@ -12,7 +12,7 @@ setwd(
 )
 
 tryCatch({
-    render(script_to_run)
+    render(script_to_run)           
   },
   error = function(e){
     cat("\n\n\n")

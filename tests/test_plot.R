@@ -1,5 +1,4 @@
 print(9999)
-stop(4)
 png("test.png")
 plot(3)
 dev.off()

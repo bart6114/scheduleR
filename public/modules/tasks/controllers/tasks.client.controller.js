@@ -3,8 +3,8 @@
 
 
 // Tasks controller
-angular.module('tasks').controller('TasksController', ['$scope', '$stateParams', '$location', 'Authentication', 'Tasks', 'LogsArray',
-	function($scope, $stateParams, $location, Authentication, Tasks, Logs ) {
+angular.module('tasks').controller('TasksController', ['$scope', '$stateParams', '$upload', '$location', 'Authentication', 'Tasks', 'LogsArray',
+	function($scope, $stateParams, $upload, $location, Authentication, Tasks, Logs ) {
 		$scope.authentication = Authentication;
 		$scope.enabled = true;
 
@@ -14,6 +14,25 @@ angular.module('tasks').controller('TasksController', ['$scope', '$stateParams',
 			onSuccess: []
 		};
 
+
+		$scope.onFileSelect = function($files) {
+			//$files: an array of files selected, each file has name, size, and type.
+				var file = $files[0];
+				$scope.upload = $upload.upload({
+					url: 'uploads/', //upload.php script, node.js route, or servlet url
+					method: 'POST',
+					file: file, 
+
+				}).progress(function(evt) {
+					console.log('percent: ' + parseInt(100.0 * evt.loaded / evt.total));
+				}).success(function(data, status, headers, config) {
+					// file is uploaded successfully
+					$scope.newFilename = data.filename.replace(/^.*[\\\/]/, '')
+					$scope.originalFilename = file.name;
+					console.log($scope.originalFilename + ' uploaded as ' + $scope.newFilename);
+				});
+
+		};
 
 		// add email address
 		$scope.addEmailAddress = function(value, target) {
@@ -28,7 +47,6 @@ angular.module('tasks').controller('TasksController', ['$scope', '$stateParams',
 
 		// delete email address
 		$scope.deleteEmailAddress = function(index, target) {
-			console.log(index, target);
 			target.splice(index, 1);
 
 		};
@@ -41,7 +59,8 @@ angular.module('tasks').controller('TasksController', ['$scope', '$stateParams',
 				description: this.description,
 				enabled: this.enabled,
 				cron: this.cron,
-				filename: this.filename,
+				scriptNewFilename: $scope.newFilename,
+				scriptOriginalFilename: $scope.originalFilename,
 				arguments: this.arguments
 
 			});

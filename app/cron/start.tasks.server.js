@@ -10,46 +10,58 @@ var cron = require('cron'),
 	path = require('path');
 
 
-var run_cmd = function(task, cmd, args, callBack ) {
+var start_job = function(task) {
 
-	console.log('Running task: ' + task.name + ' -- from file: ' + task.filename);
-	var child = spawn(cmd, args);
-	var resp = '';
-	var log = new Log({task: task._id});
+	var job = new CronJob(task.cron, function(){
 
-	child.on('error', function(err) {
-		console.log(err);
-	});
 
-	child.stdout.on('data', function (buffer) {
-		resp += buffer.toString();
-	});
 
-	child.stdout.on('end', function() {
-		log.msg = resp;
-		log.save(function(err){
-			if(err) console.log(err);
+		console.log('Running task: ' + task.name + ' -- from file: ' + task.scriptOriginalFilename);
+		var args = config.RstandardArguments.concat(
+			[config.runRscript,
+				path.normalize(config.uploadDir + '/' + task.scriptNewFilename),
+				task.arguments]);
+
+		var resp = '';
+		var log = new Log({task: task._id});
+		var child = spawn(config.Rscript, args);
+		
+
+		child.on('error', function(err) {
+			console.log(err);
 		});
-	});
 
-	child.on('exit', function (code) {
-		if(code === 1){
-			log.success = false;
+		child.stdout.on('data', function (buffer) {
+			resp += buffer.toString();
+
+		});
+
+		child.stdout.on('end', function() {
+			log.msg = resp;
+
 			log.save(function(err){
 				if(err) console.log(err);
 			});
-		}
+		});
 
-	});
+		child.on('exit', function (code) {
+
+			if(code === 1){
+				log.success = false;
+				log.save(function(err){
+					if(err) console.log(err);
+				});
+			}
+
+		});
+
+	},
+	null,
+	true);
+
 
 };
 
-
-var startTask = function(task) {
-
-
-
-};
 
 
 Task.find({'enabled': true}).sort('-created').populate('user', 'displayName').exec(function(err, tasks) {
@@ -61,18 +73,8 @@ Task.find({'enabled': true}).sort('-created').populate('user', 'displayName').ex
 			console.log(tasks[i]);
 
 			var task = tasks[i];
+			start_job(task);
 
-			new CronJob(task.cron, function(){
-
-					run_cmd(task, config.Rscript,
-						['--verbose','--no-restore', config.runRscript, task.filename, task.arguments],
-						function(output) {
-							console.log (output);
-						}
-					);
-				},
-				null,
-				true);
 
 		}
 

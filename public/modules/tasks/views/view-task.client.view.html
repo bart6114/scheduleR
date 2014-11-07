@@ -13,9 +13,9 @@
 	</div>
 
 	<p><strong>Description:</strong> <span data-ng-bind="task.description"></span></p>
-	<p><strong>Filename:</strong> <span data-ng-bind="task.filename"></span></p>
+	<p><strong>Filename:</strong> <span data-ng-bind="task.scriptOriginalFilename"></span></p>
 	<p><strong>Arguments:</strong> <span data-ng-bind="task.arguments"></span></p>
-	<p><strong>Cron:</strong> <span data-ng-bind="task.Cron"></span></p>
+	<p><strong>Cron:</strong> <span data-ng-bind="task.cron"></span></p>
 	<p><strong>Enabled:</strong> <span data-ng-bind="task.enabled"></span></p>
 
 
@@ -41,11 +41,11 @@
 		<tr data-ng-repeat="log in logs">
 			<td>{{log.created | date: "dd-MM-yyyy HH:mm:ss"}}</td>
 			<td><a href="/#!/tasks/{{task._id}}/logs/{{log._id}}" class="label"
-				   data-ng-class="{'label-primary': success, 'label-warning': !success }">
+				   data-ng-class="{'label-primary': log.success, 'label-warning': !log.success}">
 				{{log.success ? "success" : "error"}}
 			</a></td>
 		</tr>
-		</tbody>
+		</tbody>	
 	</table>
 </section>
 
