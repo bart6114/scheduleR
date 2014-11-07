@@ -6,7 +6,7 @@ module.exports = {
 		description: 'schedule R scripts',
 		keywords: 'R, scheduling'
 	},
-	uploadDir: 'c:/tmp/',
+	uploadDir: '/tmp',
 	Rscript: 'Rscript',
 	RstandardArguments: ['--verbose','--no-restore'],
 	runRscript: 'R/run_rscript.R',

@@ -59,10 +59,25 @@ var start_job = function(task) {
 	null,
 	true);
 
+	return(job);
+
 
 };
 
-
+function taskList() {
+	this.tasks = {};
+	this.addTask = function(task){
+		this.tasks[task._id] = task
+	};
+	this.stopTask = function(taskId){
+		this.tasks[taskId].stop()
+	};
+	this.stopAllTasks = function(){
+		for(task in tasks){
+			this.tasks[task].stop()
+		}
+	};
+}
 
 Task.find({'enabled': true}).sort('-created').populate('user', 'displayName').exec(function(err, tasks) {
 	if (err) {
@@ -72,13 +87,15 @@ Task.find({'enabled': true}).sort('-created').populate('user', 'displayName').ex
 		for(var i= 0; i<tasks.length; i++) {
 
 			var task = tasks[i];
-			start_job(task);
+			taskList[task._id] = start_job(task);
 
 
 		}
-
+		console.log(taskList);
 	}
 });
+
+
 
 
 
