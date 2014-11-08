@@ -1,16 +1,18 @@
 'use strict';
 
+var fs = require('fs');
+
+
+var userConfig = JSON.parse(fs.readFileSync('config.json', 'utf8'));
+
+
 module.exports = {
 	app: {
 		title: 'scheduleR',
 		description: 'schedule R scripts',
 		keywords: 'R, scheduling'
 	},
-	uploadDir: '/tmp',
-	Rscript: 'Rscript',
-	RstandardArguments: ['--verbose','--no-restore'],
-	runRscript: 'R/run_rscript.R',
-	runRmarkdown: 'R/run_rmarkdown.R',
+	userConfig: userConfig,
 	port: process.env.PORT || 3000,
 	templateEngine: 'swig',
 	sessionSecret: 'MEAN',

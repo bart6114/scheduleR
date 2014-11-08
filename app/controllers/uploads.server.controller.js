@@ -12,9 +12,8 @@ var mongoose = require('mongoose'),
  * Create a Upload
  */
 exports.create = function (req, res, next) {
-    console.log(888,req.body, config);
     var data = _.pick(req.body, 'type'),
-        uploadPath = path.normalize(config.uploadDir),
+        uploadPath = path.normalize(config.userConfig.uploadDir),
         file = req.files.file;
 
     console.log('uploaded: ' + file.name); //original name (ie: sunset.png)

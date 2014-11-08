@@ -1,14 +1,18 @@
 args <- commandArgs(trailingOnly = TRUE)
 
-script_to_run <- args[1]
-
+temp_dir <- args[1]
 args <- args[-1]
+
+script_to_run <- args[1]
+args <- args[-1]
+
 commandArgs <- function() args
 
-setwd( tempdir() )
+setwd( temp_dir )
 
 tryCatch({
   source( script_to_run, echo=TRUE )
+
   },
   error = function(e){
     cat("\n\n\n")

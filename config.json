@@ -1,0 +1,21 @@
+{
+  "uploadDir": "/tmp",
+  "RscriptExecutable": "Rscript",
+  "RstandardArguments": [
+    "--verbose",
+    "--no-restore"
+  ],
+  "runRscript": "R/run_rscript.R",
+  "runRmarkdown": "R/run_rmarkdown.R",
+  "mailSettings":
+  {
+    "host": "smtp.gmail.com",
+    "secure": true,
+    "port": 465,
+    "auth": {
+      "user": "user@gmail.com",
+      "pass": "pwd"
+    },
+    "from": "schedule@R.noreply"
+  }
+}

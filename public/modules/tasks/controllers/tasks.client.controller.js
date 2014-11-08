@@ -9,7 +9,6 @@ angular.module('tasks').controller('TasksController', ['$scope', '$stateParams',
 		$scope.enabled = true;
 
 		$scope.mailAddresses = {
-			onAll: [],
 			onError: [],
 			onSuccess: []
 		};
@@ -17,20 +16,35 @@ angular.module('tasks').controller('TasksController', ['$scope', '$stateParams',
 
 		$scope.onFileSelect = function($files) {
 			//$files: an array of files selected, each file has name, size, and type.
-				var file = $files[0];
+			var file = $files[0];
+
+			// check if file an Rmd file
+			var ext = file.name.substr(file.name.lastIndexOf('.') + 1);
+
+			var RmdExtensions = ['Rmd', 'rmd'];
+			if(RmdExtensions.indexOf(ext) >= 0) $scope.Rmarkdown = true;
+
+			// upload exceptions
+			if(file.size > 500000){
+				console.log('File too large! (' + file.size + ')');
+				$scope.newTaskForm.scriptfile.$setValidity('size', false);
+
+
+
+			} else {
 				$scope.upload = $upload.upload({
 					url: 'uploads/', //upload.php script, node.js route, or servlet url
 					method: 'POST',
-					file: file, 
-
-				}).progress(function(evt) {
+					file: file
+				}).progress(function (evt) {
 					console.log('percent: ' + parseInt(100.0 * evt.loaded / evt.total));
-				}).success(function(data, status, headers, config) {
+				}).success(function (data, status, headers, config) {
 					// file is uploaded successfully
-					$scope.newFilename = data.filename.replace(/^.*[\\\/]/, '')
+					$scope.newFilename = data.filename.replace(/^.*[\\\/]/, '');
 					$scope.originalFilename = file.name;
 					console.log($scope.originalFilename + ' uploaded as ' + $scope.newFilename);
 				});
+			}
 
 		};
 
@@ -39,7 +53,6 @@ angular.module('tasks').controller('TasksController', ['$scope', '$stateParams',
 
 			target.push(value);
 			$scope.onError = '';
-			$scope.onAll = '';
 			$scope.onSuccess = '';
 
 
@@ -61,8 +74,12 @@ angular.module('tasks').controller('TasksController', ['$scope', '$stateParams',
 				cron: this.cron,
 				scriptNewFilename: $scope.newFilename,
 				scriptOriginalFilename: $scope.originalFilename,
-				arguments: this.arguments
-
+				arguments: this.arguments,
+				mailOnError: $scope.mailAddresses.onError,
+				mailOnSuccess: $scope.mailAddresses.onSuccess,
+				Rmarkdown: this.Rmarkdown,
+				RmdAccompanyingMsg: this.RmdAccompanyingMsg,
+				RmdOutputPath: this.RmdOutputPath
 			});
 
 			// Redirect after save

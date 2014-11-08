@@ -47,7 +47,7 @@ module.exports = function(db) {
 
 	// set-up multipart
 	app.use(multipart({
-		uploadDir: config.uploadDir
+		uploadDir: config.userConfig.uploadDir
 	}));
 
 	// Should be placed before express.static
@@ -148,7 +148,7 @@ module.exports = function(db) {
 	});
 
 	// init cron jobs
-	var jobs = require('../app/cron/start.tasks.server');
+	var taskList = require('../app/cron/start.tasks.server');
 
 	return app;
 };

@@ -2,17 +2,22 @@ library(rmarkdown)
 
 args <- commandArgs(trailingOnly = TRUE)
 
-script_to_run <- args[1]
-
+temp_dir <- args[1]
 args <- args[-1]
+
+script_to_run <- args[1]
+args <- args[-1]
+
 commandArgs <- function() args
 
-setwd(
-  dirname(script_to_run)
-)
+setwd( temp_dir )
+print(temp_dir)
+print(getwd())
 
 tryCatch({
-    render(script_to_run)           
+    render_file = render(script_to_run, output_dir = temp_dir)
+    print(render_file)
+
   },
   error = function(e){
     cat("\n\n\n")

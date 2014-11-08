@@ -1,5 +1,7 @@
 'use strict';
 
+var taskList = require('../cron/start.tasks.server');
+
 /**
  * Module dependencies.
  */
@@ -24,6 +26,10 @@ exports.create = function(req, res) {
 			});
 		} else {
 			res.jsonp(task);
+			if(task.enabled) {
+				console.log(taskList);
+				taskList.addTaskAndStart(task);
+			}
 		}
 	});
 };
@@ -66,6 +72,8 @@ exports.delete = function(req, res) {
 				message: errorHandler.getErrorMessage(err)
 			});
 		} else {
+			console.log(taskList);
+			taskList.removeTask(task);
 			res.jsonp(task);
 		}
 	});
@@ -96,7 +104,7 @@ exports.list = function(req, res) {
 						});
 
 				}, function(err, results){
-					console.log(results);
+
 					res.jsonp(results);
 				});
 
