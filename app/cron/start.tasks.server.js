@@ -64,20 +64,37 @@ var start_job = function(task) {
 
 };
 
-function taskList() {
+function tasklist() {
 	this.tasks = {};
-	this.addTask = function(task){
-		this.tasks[task._id] = task
+	this.addTaskAndStart = function(task){
+		this.tasks[task._id] = start_job(task);
+	};
+	this.removeTask = function(taskId){
+
+		this.stopTask(taskId);
+		delete this.tasks[taskId];
+
 	};
 	this.stopTask = function(taskId){
-		this.tasks[taskId].stop()
+		this.tasks[taskId].stop();
 	};
 	this.stopAllTasks = function(){
-		for(task in tasks){
-			this.tasks[task].stop()
+		for(var task in this.tasks){
+			this.tasks[task].stop();
 		}
 	};
+	this.startAllTasks = function(){
+		for(var task in this.tasks){
+			this.tasks[task].start();
+		}
+	};
+	this.restart = function(){
+		this.stopAllTasks();
+		this.startAllTasks();
+	}
 }
+
+var TaskList = new tasklist();
 
 Task.find({'enabled': true}).sort('-created').populate('user', 'displayName').exec(function(err, tasks) {
 	if (err) {
@@ -87,18 +104,16 @@ Task.find({'enabled': true}).sort('-created').populate('user', 'displayName').ex
 		for(var i= 0; i<tasks.length; i++) {
 
 			var task = tasks[i];
-			taskList[task._id] = start_job(task);
+			TaskList.addTaskAndStart(task);
+			//taskList[task._id] = start_job(task);
 
 
 		}
-		console.log(taskList);
+
 	}
+
+
+
 });
 
-
-
-
-
-
-
-// module.export.tasks = tasks;
+module.export = TaskList;
