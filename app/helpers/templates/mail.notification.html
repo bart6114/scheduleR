@@ -1,0 +1,13 @@
+<html>
+<body>
+<h2>ScheduleR notification</h2>
+<p>Execution of task <b>{{name}}</b> was <i>{% if status %}succesful{% else %}unsuccessful{% endif %}</i></p>
+<p>Script finished at {{time|date('Y-m-d H:i')}}</p>
+<h4>Log</h4>
+<pre>
+        <code>
+                {{log}}
+        </code>
+</pre>
+</body>
+</html>

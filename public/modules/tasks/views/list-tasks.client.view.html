@@ -4,20 +4,27 @@
     </div>
     <div class="list-group">
         <a data-ng-repeat="task in tasks" data-ng-href="#!/tasks/{{task._id}}" class="list-group-item">
-            <span class="label label-success pull-right" data-ng-show="task.success">
+            <span class="label label-success pull-right task-info" data-ng-show="task.success">
+                Status
                 <span class="glyphicon glyphicon-ok"></span>
             </span>
-            <span class="label label-danger pull-right" data-ng-show="!task.success">
+            <span class="label label-danger pull-right task-info" data-ng-show="!task.success">
+                Status
                 <span class="glyphicon glyphicon-remove"></span>
             </span>
 
+            <span class="label label-info task-info pull-right">
+                <span class="glyphicon">{{task.Rmarkdown ? '.Rmd' : '.R'}}</span>
+            </span>
 
-			<small class="list-group-item-text">
-                Created on
-				<span data-ng-bind="task.created | date:'medium'"></span>
-				by
-				<span data-ng-bind="task.user.displayName"></span>
-			</small>
+
+			<!--<small class="list-group-item-text">-->
+                <!--Created on-->
+				<!--<span data-ng-bind="task.created | date:'medium'"></span>-->
+				<!--by-->
+				<!--<span data-ng-bind="task.user.displayName"></span>-->
+			<!--</small>-->
+
 			<h4 class="list-group-item-heading" data-ng-bind="task.name"></h4>
             <small data-ng-bind="task.scriptOriginalFilename"></small>:
             <small class="small" data-ng-bind="task.cron"></small>

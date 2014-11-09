@@ -23,7 +23,7 @@ var TaskSchema = new Schema({
 	},
 	enabled: {
 		type: Boolean,
-		default: false
+		default: true
 	},
 	Rmarkdown: {
 		type: Boolean,

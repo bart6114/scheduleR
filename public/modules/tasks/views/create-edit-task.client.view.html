@@ -1,10 +1,10 @@
-<section data-ng-controller="TasksController">
+<section data-ng-controller="TasksController" data-ng-init="create_or_edit()">
     <div class="page-header">
-        <h1>New Task</h1>
+        <h1>{{editing ? "Edit Task" : "New Task"}}</h1>
     </div>
 
     <div class="col-md-12">
-        <form name = "newTaskForm" class="form-horizontal" data-ng-submit="create()" novalidate>
+        <form name = "newTaskForm" class="form-horizontal" data-ng-submit="editing ? update() : create()" novalidate>
             <fieldset>
 
 
@@ -12,7 +12,7 @@
                 <div class="form-group">
                     <label class="col-md-2 control-label" for="name">Name</label>
                     <div class="col-md-6">
-                        <input id="name" name="name" type="text" placeholder="Name" class="form-control input-md" required="" data-ng-model="name">
+                        <input id="name" name="name" type="text" placeholder="Name" class="form-control input-md" required="" data-ng-model="task.name">
 
                     </div>
                 </div>
@@ -21,14 +21,14 @@
                 <div class="form-group">
                     <label class="col-md-2 control-label" for="description">Description</label>
                     <div class="col-md-6">
-                        <textarea class="form-control" id="description" name="description" placeholder="Enter optional description" data-ng-model="description"></textarea>
+                        <textarea class="form-control" id="description" name="description" placeholder="Enter optional description" data-ng-model="task.description"></textarea>
                     </div>
                 </div>
 
                 <div class="form-group">
                     <label class="col-md-2 control-label" for="cron">Cron string</label>
                     <div class="col-md-6">
-                        <input id="cron" name="cron" type="text" placeholder="Cron string" class="form-control input-md" required="" data-ng-model="cron">
+                        <input id="cron" name="cron" type="text" placeholder="Cron string" class="form-control input-md" required="" data-ng-model="task.cron">
 
                     </div>
                 </div>
@@ -37,6 +37,9 @@
                 <div class="form-group">
                     <label class="col-md-2 control-label" for="scriptfile">Script file</label>
                     <div class="col-md-6">
+                        <span class="error text-info" ng-show="task.scriptOriginalFilename">
+                                    Current file: {{task.scriptOriginalFilename}}
+                            </span>
                         <input id="scriptfile" name="scriptfile" class="input-file" type="file"
                                ng-file-select="onFileSelect($files)" data-ng-model="scriptfile">
                              <span class="error" ng-show="newTaskForm['scriptfile'].$error.size">
@@ -49,7 +52,7 @@
                 <div class="form-group">
                     <label class="col-md-2 control-label" for="arguments">Extra arguments</label>
                     <div class="col-md-6">
-                        <input id="arguments" name="arguments" type="text" placeholder="Additional arguments will be added to the Rscript run command" class="form-control input-md" required="" data-ng-model="arguments">
+                        <input id="arguments" name="arguments" type="text" placeholder="Additional arguments will be added to the Rscript run command" class="form-control input-md" required="" data-ng-model="task.arguments">
                     </div>
                 </div>
 
@@ -57,38 +60,65 @@
                 <div class="form-group">
                     <label class="col-md-2 control-label" for="enabled">Enabled</label>
                     <div class="col-md-6">
-                        <input type="checkbox" name="enabled" id="enabled" data-ng-model="enabled" value=1 checked>
+                        <input type="checkbox" name="enabled" id="enabled" data-ng-model="task.enabled" value=1 checked>
                     </div>
                 </div>
 
                 <div class="form-group">
                     <label class="col-md-2 control-label" for="Rmarkdown">Render as Rmd</label>
                     <div class="col-md-6">
-                        <input type="checkbox" name="Rmarkdown" id="Rmarkdown" data-ng-model="Rmarkdown" value=1 checked>
+                        <input type="checkbox" name="Rmarkdown" id="Rmarkdown" data-ng-model="task.Rmarkdown" value=1 checked>
                     </div>
                 </div>
 
 
-                <div class="form-group" ng-show="Rmarkdown">
+                <div class="form-group" ng-show="task.Rmarkdown">
                     <label class="col-md-2 control-label small" for="RmdOutputPath">Rmd output path</label>
                     <div class="col-md-6">
                         <input id="RmdOutputPath" name="RmdOutputPath" type="text"
                                placeholder="Enter optional output path (for writing document to local/network path)"
-                               class="form-control input-md" required="" data-ng-model="RmdOutputPath">
+                               class="form-control input-md" required="" data-ng-model="task.RmdOutputPath">
                     </div>
                 </div>
 
-                <div class="form-group" ng-show="Rmarkdown">
+                <div class="form-group" ng-show="task.Rmarkdown">
                     <label class="col-md-2 control-label small" for="RmdAccompanyingMsg">Rmd mail message</label>
                     <div class="col-md-6">
                         <textarea id="RmdAccompanyingMsg" name="RmdAccompanyingMsg"
                                   placeholder="Enter message to accompany report mail (send to 'on success' addresses)"
-                                  class="form-control input-md" required="" data-ng-model="RmdAccompanyingMsg"></textarea>
+                                  class="form-control input-md" required="" data-ng-model="task.RmdAccompanyingMsg"></textarea>
                     </div>
                 </div>
 
                 <br>
                 <h4>Notifications</h4>
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class = "col-md-offset-2 col-md-6">
+                        <span class="label label-default mail-address" data-ng-repeat="addr in mailAddresses.onSuccess track by $index">
+                            {{addr}}
+                            <span class="glyphicon glyphicon-trash" data-ng-click="deleteEmailAddress($index, mailAddresses.onSuccess)"></span>
+                        </span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <label class="col-md-2 control-label" for="onSuccess">On success</label>
+                        <div class="col-md-6">
+                            <input id="onSuccess" name="onSuccess" type="email" placeholder="Enter email (and press enter)" class="form-control input-md" required=""
+                                   data-ng-model="onSuccess" data-ng-keyup="($event.keyCode == 13 && !newTaskForm['onSuccess'].$error.email) && addEmailAddress(onSuccess, mailAddresses.onSuccess)" prevent-form-submit-on-enter>
+                            <span class="error" ng-show="newTaskForm['onSuccess'].$error.email">
+                                Not valid a valid email address
+                            </span>
+                        </div>
+                        <div class="col-md-2">
+                            <button class = "btn btn-xs" type="button" data-ng-click="addOnSuccessToOnError()">
+                                <span class="glyphicon glyphicon-arrow-down"></span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="form-group">
                     <div class="row">
                         <div class = "col-md-offset-2 col-md-6">
@@ -110,26 +140,7 @@
                     </div>
                 </div>
 
-                <div class="form-group">
-                    <div class="row">
-                        <div class = "col-md-offset-2 col-md-6">
-                        <span class="label label-default mail-address" data-ng-repeat="addr in mailAddresses.onSuccess track by $index">
-                            {{addr}}
-                            <span class="glyphicon glyphicon-trash" data-ng-click="deleteEmailAddress($index, mailAddresses.onSuccess)"></span>
-                        </span>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <label class="col-md-2 control-label" for="onSuccess">On success</label>
-                        <div class="col-md-6">
-                            <input id="onSuccess" name="onSuccess" type="email" placeholder="Enter email (and press enter)" class="form-control input-md" required=""
-                                   data-ng-model="onSuccess" data-ng-keyup="($event.keyCode == 13 && !newTaskForm['onSuccess'].$error.email) && addEmailAddress(onSuccess, mailAddresses.onSuccess)" prevent-form-submit-on-enter>
-                            <span class="error" ng-show="newTaskForm['onSuccess'].$error.email">
-                                Not valid a valid email address
-                            </span>
-                        </div>
-                    </div>
-                </div>
+
 
 
 

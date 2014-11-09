@@ -6,15 +6,18 @@ var cron = require('cron'),
 	Task = mongoose.model('Task'),
 	Log = mongoose.model('Log'),
 	config = require('../../config/config'),
-	mailer = require('../mailer/mailer'),
+	mailer = require('../helpers/mailer'),
+	fileCopy = require('../helpers/file.copy'),
 	CronJob = require('cron').CronJob,
 	spawn = require('child_process').spawn,
 	path = require('path'),
 	temp = require('temp'),
-	fs = require('fs');
+	fs = require('fs'),
+	async = require('async');
 
 // Automatically track and cleanup files at exit
 temp.track();
+
 
 var start_job = function(task) {
 
@@ -65,34 +68,65 @@ var start_job = function(task) {
 
 				child.on('exit', function (code) {
 
+					// if unsuccessful execution
 					if(code === 1){
 						log.success = false;
 						log.save(function(err){
 							if(err) console.log(err);
 						});
 
-						mailer(config.userConfig.mailSettings.from,
+						// send error notification
+						mailer.sendNotificationMail(
+							config.userConfig.mailSettings.from,
 							task.mailOnError,
-							'Unsuccesful execution of script: ' + task.name,
-							"Task: "  + task.name +
-							"\nDescription: " + task.description +
-							"\nExecuted at: " + log.created,
-							null);
+							{name: task.name,
+								status: log.success,
+								time: log.created,
+								log: log.msg});
 
 					} else {
+
+
+						// send success notification
+						mailer.sendNotificationMail(
+							config.userConfig.mailSettings.from,
+							task.mailOnSuccess,
+							{
+								name: task.name,
+								status: log.success,
+								time: log.created,
+								log: log.msg
+							});
+
+
+
 						if(task.Rmarkdown) {
-							mailer(config.userConfig.mailSettings.from,
+
+
+							// send report to onsuccess adresses
+							mailer.sendRmarkdownMail(config.userConfig.mailSettings.from,
 								task.mailOnSuccess,
-								task.name,
-								task.RmdAccompanyingMsg,
-								dirPath);
+								{name: task.name,
+									msg: task.RmdAccompanyingMsg},dirPath);
+
+
+							// copy files to specified dir
+							if(task.RmdOutputPath) {
+								fileCopy(dirPath, task.RmdOutputPath, function(err) {
+									if(err) console.log(err);
+								});
+
+							}
+
+							// copy files to upload path
+
 						} else {
 							mailer(config.userConfig.mailSettings.from,
 								task.mailOnSuccess,
 								'Successful execution: ' + task.name,
-								"Task: "  + task.name +
-								"\nDescription: " + task.description +
-								"\nExecuted at: " + log.created,
+								'Task: '  + task.name +
+								'\nDescription: ' + task.description +
+								'\nExecuted at: ' + log.created,
 								null);
 						}
 
@@ -124,7 +158,7 @@ function tasklist() {
 
 	};
 	this.stopTask = function(task){
-		this.tasks[task._id].stop();
+		if(task._id in this.tasks) this.tasks[task._id].stop();
 	};
 	this.stopAllTasks = function(){
 		for(var taskId in this.tasks){

@@ -6,7 +6,6 @@
 angular.module('tasks').controller('TasksController', ['$scope', '$stateParams', '$upload', '$location', 'Authentication', 'Tasks', 'LogsArray',
 	function($scope, $stateParams, $upload, $location, Authentication, Tasks, LogsArray ) {
 		$scope.authentication = Authentication;
-		$scope.enabled = true;
 
 		$scope.mailAddresses = {
 			onError: [],
@@ -22,7 +21,11 @@ angular.module('tasks').controller('TasksController', ['$scope', '$stateParams',
 			var ext = file.name.substr(file.name.lastIndexOf('.') + 1);
 
 			var RmdExtensions = ['Rmd', 'rmd'];
-			if(RmdExtensions.indexOf(ext) >= 0) $scope.Rmarkdown = true;
+			if(RmdExtensions.indexOf(ext) >= 0) {
+				$scope.task.Rmarkdown = true;
+			} else {
+				$scope.task.Rmarkdown = false;
+			}
 
 			// upload exceptions
 			if(file.size > 500000){
@@ -40,9 +43,9 @@ angular.module('tasks').controller('TasksController', ['$scope', '$stateParams',
 					console.log('percent: ' + parseInt(100.0 * evt.loaded / evt.total));
 				}).success(function (data, status, headers, config) {
 					// file is uploaded successfully
-					$scope.newFilename = data.filename.replace(/^.*[\\\/]/, '');
-					$scope.originalFilename = file.name;
-					console.log($scope.originalFilename + ' uploaded as ' + $scope.newFilename);
+					$scope.task.scriptNewFilename = data.filename.replace(/^.*[\\\/]/, '');
+					$scope.task.scriptOriginalFilename = file.name;
+					console.log($scope.task.scriptOriginalFilename + ' uploaded as ' + $scope.newFilename);
 				});
 			}
 
@@ -58,28 +61,47 @@ angular.module('tasks').controller('TasksController', ['$scope', '$stateParams',
 
 		};
 
+		$scope.addOnSuccessToOnError = function(){
+			$scope.mailAddresses.onError = $scope.mailAddresses.onError.concat($scope.mailAddresses.onSuccess);
+		};
+
 		// delete email address
 		$scope.deleteEmailAddress = function(index, target) {
 			target.splice(index, 1);
 
 		};
+
+		// Init create/edit from
+		$scope.create_or_edit = function() {
+
+			if($stateParams.taskId) {
+				$scope.findOneWithLogs();
+				$scope.editing = true;
+			} else {
+				$scope.task = new Tasks();
+				$scope.task.enabled = true;
+			}
+
+		};
+
 		// Create new Task
 		$scope.create = function() {
+
 			// Create new Task object
 
 			var task = new Tasks ({
-				name: this.name,
-				description: this.description,
-				enabled: this.enabled,
-				cron: this.cron,
-				scriptNewFilename: $scope.newFilename,
-				scriptOriginalFilename: $scope.originalFilename,
-				arguments: this.arguments,
+				name: this.task.name,
+				description: this.task.description,
+				enabled: this.task.enabled,
+				cron: this.task.cron,
+				scriptNewFilename: this.task.scriptNewFilename,
+				scriptOriginalFilename: this.task.scriptOriginalFilename,
+				arguments: this.task.arguments,
 				mailOnError: $scope.mailAddresses.onError,
 				mailOnSuccess: $scope.mailAddresses.onSuccess,
-				Rmarkdown: this.Rmarkdown,
-				RmdAccompanyingMsg: this.RmdAccompanyingMsg,
-				RmdOutputPath: this.RmdOutputPath
+				Rmarkdown: this.task.Rmarkdown,
+				RmdAccompanyingMsg: this.task.RmdAccompanyingMsg,
+				RmdOutputPath: this.task.RmdOutputPath
 			});
 
 			// Redirect after save
@@ -95,6 +117,7 @@ angular.module('tasks').controller('TasksController', ['$scope', '$stateParams',
 
 		// Remove existing Task
 		$scope.remove = function( task ) {
+			console.log(task);
 			if ( task ) { task.$remove();
 
 				for (var i in $scope.tasks ) {
@@ -107,6 +130,16 @@ angular.module('tasks').controller('TasksController', ['$scope', '$stateParams',
 					$location.path('tasks');
 				});
 			}
+		};
+
+		$scope.toggleEnabled = function() {
+			$scope.task.enabled = !$scope.task.enabled;
+			var task = $scope.task ;
+			task.$update(function(){
+				config.log('Task enabled status toggled to: ' + $scope.task.enabled);
+			}, function(err){
+				$scope.error = errorResponse.data.message;
+			})
 		};
 
 		// Update existing Task
@@ -126,10 +159,13 @@ angular.module('tasks').controller('TasksController', ['$scope', '$stateParams',
 		};
 
 		// Find existing Task
-		$scope.findOne = function() {
+		$scope.findOneWithLogs = function() {
 
 			$scope.task = Tasks.get({
 				taskId: $stateParams.taskId
+			}, function(task){
+				$scope.mailAddresses.onError = task.mailOnError;
+				$scope.mailAddresses.onSuccess = task.mailOnSuccess;
 			});
 
 			$scope.logs = LogsArray.get({

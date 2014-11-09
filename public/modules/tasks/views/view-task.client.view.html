@@ -1,4 +1,4 @@
-<section data-ng-controller="TasksController" data-ng-init="findOne()">
+<section data-ng-controller="TasksController" data-ng-init="findOneWithLogs()">
 	<div class="page-header">
 		<h1 data-ng-bind="task.name"></h1>
 
@@ -10,13 +10,29 @@
 		<a class="btn btn-primary" data-ng-click="remove();">
 			<i class="glyphicon glyphicon-trash"></i>
 		</a>
+		<a class="btn btn-default" data-ng-show="task.enabled" data-ng-click="toggleEnabled();">
+			<i class="glyphicon glyphicon-stop"></i>
+		</a>
+		<a class="btn btn-success" data-ng-show="!task.enabled" data-ng-click="toggleEnabled();">
+			<i class="glyphicon glyphicon-play"></i>
+		</a>
+
 	</div>
 
 	<p><strong>Description:</strong> <span data-ng-bind="task.description"></span></p>
 	<p><strong>Filename:</strong> <span data-ng-bind="task.scriptOriginalFilename"></span></p>
 	<p><strong>Arguments:</strong> <span data-ng-bind="task.arguments"></span></p>
 	<p><strong>Cron:</strong> <span data-ng-bind="task.cron"></span></p>
-	<p><strong>Enabled:</strong> <span data-ng-bind="task.enabled"></span></p>
+	<p><strong>Type:</strong>
+		<span class="label label-info task-info">
+                {{task.Rmarkdown ? '.Rmd' : '.R'}}
+		</span>
+	</p>
+	<p><strong>Activated:</strong>
+	<span class="label task-info" data-ng-class="task.enabled ? 'label-success' : 'label-default'">
+		{{task.enabled ? 'enabled' : 'disabled'}}
+	</span>
+	</p>
 
 
 	<small>

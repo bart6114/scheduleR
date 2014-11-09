@@ -55,6 +55,11 @@ exports.update = function(req, res) {
 				message: errorHandler.getErrorMessage(err)
 			});
 		} else {
+			taskList.removeTask(task);
+			if(task.enabled) {
+				taskList.addTaskAndStart(task);
+			}
+
 			res.jsonp(task);
 		}
 	});
@@ -72,7 +77,7 @@ exports.delete = function(req, res) {
 				message: errorHandler.getErrorMessage(err)
 			});
 		} else {
-			console.log(taskList);
+
 			taskList.removeTask(task);
 			res.jsonp(task);
 		}
@@ -99,7 +104,9 @@ exports.list = function(req, res) {
 						.where({'task': task._id})
 						.sort({'created': -1})
 						.exec(function(err, log) {
+
 							if(log) task.success = log.success;
+							else task.success = true; // no log found
 							callback(null, task.toObject());
 						});
 

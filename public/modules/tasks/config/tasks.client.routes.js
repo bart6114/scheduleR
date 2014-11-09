@@ -15,7 +15,7 @@ angular.module('tasks').config(['$stateProvider',
 		}).
 		state('createTask', {
 			url: '/tasks/create',
-			templateUrl: 'modules/tasks/views/create-task.client.view.html'
+			templateUrl: 'modules/tasks/views/create-edit-task.client.view.html'
 		}).
 		state('viewTask', {
 			url: '/tasks/:taskId',
@@ -23,7 +23,7 @@ angular.module('tasks').config(['$stateProvider',
 		}).
 		state('editTask', {
 			url: '/tasks/:taskId/edit',
-			templateUrl: 'modules/tasks/views/edit-task.client.view.html'
+			templateUrl: 'modules/tasks/views/create-edit-task.client.view.html'
 		});
 	}
 ]);
