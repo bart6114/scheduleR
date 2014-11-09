@@ -11,8 +11,6 @@ args <- args[-1]
 commandArgs <- function() args
 
 setwd( temp_dir )
-print(temp_dir)
-print(getwd())
 
 tryCatch({
     render_file = render(script_to_run, output_dir = temp_dir)

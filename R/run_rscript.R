@@ -12,7 +12,6 @@ setwd( temp_dir )
 
 tryCatch({
   source( script_to_run, echo=TRUE )
-
   },
   error = function(e){
     cat("\n\n\n")

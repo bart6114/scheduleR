@@ -3,8 +3,15 @@
         <h1>Tasks</h1>
     </div>
     <div class="list-group">
-        <a data-ng-repeat="task in tasks" data-ng-href="#!/tasks/{{task._id}}" class="list-group-item"
-           data-ng-class="{'list-group-item-warning': !task.success}">
+        <a data-ng-repeat="task in tasks" data-ng-href="#!/tasks/{{task._id}}" class="list-group-item">
+            <span class="label label-success pull-right" data-ng-show="task.success">
+                <span class="glyphicon glyphicon-ok"></span>
+            </span>
+            <span class="label label-danger pull-right" data-ng-show="!task.success">
+                <span class="glyphicon glyphicon-remove"></span>
+            </span>
+
+
 			<small class="list-group-item-text">
                 Created on
 				<span data-ng-bind="task.created | date:'medium'"></span>
