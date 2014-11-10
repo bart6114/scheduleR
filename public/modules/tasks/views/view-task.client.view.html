@@ -33,7 +33,18 @@
 		{{task.enabled ? 'enabled' : 'disabled'}}
 	</span>
 	</p>
+	<p data-ng-show="task.enabled"><strong>Next runtime:</strong>  <span >{{ nextRuntime | date: 'medium'}}</span></p>
+	<p><strong>Notify on success</strong>
+	<ul>
+		<li data-ng-repeat="mail in task.mailOnSuccess">{{mail}}</li>
+	</ul>
+	</p>
 
+	<p><strong>Notify on error</strong>
+	<ul>
+		<li data-ng-repeat="mail in task.mailOnError">{{mail}}</li>
+	</ul>
+	</p>
 
 	<small>
 		<em class="text-muted">

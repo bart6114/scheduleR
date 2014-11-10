@@ -69,7 +69,7 @@ var start_job = function(task) {
 				child.on('exit', function (code) {
 
 					// if unsuccessful execution
-					if(code === 1){
+					if(code !== 0){
 						log.success = false;
 						log.save(function(err){
 							if(err) console.log(err);

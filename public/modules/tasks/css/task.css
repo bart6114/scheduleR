@@ -1,5 +1,9 @@
 .mail-address {
-    margin: 5px;
+    margin: 3px;
+}
+
+.mail-addresses {
+	margin-bottom: 5px;
 }
 
 .task-info {

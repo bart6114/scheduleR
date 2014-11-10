@@ -25,13 +25,7 @@
                     </div>
                 </div>
 
-                <div class="form-group">
-                    <label class="col-md-2 control-label" for="cron">Cron string</label>
-                    <div class="col-md-6">
-                        <input id="cron" name="cron" type="text" placeholder="Cron string" class="form-control input-md" required="" data-ng-model="task.cron">
 
-                    </div>
-                </div>
 
 
                 <div class="form-group">
@@ -90,18 +84,97 @@
                     </div>
                 </div>
 
+
+                <br>
+                <h4>Schedule</h4>
+
+                <div class="form-group">
+                    <div class="col-md-2">
+                        <div class="row">
+                             <label for="exampleInputEmail1">Minute</label>
+                        </div>
+                        <div class="row">
+                            <select class="form-control" data-ng-model="schedule.minutes" ng-options="minute for minute in scheduleOptions.minutes" data-ng-click="fillCron();" multiple>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-2">
+                        <div class="row">
+                             <label for="exampleInputEmail1">Hour</label>
+                        </div>
+                        <div class="row">
+                            <select class="form-control" data-ng-model="schedule.hours" ng-options="hour for hour in scheduleOptions.hours" data-ng-click="fillCron();" multiple>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-2">
+                        <div class="row">
+                             <label for="exampleInputEmail1">Days</label>
+                        </div>
+                        <div class="row">
+                            <select class="form-control" data-ng-model="schedule.days" ng-options="day for day in scheduleOptions.days" data-ng-click="fillCron();" multiple>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-2">
+                        <div class="row">
+                             <label for="exampleInputEmail1">Months</label>
+                        </div>
+                        <div class="row">
+                            <select class="form-control" data-ng-model="schedule.months" ng-options="month for month in scheduleOptions.months" data-ng-click="fillCron();" multiple>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-2">
+                        <div class="row">
+                             <label for="exampleInputEmail1">Weekdays</label>
+                        </div>
+                        <div class="row">
+                            <select class="form-control" data-ng-model="schedule.weekdays" ng-options="weekday for weekday in scheduleOptions.weekdays" data-ng-click="fillCron();" multiple>
+                            </select>
+                        </div>
+                    </div>
+
+
+                </div>
+
+                <div class="form-group">
+                    <label class="col-md-2 control-label text-muted" for="cron">Generated cron string</label>
+                    <div class="col-md-6">
+                        <input id="cron" name="cron" type="text" placeholder="Cron string" class="form-control input-md" required="" data-ng-model="task.cron" disabled>
+
+                    </div>
+                </div>
+                
+
+                
+
                 <br>
                 <h4>Notifications</h4>
 
-                <div class="form-group">
-                    <div class="row">
-                        <div class = "col-md-offset-2 col-md-6">
-                        <span class="label label-default mail-address" data-ng-repeat="addr in mailAddresses.onSuccess track by $index">
-                            {{addr}}
-                            <span class="glyphicon glyphicon-trash" data-ng-click="deleteEmailAddress($index, mailAddresses.onSuccess)"></span>
-                        </span>
-                        </div>
+                
+                <div class="row mail-addresses">
+                    <div class = "col-md-offset-2 col-md-6">
+                        <ul class="list-unstyled">
+                            <li data-ng-repeat="addr in mailAddresses.onSuccess track by $index">
+                                <span class="label label-default mail-address">
+                                    {{addr}}
+                                    <span class="glyphicon glyphicon-trash" data-ng-click="deleteEmailAddress($index, mailAddresses.onSuccess)"></span>
+                                </span>
+                            </li>
+                        </ul>
                     </div>
+                    <div class="col-md-2">
+                            <button class = "btn btn-xs" type="button" data-ng-click="addOnSuccessToOnError()">
+                                <span class="glyphicon glyphicon-arrow-down"></span>
+                            </button>
+                    </div>
+                </div>
+                <div class="form-group">
                     <div class="row">
                         <label class="col-md-2 control-label" for="onSuccess">On success</label>
                         <div class="col-md-6">
@@ -111,23 +184,24 @@
                                 Not valid a valid email address
                             </span>
                         </div>
-                        <div class="col-md-2">
-                            <button class = "btn btn-xs" type="button" data-ng-click="addOnSuccessToOnError()">
-                                <span class="glyphicon glyphicon-arrow-down"></span>
-                            </button>
-                        </div>
+                        
                     </div>
                 </div>
 
-                <div class="form-group">
-                    <div class="row">
-                        <div class = "col-md-offset-2 col-md-6">
-                        <span class="label label-default mail-address" data-ng-repeat="addr in mailAddresses.onError track by $index">
-                            {{addr}}
-                            <span class="glyphicon glyphicon-trash" data-ng-click="deleteEmailAddress($index, mailAddresses.onError)"></span>
-                        </span>
-                        </div>
+
+                <div class="row mail-addresses">
+                    <div class = "col-md-offset-2 col-md-6">
+                        <ul class="list-unstyled">
+                            <li data-ng-repeat="addr in mailAddresses.onError track by $index">
+                                <span class="label label-default mail-address">
+                                    {{addr}}
+                                    <span class="glyphicon glyphicon-trash" data-ng-click="deleteEmailAddress($index, mailAddresses.onError)"></span>
+                                </span>
+                            </li>
+                        </ul>
                     </div>
+                </div>
+                <div class="form-group">
                     <div class="row">
                         <label class="col-md-2 control-label" for="onError">On error</label>
                         <div class="col-md-6">

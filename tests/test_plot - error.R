@@ -1,0 +1,5 @@
+print(9999)
+png("test.png")
+plot(3)
+dev.off()
+stop(2)
