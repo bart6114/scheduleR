@@ -16,7 +16,7 @@ function copyFiles(sourceDir, targetDir, callback) {
 
     async.waterfall([
         function(callback){
-            fs.readdir(path.normalize(sourceDir), callback)
+            fs.readdir(path.normalize(sourceDir), callback);
             }],
         function(err, files){
             async.forEach(files, function(sourceFile) {

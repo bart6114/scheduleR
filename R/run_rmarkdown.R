@@ -14,8 +14,7 @@ setwd( temp_dir )
 
 tryCatch({
     render_file = render(script_to_run, output_dir = temp_dir)
-    print(render_file)
-
+    
   },
   error = function(e){
     cat("\n\n\n")

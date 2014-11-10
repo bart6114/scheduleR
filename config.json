@@ -1,5 +1,5 @@
 {
-  "uploadDir": "/home/bart/tmp",
+  "uploadDir": "c:/temp/",
   "RscriptExecutable": "Rscript",
   "RstandardArguments": [
     "--verbose",
@@ -13,8 +13,8 @@
     "secure": true,
     "port": 465,
     "auth": {
-      "user": "user@gmail.com",
-      "pass": "-----"
+      "user": "---@gmail.com",
+      "pass": "---"
     },
     "from": "scheduleR <foo@blurdybloop.com>"
   }

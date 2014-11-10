@@ -4,17 +4,17 @@
     </div>
     <div class="list-group">
         <a data-ng-repeat="task in tasks" data-ng-href="#!/tasks/{{task._id}}" class="list-group-item">
-            <span class="label label-success pull-right task-info" data-ng-show="task.success">
+            <span class="label pull-right task-info" data-ng-class="task.success ? 'label-success' : 'label-danger'">
                 Status
-                <span class="glyphicon glyphicon-ok"></span>
-            </span>
-            <span class="label label-danger pull-right task-info" data-ng-show="!task.success">
-                Status
-                <span class="glyphicon glyphicon-remove"></span>
+                <span class="glyphicon glyphicon-ok" data-ng-class="task.success ? 'glyphicon-ok' : 'glyphicon-remove'"></span>
             </span>
 
             <span class="label label-info task-info pull-right">
-                <span class="glyphicon">{{task.Rmarkdown ? '.Rmd' : '.R'}}</span>
+                <span>{{task.Rmarkdown ? '.Rmd' : '.R'}}</span>
+            </span>
+
+            <span class="label task-info pull-right" data-ng-class="task.enabled ? 'label-success' : 'label-default'">
+                {{task.enabled ? 'enabled' : 'disabled'}}
             </span>
 
 
@@ -25,7 +25,9 @@
 				<!--<span data-ng-bind="task.user.displayName"></span>-->
 			<!--</small>-->
 
-			<h4 class="list-group-item-heading" data-ng-bind="task.name"></h4>
+			<h4 class="list-group-item-heading">
+                <span data-ng-class="task.enabled ? 'text-primary' : 'text-muted'" data-ng-bind="task.name"></span>
+            </h4>
             <small data-ng-bind="task.scriptOriginalFilename"></small>:
             <small class="small" data-ng-bind="task.cron"></small>
         </a>

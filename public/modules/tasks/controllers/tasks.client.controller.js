@@ -45,7 +45,7 @@ angular.module('tasks').controller('TasksController', ['$scope', '$stateParams',
 					// file is uploaded successfully
 					$scope.task.scriptNewFilename = data.filename.replace(/^.*[\\\/]/, '');
 					$scope.task.scriptOriginalFilename = file.name;
-					console.log($scope.task.scriptOriginalFilename + ' uploaded as ' + $scope.newFilename);
+					console.log($scope.task.scriptOriginalFilename + ' uploaded as ' + $scope.scriptNewFilename);
 				});
 			}
 
@@ -136,10 +136,10 @@ angular.module('tasks').controller('TasksController', ['$scope', '$stateParams',
 			$scope.task.enabled = !$scope.task.enabled;
 			var task = $scope.task ;
 			task.$update(function(){
-				config.log('Task enabled status toggled to: ' + $scope.task.enabled);
+				console.log('Task enabled status toggled to: ' + $scope.task.enabled);
 			}, function(err){
-				$scope.error = errorResponse.data.message;
-			})
+				$scope.error = err.data.message;
+			});
 		};
 
 		// Update existing Task

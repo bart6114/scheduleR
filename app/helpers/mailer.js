@@ -6,7 +6,6 @@ var nodemailer = require('nodemailer'),
     async = require('async'),
     config = require('../../config/config'),
     express = require('../../config/express'),
-    renderTemplate = require('./render.template'),
     swig  = require('swig');
 
 
@@ -24,6 +23,7 @@ function sendRmarkdownMail(from, mailAdresses, JSONvalues, dirPath){
                     for (var i = 0; i < files.length; i++) {
                         attch.push(
                             {
+                                filename: path.basename(files[i]),
                                 path: path.normalize(dirPath + '/' + files[i])
                             });
                     }
@@ -32,7 +32,7 @@ function sendRmarkdownMail(from, mailAdresses, JSONvalues, dirPath){
                 function (attachmentArray, callback) {
                     swig.renderFile('app/helpers/templates/mail.rmarkdown.html', JSONvalues, function (err, HTMLstring) {
                         callback(err, HTMLstring, attachmentArray);
-                    })
+                    });
                 }],
             function (err, HTMLstring, attachmentsArray) {
                 if (err) console.log(err);
@@ -60,14 +60,13 @@ function sendRmarkdownMail(from, mailAdresses, JSONvalues, dirPath){
 
 module.exports.sendRmarkdownMail = sendRmarkdownMail;
 
-function sendNotificationMail(from, mailAdresses, values){
+function sendNotificationMail(from, mailAdresses, JSONvalues){
     if(mailAdresses.length > 0) {
 
         async.waterfall([
                 function (callback) {
-                    renderTemplate('app/helpers/templates/mail.notification.html', values, function (HTMLstring) {
-
-                        callback(null, HTMLstring);
+                     swig.renderFile('app/helpers/templates/mail.notification.html', JSONvalues, function (err, HTMLstring) {
+                        callback(err, HTMLstring);
                     });
                 }
             ],
@@ -78,7 +77,7 @@ function sendNotificationMail(from, mailAdresses, values){
                 var mailOptions = {
                     to: mailAdresses,
                     from: from,
-                    subject: 'Rschedule notification: ' + values.name,
+                    subject: 'Rschedule notification: ' + JSONvalues.name,
                     html: HTMLstring
                 };
 
