@@ -94,7 +94,7 @@
                              <label for="exampleInputEmail1">Minute</label>
                         </div>
                         <div class="row">
-                            <select class="form-control" data-ng-model="schedule.minutes" ng-options="minute for minute in scheduleOptions.minutes" data-ng-click="fillCron();" multiple>
+                            <select class="form-control" data-ng-model="schedule.minutes" ng-options="minute for minute in scheduleOptions.minutes" data-ng-change="fillCron();" multiple>
                             </select>
                         </div>
                     </div>
@@ -104,7 +104,7 @@
                              <label for="exampleInputEmail1">Hour</label>
                         </div>
                         <div class="row">
-                            <select class="form-control" data-ng-model="schedule.hours" ng-options="hour for hour in scheduleOptions.hours" data-ng-click="fillCron();" multiple>
+                            <select class="form-control" data-ng-model="schedule.hours" ng-options="hour for hour in scheduleOptions.hours" data-ng-change="fillCron();" multiple>
                             </select>
                         </div>
                     </div>
@@ -114,7 +114,7 @@
                              <label for="exampleInputEmail1">Days</label>
                         </div>
                         <div class="row">
-                            <select class="form-control" data-ng-model="schedule.days" ng-options="day for day in scheduleOptions.days" data-ng-click="fillCron();" multiple>
+                            <select class="form-control" data-ng-model="schedule.days" ng-options="day for day in scheduleOptions.days" data-ng-change="fillCron();" multiple>
                             </select>
                         </div>
                     </div>
@@ -124,7 +124,7 @@
                              <label for="exampleInputEmail1">Months</label>
                         </div>
                         <div class="row">
-                            <select class="form-control" data-ng-model="schedule.months" ng-options="month for month in scheduleOptions.months" data-ng-click="fillCron();" multiple>
+                            <select class="form-control" data-ng-model="schedule.months" ng-options="month for month in scheduleOptions.months" data-ng-change="fillCron();" multiple>
                             </select>
                         </div>
                     </div>
@@ -134,7 +134,7 @@
                              <label for="exampleInputEmail1">Weekdays</label>
                         </div>
                         <div class="row">
-                            <select class="form-control" data-ng-model="schedule.weekdays" ng-options="weekday for weekday in scheduleOptions.weekdays" data-ng-click="fillCron();" multiple>
+                            <select class="form-control" data-ng-model="schedule.weekdays" ng-options="weekday for weekday in scheduleOptions.weekdays" data-ng-change="fillCron();" multiple>
                             </select>
                         </div>
                     </div>
