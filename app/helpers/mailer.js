@@ -11,7 +11,7 @@ var nodemailer = require('nodemailer'),
 
 var transporter = nodemailer.createTransport(config.userConfig.mailSettings);
 
-function sendRmarkdownMail(from, mailAdresses, JSONvalues, dirPath){
+function sendRmarkdownMail(from, mailAdresses, JSONvalues, dirPath, errCallback){
     if(mailAdresses.length > 0) {
 
         async.waterfall([
@@ -35,7 +35,10 @@ function sendRmarkdownMail(from, mailAdresses, JSONvalues, dirPath){
                     });
                 }],
             function (err, HTMLstring, attachmentsArray) {
-                if (err) console.log(err);
+                if (err) {
+                    console.log(err);
+                    errCallback(err);
+                }
 
 
                 var mailOptions = {
@@ -49,6 +52,7 @@ function sendRmarkdownMail(from, mailAdresses, JSONvalues, dirPath){
                 transporter.sendMail(mailOptions, function (error, info) {
                     if (error) {
                         console.log(error);
+                        errCallback(error);
                     } else {
                         console.log('Message sent: ' + info.response);
                     }
@@ -60,7 +64,8 @@ function sendRmarkdownMail(from, mailAdresses, JSONvalues, dirPath){
 
 module.exports.sendRmarkdownMail = sendRmarkdownMail;
 
-function sendNotificationMail(from, mailAdresses, JSONvalues){
+function sendNotificationMail(from, mailAdresses, JSONvalues, errCallback){
+
     if(mailAdresses.length > 0) {
 
         async.waterfall([
@@ -71,7 +76,10 @@ function sendNotificationMail(from, mailAdresses, JSONvalues){
                 }
             ],
             function (err, HTMLstring) {
-                if (err) console.log(err);
+                if (err) {
+                    console.log(err);
+                    errCallback(err);
+                }
 
 
                 var mailOptions = {
@@ -84,6 +92,7 @@ function sendNotificationMail(from, mailAdresses, JSONvalues){
                 transporter.sendMail(mailOptions, function (error, info) {
                     if (error) {
                         console.log(error);
+                        errCallback(error);
                     } else {
                         console.log('Message sent: ' + info.response);
                     }

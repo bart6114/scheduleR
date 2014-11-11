@@ -1,0 +1,6 @@
+- cleanup unnecessary files
+- rename config.json to userconfig.json
+- add possibility to invite user
+- disallow signup
+- create first user init script
+- add mailaddress specification for Rmarkdown files

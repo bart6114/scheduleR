@@ -42,7 +42,8 @@
 		"nodemailer": "~1.3.0",
 		"connect-multiparty": "~1.2.5",
 		"cron": "~1.0.5",
-		"temp": "~0.8.1"
+		"temp": "~0.8.1",
+		"prompt": "~0.2.14"
 	},
 	"devDependencies": {
 		"supertest": "~0.14.0",

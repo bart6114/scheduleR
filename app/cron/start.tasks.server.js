@@ -76,13 +76,20 @@ var start_job = function(task) {
 						});
 
 						// send error notification
+
 						mailer.sendNotificationMail(
 							config.userConfig.mailSettings.from,
 							task.mailOnError,
 							{name: task.name,
 								status: log.success,
 								time: log.created,
-								log: log.msg});
+								log: log.msg},
+							function(err){
+								log.msg = log.msg + '\n\n==> Mail error (not R related):\n' + err.toString();
+								log.save(function(err){
+									if(err) console.log(err);
+								});
+							})
 
 					} else {
 
@@ -96,6 +103,13 @@ var start_job = function(task) {
 								status: log.success,
 								time: log.created,
 								log: log.msg
+							},
+							function(err){
+								log.msg = log.msg + '\n\n==> Mail error (not R related):\n' + err.toString();
+								log.success = false;
+								log.save(function(err){
+									if(err) console.log(err);
+								});
 							});
 
 
@@ -107,27 +121,33 @@ var start_job = function(task) {
 							mailer.sendRmarkdownMail(config.userConfig.mailSettings.from,
 								task.mailOnSuccess,
 								{name: task.name,
-									msg: task.RmdAccompanyingMsg},dirPath);
+									msg: task.RmdAccompanyingMsg},dirPath,
+								function(err) {
+									log.msg = log.msg + '\n\n==> Mail error (not R related):\n' + err.toString();
+									log.success = false;
+									log.save(function (err) {
+										if (err) console.log(err);
+									});
+								});
 
 
 							// copy files to specified dir
 							if(task.RmdOutputPath) {
 								fileCopy(dirPath, task.RmdOutputPath, function(err) {
-									if(err) console.log(err);
+									if(err) {
+										console.log(err);
+										log.msg = log.msg + '\n\n==> File copy error (not R related):\n' + err.toString();
+										log.success = false;
+										log.save(function (err) {
+											if (err) console.log(err);
+										});
+									}
 								});
 
 							}
 
 							// copy files to upload path
 
-						} else {
-							mailer(config.userConfig.mailSettings.from,
-								task.mailOnSuccess,
-								'Successful execution: ' + task.name,
-								'Task: '  + task.name +
-								'\nDescription: ' + task.description +
-								'\nExecuted at: ' + log.created,
-								null);
 						}
 
 					}

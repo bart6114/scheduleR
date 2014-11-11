@@ -89,6 +89,7 @@ angular.module('tasks').controller('TasksController', ['$scope', '$stateParams',
 
 		$scope.addOnSuccessToOnError = function(){
 			$scope.mailAddresses.onError = $scope.mailAddresses.onError.concat($scope.mailAddresses.onSuccess);
+
 		};
 
 		// delete email address
@@ -171,6 +172,9 @@ angular.module('tasks').controller('TasksController', ['$scope', '$stateParams',
 		// Update existing Task
 		$scope.update = function() {
 			var task = $scope.task ;
+			task.mailOnError = $scope.mailAddresses.onError;
+			task.mailOnSuccess = $scope.mailAddresses.onSuccess;
+
 
 			task.$update(function() {
 				$location.path('tasks/' + task._id);
