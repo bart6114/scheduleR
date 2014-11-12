@@ -6,7 +6,8 @@ var nodemailer = require('nodemailer'),
     async = require('async'),
     config = require('../../config/config'),
     express = require('../../config/express'),
-    swig  = require('swig');
+    swig  = require('swig'),
+    marked = require('marked');
 
 
 var transporter = nodemailer.createTransport(config.userConfig.mailSettings);
@@ -28,6 +29,12 @@ function sendRmarkdownMail(from, mailAdresses, JSONvalues, dirPath, errCallback)
                             });
                     }
                     callback(null, attch);
+                },
+                function (attachmentArray, callback){
+                    marked(JSONvalues.msg, function(err, content){
+                        JSONvalues.msg = content;
+                        callback(err, attachmentArray);
+                    });
                 },
                 function (attachmentArray, callback) {
                     swig.renderFile('app/helpers/templates/mail.rmarkdown.html', JSONvalues, function (err, HTMLstring) {

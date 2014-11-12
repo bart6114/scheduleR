@@ -62,6 +62,7 @@ var TaskSchema = new Schema({
 	},
 	mailOnError: [String],
 	mailOnSuccess: [String],
+	mailRmdReport: [String],
 	created: {
 		type: Date,
 		default: Date.now

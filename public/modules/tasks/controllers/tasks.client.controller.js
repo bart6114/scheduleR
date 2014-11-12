@@ -8,7 +8,8 @@ angular.module('tasks').controller('TasksController', ['$scope', '$stateParams',
 
 		$scope.mailAddresses = {
 			onError: [],
-			onSuccess: []
+			onSuccess: [],
+			rmdReport: []
 		};
 
 		$scope.scheduleOptions = {
@@ -83,6 +84,7 @@ angular.module('tasks').controller('TasksController', ['$scope', '$stateParams',
 			target.push(value);
 			$scope.onError = '';
 			$scope.onSuccess = '';
+			$scope.rmdReport = '';
 
 
 		};
@@ -126,6 +128,7 @@ angular.module('tasks').controller('TasksController', ['$scope', '$stateParams',
 				arguments: this.task.arguments,
 				mailOnError: $scope.mailAddresses.onError,
 				mailOnSuccess: $scope.mailAddresses.onSuccess,
+				mailRmdReport: $scope.mailAddresses.rmdReport,
 				Rmarkdown: this.task.Rmarkdown,
 				RmdAccompanyingMsg: this.task.RmdAccompanyingMsg,
 				RmdOutputPath: this.task.RmdOutputPath
@@ -174,6 +177,7 @@ angular.module('tasks').controller('TasksController', ['$scope', '$stateParams',
 			var task = $scope.task ;
 			task.mailOnError = $scope.mailAddresses.onError;
 			task.mailOnSuccess = $scope.mailAddresses.onSuccess;
+			task.mailRmdReport = $scope.mailAddresses.rmdReport;
 
 
 			task.$update(function() {
@@ -196,6 +200,7 @@ angular.module('tasks').controller('TasksController', ['$scope', '$stateParams',
 			}, function(task){
 				$scope.mailAddresses.onError = task.mailOnError;
 				$scope.mailAddresses.onSuccess = task.mailOnSuccess;
+				$scope.mailAddresses.rmdReport = task.mailRmdReport;
 				var cronValues = task.cron.split(' ');
 				$scope.schedule.minutes = cronValues[0];
 				$scope.schedule.hours = cronValues[1];
@@ -203,6 +208,8 @@ angular.module('tasks').controller('TasksController', ['$scope', '$stateParams',
 				$scope.schedule.months = cronValues[3];
 				$scope.schedule.weekdays = cronValues[4];
 				if($scope.task.cron) {
+					// set later to use local time
+					later.date.localTime();
 					var laterSchedule = later.parse.cron($scope.task.cron);
 					$scope.nextRuntime = later.schedule(laterSchedule).next(1);
 				}

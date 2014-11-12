@@ -119,7 +119,7 @@ var start_job = function(task) {
 
 							// send report to onsuccess adresses
 							mailer.sendRmarkdownMail(config.userConfig.mailSettings.from,
-								task.mailOnSuccess,
+								task.mailRmdReport,
 								{name: task.name,
 									msg: task.RmdAccompanyingMsg},dirPath,
 								function(err) {

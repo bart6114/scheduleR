@@ -58,8 +58,13 @@
                     </div>
                 </div>
 
+
+                <br><br>
+                <h4>Rmarkdown</h4>
+                <hr>
+
                 <div class="form-group">
-                    <label class="col-md-2 control-label" for="Rmarkdown">Render as Rmd</label>
+                    <label class="col-md-2 control-label" for="Rmarkdown">Render with Rmarkdown</label>
                     <div class="col-md-6">
                         <input type="checkbox" name="Rmarkdown" id="Rmarkdown" data-ng-model="task.Rmarkdown" value=1 checked>
                     </div>
@@ -67,7 +72,7 @@
 
 
                 <div class="form-group" ng-show="task.Rmarkdown">
-                    <label class="col-md-2 control-label small" for="RmdOutputPath">Rmd output path</label>
+                    <label class="col-md-2 control-label" for="RmdOutputPath">Rmd output path</label>
                     <div class="col-md-6">
                         <input id="RmdOutputPath" name="RmdOutputPath" type="text"
                                placeholder="Enter optional output path (for writing document to local/network path)"
@@ -76,17 +81,45 @@
                 </div>
 
                 <div class="form-group" ng-show="task.Rmarkdown">
-                    <label class="col-md-2 control-label small" for="RmdAccompanyingMsg">Rmd mail message</label>
+                    <label class="col-md-2 control-label" for="RmdAccompanyingMsg">Rmd mail message</label>
                     <div class="col-md-6">
-                        <textarea id="RmdAccompanyingMsg" name="RmdAccompanyingMsg"
-                                  placeholder="Enter message to accompany report mail (send to 'on success' addresses)"
+                        <textarea rows="10" id="RmdAccompanyingMsg" name="RmdAccompanyingMsg"
+                                  placeholder="Enter message to accompany report mail (supports markdown formatting)"
                                   class="form-control input-md" required="" data-ng-model="task.RmdAccompanyingMsg"></textarea>
                     </div>
                 </div>
 
+                <div class="row mail-addresses" ng-show="task.Rmarkdown">
+                    <div class = "col-md-offset-2 col-md-6">
+                        <ul class="list-unstyled">
+                            <li data-ng-repeat="addr in mailAddresses.rmdReport track by $index">
+                                <span class="label label-default mail-address">
+                                    {{addr}}
+                                    <span class="glyphicon glyphicon-trash" data-ng-click="deleteEmailAddress($index, mailAddresses.rmdReport)"></span>
+                                </span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
 
-                <br>
+                <div class="form-group" ng-show="task.Rmarkdown">
+                    <div class="row">
+                        <label class="col-md-2 control-label" for="rmdReport">Mail report to</label>
+                        <div class="col-md-6">
+                            <input id="rmdReport" name="rmdReport" type="email" placeholder="Enter email (and press enter)" class="form-control input-md" required=""
+                                   data-ng-model="rmdReport" data-ng-keyup="($event.keyCode == 13 && !newTaskForm['rmdReport'].$error.email) && addEmailAddress(rmdReport, mailAddresses.rmdReport)" prevent-form-submit-on-enter>
+                            <span class="error" ng-show="newTaskForm['rmdReport'].$error.email">
+                                Not valid a valid email address
+                            </span>
+                        </div>
+
+                    </div>
+                </div>
+
+
+                <br><br>
                 <h4>Schedule</h4>
+                <hr>
 
                 <div class="form-group">
                     <div class="col-md-2">
@@ -149,12 +182,13 @@
 
                     </div>
                 </div>
-                
 
-                
 
-                <br>
+
+
+                <br><br>
                 <h4>Notifications</h4>
+                <hr>
 
                 
                 <div class="row mail-addresses">
