@@ -3,7 +3,7 @@
 		<h1 data-ng-bind="task.name"></h1>
 
 	</div>
-	<div class="pull-right" data-ng-show="authentication.user._id == task.user._id">
+	<div class="pull-right"> <!-- data-ng-show="authentication.user._id == task.user._id"> -->
 		<a class="btn btn-primary" href="/#!/tasks/{{task._id}}/edit">
 			<i class="glyphicon glyphicon-edit"></i>
 		</a>
@@ -35,15 +35,16 @@
 	</p>
 	<p data-ng-show="task.enabled"><strong>Next runtime:</strong>  <span >{{ nextRuntime | date: 'medium'}}</span></p>
 	<p><strong>Notify on success</strong>
-	<ul>
-		<li data-ng-repeat="mail in task.mailOnSuccess">{{mail}}</li>
-	</ul>
+		<span class="label label-primary mail-address" data-ng-repeat="mail in task.mailOnSuccess">{{mail}}</span>
 	</p>
 
 	<p><strong>Notify on error</strong>
-	<ul>
-		<li data-ng-repeat="mail in task.mailOnError">{{mail}}</li>
-	</ul>
+
+		<span class="label label-primary mail-address" data-ng-repeat="mail in task.mailOnError">{{mail}}</span>
+	</p>
+
+	<p data-ng-show="task.Rmarkdown"><strong>Mail report to</strong>
+		<span class="label label-primary mail-address" data-ng-repeat="mail in task.mailRmdReport">{{mail}}</span>
 	</p>
 
 	<small>

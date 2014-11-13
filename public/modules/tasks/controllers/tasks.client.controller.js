@@ -202,11 +202,11 @@ angular.module('tasks').controller('TasksController', ['$scope', '$stateParams',
 				$scope.mailAddresses.onSuccess = task.mailOnSuccess;
 				$scope.mailAddresses.rmdReport = task.mailRmdReport;
 				var cronValues = task.cron.split(' ');
-				$scope.schedule.minutes = cronValues[0];
-				$scope.schedule.hours = cronValues[1];
-				$scope.schedule.days = cronValues[2];
-				$scope.schedule.months = cronValues[3];
-				$scope.schedule.weekdays = cronValues[4];
+				$scope.schedule.minutes = cronValues[0].split(',');
+				$scope.schedule.hours = cronValues[1].split(',');
+				$scope.schedule.days = cronValues[2].split(',');
+				$scope.schedule.months = cronValues[3].split(',');
+				$scope.schedule.weekdays = cronValues[4].split(',');
 				if($scope.task.cron) {
 					// set later to use local time
 					later.date.localTime();

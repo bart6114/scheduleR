@@ -10,7 +10,7 @@
             </span>
 
             <span class="label label-info task-info pull-right">
-                <span>{{task.Rmarkdown ? '.Rmd' : '.R'}}</span>
+                <span>{{task.Rmarkdown ? 'Rmarkdown' : 'R script'}}</span>
             </span>
 
             <span class="label task-info pull-right" data-ng-class="task.enabled ? 'label-success' : 'label-default'">
@@ -18,12 +18,12 @@
             </span>
 
 
-			<!--<small class="list-group-item-text">-->
-                <!--Created on-->
-				<!--<span data-ng-bind="task.created | date:'medium'"></span>-->
-				<!--by-->
-				<!--<span data-ng-bind="task.user.displayName"></span>-->
-			<!--</small>-->
+			<small class="list-group-item-text text-muted">
+                Created on
+				<span data-ng-bind="task.created | date:'medium'"></span>
+				by
+				<span data-ng-bind="task.user.displayName"></span>
+			</small>
 
 			<h4 class="list-group-item-heading">
                 <span data-ng-class="task.enabled ? 'text-primary' : 'text-muted'" data-ng-bind="task.name"></span>

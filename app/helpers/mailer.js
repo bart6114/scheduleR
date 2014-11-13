@@ -10,7 +10,7 @@ var nodemailer = require('nodemailer'),
     marked = require('marked');
 
 
-var transporter = nodemailer.createTransport(config.userConfig.mailSettings);
+var transporter = nodemailer.createTransport(config.userConfig.mailer.options);
 
 function sendRmarkdownMail(from, mailAdresses, JSONvalues, dirPath, errCallback){
     if(mailAdresses.length > 0) {

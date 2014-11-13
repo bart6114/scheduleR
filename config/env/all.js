@@ -12,6 +12,8 @@ module.exports = {
 		description: 'schedule R scripts',
 		keywords: 'R, scheduling'
 	},
+	runRscript: 'R/run_rscript.R',
+	runRmarkdown: 'R/run_rmarkdown.R',
 	userConfig: userConfig,
 	port: process.env.PORT || 3000,
 	templateEngine: 'swig',

@@ -18,6 +18,11 @@ body > .container {
     border-color:#78FA89;
 }
 
+.xkcd-img{
+	max-height: 400px;
+	margin: 10px;
+}
+
 /* Sticky footer styles
 -------------------------------------------------- */
 html {

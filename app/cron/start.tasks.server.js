@@ -25,10 +25,10 @@ var start_job = function(task) {
 
 			var runScript;
 			if(task.Rmarkdown) {
-				runScript = config.userConfig.runRmarkdown;
+				runScript = config.runRmarkdown;
 
 			} else {
-				runScript = config.userConfig.runRscript;
+				runScript = config.runRscript;
 			}
 
 			console.log('Running task: ' + task.name + ' -- from file: ' + task.scriptOriginalFilename);
@@ -78,7 +78,7 @@ var start_job = function(task) {
 						// send error notification
 
 						mailer.sendNotificationMail(
-							config.userConfig.mailSettings.from,
+							config.userConfig.mailer.from,
 							task.mailOnError,
 							{name: task.name,
 								status: log.success,
@@ -96,7 +96,7 @@ var start_job = function(task) {
 
 						// send success notification
 						mailer.sendNotificationMail(
-							config.userConfig.mailSettings.from,
+							config.userConfig.mailer.from,
 							task.mailOnSuccess,
 							{
 								name: task.name,
@@ -118,7 +118,7 @@ var start_job = function(task) {
 
 
 							// send report to onsuccess adresses
-							mailer.sendRmarkdownMail(config.userConfig.mailSettings.from,
+							mailer.sendRmarkdownMail(config.userConfig.mailer.from,
 								task.mailRmdReport,
 								{name: task.name,
 									msg: task.RmdAccompanyingMsg},dirPath,

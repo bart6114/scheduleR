@@ -27,7 +27,6 @@ exports.create = function(req, res) {
 		} else {
 			res.jsonp(task);
 			if(task.enabled) {
-				console.log(taskList);
 				taskList.addTaskAndStart(task);
 			}
 		}
@@ -90,7 +89,7 @@ exports.delete = function(req, res) {
 
 exports.list = function(req, res) {
 	Task.find()
-		.sort('-created')
+		.sort('name')
 		.populate('user', 'displayName')
 		.exec(function(err, tasks) {
 			if (err) {
@@ -134,7 +133,7 @@ exports.taskByID = function(req, res, next, id) { Task.findById(id).populate('us
  * Task authorization middleware
  */
 exports.hasAuthorization = function(req, res, next) {
-	if (req.task.user.id !== req.user.id) {
+	if (!req.task.user.id) {
 		return res.status(403).send('User is not authorized');
 	}
 	next();

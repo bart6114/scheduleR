@@ -1,12 +1,7 @@
 - cleanup unnecessary files
 - rename config.json to userconfig.json
-- add possibility to invite user
-- disallow signup
-- create first user init script
+- disallow signup after first user has been created
 - add mailaddress specification for Rmarkdown files
 - add FTP upload
 - redirect stderr to log
-- rename .R .Rmd in task list according to task view
-- fix bug in populating schedule fields
-- arrange task list based on last run?
 - navbar menu

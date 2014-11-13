@@ -65,10 +65,10 @@ exports.forgot = function(req, res, next) {
 		},
 		// If valid email, send reset email using service
 		function(emailHTML, user, done) {
-			var smtpTransport = nodemailer.createTransport(config.mailer.options);
+			var smtpTransport = nodemailer.createTransport(config.userConfig.mailer.options);
 			var mailOptions = {
 				to: user.email,
-				from: config.mailer.from,
+				from: config.userConfig.mailer.from,
 				subject: 'Password Reset',
 				html: emailHTML
 			};
@@ -137,7 +137,7 @@ exports.reset = function(req, res, next) {
 									if (err) {
 										res.status(400).send(err);
 									} else {
-										// Return authenticated user 
+										// Return authenticated user
 										res.jsonp(user);
 
 										done(err, user);
@@ -167,10 +167,10 @@ exports.reset = function(req, res, next) {
 		},
 		// If valid email, send reset email using service
 		function(emailHTML, user, done) {
-			var smtpTransport = nodemailer.createTransport(config.mailer.options);
+			var smtpTransport = nodemailer.createTransport(config.userConfig.mailer.options);
 			var mailOptions = {
 				to: user.email,
-				from: config.mailer.from,
+				from: config.userConfig.mailer.from,
 				subject: 'Your password has been changed',
 				html: emailHTML
 			};

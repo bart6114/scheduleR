@@ -5,17 +5,17 @@
     "--verbose",
     "--no-restore"
   ],
-  "runRscript": "R/run_rscript.R",
-  "runRmarkdown": "R/run_rmarkdown.R",
-  "mailSettings":
+  "mailer":
   {
-    "host": "smtp.gmail.com",
-    "secure": true,
-    "port": 465,
-    "auth": {
-      "user": "---@gmail.com",
-      "pass": "---"
-    },
-    "from": "scheduleR <foo@blurdybloop.com>"
+    "from": "scheduleR <foo@blurdybloop.com>",
+    "options": {
+      "host": "smtp.gmail.com",
+      "secure": true,
+      "port": 465,
+      "auth": {
+        "user": "ltboolean@gmail.com",
+        "pass": "explodingbooleans"
+      }
+    }
   }
 }
