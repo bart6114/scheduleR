@@ -5,3 +5,4 @@
 - create first user init script
 - add mailaddress specification for Rmarkdown files
 - add FTP upload
+- redirect stderr to log
