@@ -6,3 +6,4 @@
 - add mailaddress specification for Rmarkdown files
 - add FTP upload
 - redirect stderr to log
+- rename .R .Rmd in task list according to task view
