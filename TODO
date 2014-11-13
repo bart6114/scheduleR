@@ -8,3 +8,5 @@
 - redirect stderr to log
 - rename .R .Rmd in task list according to task view
 - fix bug in populating schedule fields
+- arrange task list based on last run?
+- navbar menu
