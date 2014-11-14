@@ -43,7 +43,6 @@
     "connect-multiparty": "~1.2.5",
     "cron": "~1.0.5",
     "temp": "~0.8.1",
-    "sync-prompt": "~0.4.1",
     "marked": "~0.3.2"
   },
   "devDependencies": {
