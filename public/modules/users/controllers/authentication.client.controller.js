@@ -7,6 +7,12 @@ angular.module('users').controller('AuthenticationController', ['$scope', '$http
 		// If user is signed in then redirect back home
 		if ($scope.authentication.user) $location.path('/');
 
+		$scope.checkNoUsers = function() {
+			$http.get('/users/count').success(function (response) {
+				if (response.count > 0) $location.path('/');
+			});
+		};
+
 		$scope.signup = function() {
 			$http.post('/auth/signup', $scope.credentials).success(function(response) {
 				// If successful we assign the response to the global user model

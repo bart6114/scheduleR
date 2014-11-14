@@ -7,8 +7,7 @@ angular.module('core').controller('HeaderController', ['$scope', 'Authentication
 			$scope.menu = Menus.getMenu('topbar');
 			
 			$http.get('/users/count').success(function(response) {
-				$scope.noUsers = (response.count === 0)
-				console.log(response, $scope.noUsers, response.count === 0);
+				$scope.noUsers = (response.count === 0);
 			});
 
 			$scope.toggleCollapsibleMenu = function () {

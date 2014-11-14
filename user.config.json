@@ -1,5 +1,5 @@
 {
-  "uploadDir": "c:/temp/",
+  "uploadDir": "/home/bart/tmp/",
   "RscriptExecutable": "Rscript",
   "RstandardArguments": [
     "--verbose",
@@ -13,8 +13,8 @@
       "secure": true,
       "port": 465,
       "auth": {
-        "user": "ltboolean@gmail.com",
-        "pass": "explodingbooleans"
+        "user": "...@gmail.com",
+        "pass": "..."
       }
     }
   }

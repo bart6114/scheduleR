@@ -1,7 +1,3 @@
 - cleanup unnecessary files
-- rename config.json to userconfig.json
-- disallow signup after first user has been created
-- add mailaddress specification for Rmarkdown files
 - add FTP upload
 - redirect stderr to log
-- navbar menu

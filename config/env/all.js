@@ -3,7 +3,7 @@
 var fs = require('fs');
 
 
-var userConfig = JSON.parse(fs.readFileSync('config.json', 'utf8'));
+var userConfig = JSON.parse(fs.readFileSync('user.config.json', 'utf8'));
 
 
 module.exports = {

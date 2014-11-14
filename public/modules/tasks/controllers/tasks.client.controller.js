@@ -72,7 +72,7 @@ angular.module('tasks').controller('TasksController', ['$scope', '$stateParams',
 					// file is uploaded successfully
 					$scope.task.scriptNewFilename = data.filename.replace(/^.*[\\\/]/, '');
 					$scope.task.scriptOriginalFilename = file.name;
-					console.log($scope.task.scriptOriginalFilename + ' uploaded as ' + $scope.scriptNewFilename);
+					console.log($scope.task.scriptOriginalFilename + ' uploaded as ' + $scope.task.scriptNewFilename);
 				});
 			}
 

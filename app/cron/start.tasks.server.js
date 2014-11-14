@@ -89,7 +89,7 @@ var start_job = function(task) {
 								log.save(function(err){
 									if(err) console.log(err);
 								});
-							})
+							});
 
 					} else {
 
