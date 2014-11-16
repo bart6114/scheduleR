@@ -25,7 +25,7 @@
     "npm": "1.4.x"
   },
   "scripts": {
-    "start": "grunt",
+    "start": "node bin/scheduler.bin.js",
     "test": "grunt test"
   },
   "dependencies": {
