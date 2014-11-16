@@ -1,3 +1,6 @@
 - cleanup unnecessary files
 - add FTP upload
 - redirect stderr to log
+- checkout bootstrap theme
+- setup tests
+- decide NPM install vs Ghost-like install

@@ -1,4 +1,7 @@
 'use strict';
+
+process.chdir(__dirname);
+
 /**
  * Module dependencies.
  */

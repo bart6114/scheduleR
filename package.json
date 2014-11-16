@@ -1,7 +1,7 @@
 {
   "name": "scheduler-for-r",
   "description": "schedule R scripts",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "author": {
     "name": "Bart Smeets",
     "email": "bartsmeets86@gmail.com"
@@ -18,7 +18,7 @@
     }
   ],
   "bugs": {
-    "url": "https://github.com/Bart6114/bugs"
+    "url": "https://github.com/Bart6114/issues"
   },
   "engines": {
     "node": "0.10.x",
@@ -26,8 +26,7 @@
   },
   "scripts": {
     "start": "grunt",
-    "test": "grunt test",
-    "postinstall": "bower install --config.interactive=false"
+    "test": "grunt test"
   },
   "dependencies": {
     "express": "~4.9.5",
