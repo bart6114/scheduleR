@@ -45,6 +45,9 @@ Go to the directory containing the files and edit the ```user.config.json``` fil
 
 **port** the port to serve scheduleR on
 
+Next, run the following command to install dependencies.
+
+    npm install
 
 ## Running scheduleR
 
@@ -52,6 +55,4 @@ You can start scheduleR by running either
 
     npm start
 
-or
-
-    scheduleR
+You can next point your browser at the configured port & server address. Defaults to [http://localhost:3000](http://localhost:3000).

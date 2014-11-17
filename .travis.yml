@@ -2,9 +2,8 @@ language: node_js
 node_js:
   - "0.10"
 env:
-  - NODE_ENV=production
+  - NODE_ENV=travis
 services:
   - mongodb
-before_install:
-  - "npm install -g grunt-cli"
-  - "npm install grunt"
+before_script:
+  - "bower install"
