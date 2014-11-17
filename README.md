@@ -56,3 +56,7 @@ You can start scheduleR by running either
     npm start
 
 You can next point your browser at the configured port & server address. Defaults to [http://localhost:3000](http://localhost:3000).
+
+## Scheduling tasks
+
+The scheduleR interface should speak for itself, if it doesn't let me know!
