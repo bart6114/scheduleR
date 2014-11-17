@@ -12,7 +12,6 @@ var cron = require('cron'),
 	spawn = require('child_process').spawn,
 	path = require('path'),
 	temp = require('temp'),
-	fs = require('fs'),
 	async = require('async');
 
 // Automatically track and cleanup files at exit
@@ -57,6 +56,7 @@ var start_job = function(task) {
 					resp += buffer.toString();
 
 				});
+
 
 				child.stdout.on('end', function() {
 					log.msg = resp;

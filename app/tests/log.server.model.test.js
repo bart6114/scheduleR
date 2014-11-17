@@ -6,12 +6,13 @@
 var should = require('should'),
 	mongoose = require('mongoose'),
 	User = mongoose.model('User'),
-	Log = mongoose.model('Log');
+	Log = mongoose.model('Log'),
+	Task = mongoose.model('Task');
 
 /**
  * Globals
  */
-var user, log;
+var user, log, task;
 
 /**
  * Unit tests
@@ -27,11 +28,16 @@ describe('Log Model Unit Tests:', function() {
 			password: 'password'
 		});
 
-		user.save(function() { 
-			log = new Log({
-				// Add model fields
-				// ...
+		user.save(function() {
+			task = new Task({
+				name: 'Task Name',
+				user: user
 			});
+			task.save(function(){
+				log = new Log({msg: 'test message',
+					task: task._id});
+			});
+
 
 			done();
 		});
@@ -46,7 +52,7 @@ describe('Log Model Unit Tests:', function() {
 		});
 	});
 
-	afterEach(function(done) { 
+	afterEach(function(done) {
 		Log.remove().exec();
 		User.remove().exec();
 

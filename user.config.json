@@ -1,5 +1,5 @@
 {
-  "uploadDir": "/home/bart/tmp/",
+  "uploadDir": "/path/to/upload/directory/",
   "RscriptExecutable": "Rscript",
   "RstandardArguments": [
     "--verbose",
@@ -17,5 +17,10 @@
         "pass": "..."
       }
     }
-  }
+  },
+  "db": {
+    "url": "mongodb://localhost",
+    "suffix": "scheduleR"
+  },
+  "port": 3000
 }

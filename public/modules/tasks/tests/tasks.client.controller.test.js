@@ -70,20 +70,27 @@
 			expect(scope.tasks).toEqualData(sampleTasks);
 		}));
 
-		it('$scope.findOne() should create an array with one Task object fetched from XHR using a taskId URL parameter', inject(function(Tasks) {
+		it('$scope.findOneWithLogs() should create a Task object and Logs fetched from XHR using a taskId URL parameter', inject(function(Tasks, LogsArray) {
 			// Define a sample Task object
 			var sampleTask = new Tasks({
-				name: 'New Task'
+				name: 'New Task',
+				cron: '* * * * *'
 			});
+
+			var sampleLog = new LogsArray([{
+				msg: 'test',
+				task: sampleTask._id
+			}]);
 
 			// Set the URL parameter
 			$stateParams.taskId = '525a8422f6d0f87f0e407a33';
 
-			// Set GET response
+			//// Set GET response
 			$httpBackend.expectGET(/tasks\/([0-9a-fA-F]{24})$/).respond(sampleTask);
+			$httpBackend.expectGET(/tasks\/([0-9a-fA-F]{24})\/logs$/).respond([sampleLog]);
 
 			// Run controller functionality
-			scope.findOne();
+			scope.findOneWithLogs();
 			$httpBackend.flush();
 
 			// Test scope value
@@ -93,17 +100,24 @@
 		it('$scope.create() with valid form data should send a POST request with the form input values and then locate to new object URL', inject(function(Tasks) {
 			// Create a sample Task object
 			var sampleTaskPostData = new Tasks({
-				name: 'New Task'
+				name: 'New Task',
+				cron: '* * * * *',
+				mailOnError: [],
+				mailOnSuccess: [],
+				mailRmdReport: []
 			});
 
 			// Create a sample Task response
 			var sampleTaskResponse = new Tasks({
 				_id: '525cf20451979dea2c000001',
-				name: 'New Task'
+				name: 'New Task',
+				cron: '* * * * *'
 			});
 
 			// Fixture mock form input values
-			scope.name = 'New Task';
+			scope.task = {};
+			scope.task.name = 'New Task';
+			scope.task.cron = '* * * * *';
 
 			// Set POST response
 			$httpBackend.expectPOST('tasks', sampleTaskPostData).respond(sampleTaskResponse);

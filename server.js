@@ -14,8 +14,13 @@ var init = require('./config/init')(),
  * Please note that the order of loading is important.
  */
 
+var dbConn = (process.env.NODE_ENV == 'production' ?
+				config.userConfig.db.url.replace(/\/$/, '') + '/' + config.userConfig.db.suffix :
+				config.db
+);
+
 // Bootstrap db connection
-var db = mongoose.connect(config.db, function(err) {
+var db = mongoose.connect(dbConn, function(err) {
 	if (err) {
 		console.error('\x1b[31m', 'Could not connect to MongoDB!');
 		console.log(err);
@@ -29,10 +34,12 @@ var app = require('./config/express')(db);
 require('./config/passport')();
 
 // Start the app by listening on <port>
-app.listen(config.port);
+
+var port= (process.env.NODE_ENV == 'production' ? config.userConfig.port : config.port);
+app.listen(port);
 
 // Expose app
 exports = module.exports = app;
 
 // Logging initialization
-console.log('scheduleR started on port ' + config.port);
+console.log('scheduleR started on port ' + port);

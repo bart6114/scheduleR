@@ -30,7 +30,8 @@ describe('Task Model Unit Tests:', function() {
 		user.save(function() { 
 			task = new Task({
 				name: 'Task Name',
-				user: user
+				cron: '* * * * *',
+				user: user._id
 			});
 
 			done();

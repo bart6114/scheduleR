@@ -1,6 +1,6 @@
 {
-  "name": "scheduler",
-  "version": "0.0.1",
+  "name": "scheduler-for-r",
+  "version": "0.0.3",
   "description": "schedule R scripts",
   "dependencies": {
     "bootstrap": "~3",

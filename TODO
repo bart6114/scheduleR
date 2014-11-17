@@ -3,4 +3,3 @@
 - redirect stderr to log
 - checkout bootstrap theme
 - set-up tests
-- fix 'forgot password' redirect
