@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/Bart6114/scheduleR.svg?branch=master)](https://travis-ci.org/Bart6114/scheduleR)
+
 # scheduleR
 
 scheduleR serves as an easy web interface for scheduling (simple) R scripts up to generating full-fledged Rmarkdown reports. Logging, error/success notifications and mailing of reports is supported.
@@ -21,9 +23,24 @@ Optional dependencies (for generating Rmarkdown reports):
 
 ## Installation
 
-First download the repository using the latest [tarball](), [zip file]() or simply clone the repository:
+First download the repository using the latest [tarball](), [zip file]() and extract it or simply clone the repository:
 
     git clone https://github.com/Bart6114/scheduleR.git
 
-Edit the ```user.config.json``` file to your likings (see _configuration_ below) and continue to start scheduleR.
+Go to the directory containing the files and edit the ```user.config.json``` file to your likings.
 
+**uploadDir** path to upload your scripts to
+
+**RScriptExecutable** how to call Rscript (best to put Rscript on the path)
+
+**RstandardArguments** standard arguments to add to Rscript (should be fine)
+
+**mailer.from** the from address to use in notification/report mails
+
+**mailer.options** settings for nodemailer to user
+
+**db.url** the address of the mongodb server
+
+**db.suffix** the name used to create a db on the mongodb server
+
+**port** the port to serve scheduleR on
