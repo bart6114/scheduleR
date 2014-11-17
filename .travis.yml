@@ -5,3 +5,4 @@ env:
   - NODE_ENV=production
 services:
   - mongodb
+before_install: npm install -g grunt-cli
