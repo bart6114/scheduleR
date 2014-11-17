@@ -27,8 +27,3 @@ First download the repository using the latest [tarball](), [zip file]() or simp
 
 Edit the ```user.config.json``` file to your likings (see _configuration_ below) and continue to start scheduleR.
 
-
-
-## Configuration
-
-
