@@ -1,8 +1,4 @@
-- cleanup unnecessary files
 - add FTP upload
 - redirect stderr to log
 - checkout bootstrap theme
-- set-up tests
-- fix 'forgot password' redirect
-- include bin script
 - remove bootswatch theme and add some less variables
