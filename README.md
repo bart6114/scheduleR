@@ -59,4 +59,23 @@ You can next point your browser at the configured port & server address. Default
 
 ## Scheduling tasks
 
-The scheduleR interface should speak for itself, if it doesn't let me know!
+The **list tasks** view gives an overview of all the scheduled tasks. One can choose a specific task to get a detailed overview on run times and logs. The edit mode is also available via the detailed view.
+
+Using **new task** one can schedule a new script:
+
+- **name** the name of the script
+- **description** a description of the script
+- **script file** upload the .R / .Rmd file
+- **extra arguments** potential extra arguments to call the script with
+- **enabled** should the task be enabled after saving
+- **render with Rmarkdown** will default to ```true``` for ```.Rmd``` files
+- **Rmd output path** where to copy the resulting report (optional)
+- **Rmd mail message** a message for the body of the report mail
+- **mail report to** addresses to the resulting report to (as attachment)
+- **schedule** the desired schedule (see the [cron manual](http://unixhelp.ed.ac.uk/CGI/man-cgi?crontab+5)
+- **on success** addresses to send _successful execution_ notification to
+- **on error** addresses to send _unsuccesful execution_ notification to
+
+## Issues, questions, feedback
+
+Create a new issue at [scheduleR's GitHub site](https://github.com/Bart6114/scheduleR/issues) or leave me a message at bartsmeets86 <at> gmail.com.
