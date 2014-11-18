@@ -30,7 +30,11 @@ First download the repository using the latest [tarball](https://api.github.com/
 
     git clone https://github.com/Bart6114/scheduleR.git
 
-Go to the directory containing the files and edit the ```user.config.json``` file to your likings:
+Next, run the following command to install dependencies.
+
+    npm install
+
+To configure scheduleR go to the directory containing the installation and edit the ```user.config.json``` file to your likings:
 
 - **uploadDir** path to upload your scripts to
 - **RScriptExecutable** how to call the ```Rscript``` executable (best to simply put ```Rscript``` on the path)
@@ -40,10 +44,6 @@ Go to the directory containing the files and edit the ```user.config.json``` fil
 - **db.url** the address of the mongodb server
 - **db.suffix** the name used to create a db on the mongodb server
 - **port** the port to serve scheduleR on
-
-Next, run the following command to install dependencies.
-
-    npm install
 
 ## Running scheduleR
 
