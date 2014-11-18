@@ -29,21 +29,14 @@ First download the repository using the latest [tarball](), [zip file]() and ext
 
 Go to the directory containing the files and edit the ```user.config.json``` file to your likings:
 
-**uploadDir** path to upload your scripts to
-
-**RScriptExecutable** how to call the ```Rscript``` executable (best to simply put ```Rscript``` on the path)
-
-**RstandardArguments** standard arguments to add to ```Rscript``` (should be fine)
-
-**mailer.from** the from address to use in notification/report mails
-
-**mailer.options** settings for ```nodemailer``` to user
-
-**db.url** the address of the mongodb server
-
-**db.suffix** the name used to create a db on the mongodb server
-
-**port** the port to serve scheduleR on
+- **uploadDir** path to upload your scripts to
+- **RScriptExecutable** how to call the ```Rscript``` executable (best to simply put ```Rscript``` on the path)
+- **RstandardArguments** standard arguments to add to ```Rscript``` (should be fine)
+- **mailer.from** the from address to use in notification/report mails
+- **mailer.options** settings for ```nodemailer``` to user
+- **db.url** the address of the mongodb server
+- **db.suffix** the name used to create a db on the mongodb server
+- **port** the port to serve scheduleR on
 
 Next, run the following command to install dependencies.
 
