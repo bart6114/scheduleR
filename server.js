@@ -14,7 +14,7 @@ var init = require('./config/init')(),
  * Please note that the order of loading is important.
  */
 
-var dbConn = (process.env.NODE_ENV == 'production' ?
+var dbConn = (process.env.NODE_ENV === 'production' ?
 				config.userConfig.db.url.replace(/\/$/, '') + '/' + config.userConfig.db.suffix :
 				config.db
 );
@@ -35,7 +35,7 @@ require('./config/passport')();
 
 // Start the app by listening on <port>
 
-var port= (process.env.NODE_ENV == 'production' ? config.userConfig.port : config.port);
+var port= (process.env.NODE_ENV === 'production' ? config.userConfig.port : config.port);
 app.listen(port);
 
 // Expose app

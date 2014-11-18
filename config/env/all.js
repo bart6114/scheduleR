@@ -3,7 +3,8 @@
 var fs = require('fs');
 
 
-var userConfig = JSON.parse(fs.readFileSync('user.config.json', 'utf8'));
+var userConfig = JSON.parse(fs.readFileSync('user.config.json', 'utf8')),
+	packageInfo = JSON.parse(fs.readFileSync('package.json', 'utf8'));
 
 
 module.exports = {
@@ -12,6 +13,7 @@ module.exports = {
 		description: 'schedule R scripts',
 		keywords: 'R, scheduling'
 	},
+	appVersion: packageInfo.version,
 	runRscript: 'R/run_rscript.R',
 	runRmarkdown: 'R/run_rmarkdown.R',
 	userConfig: userConfig,

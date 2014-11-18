@@ -74,6 +74,10 @@ Using **new task** one can schedule a new script:
 
 In the ```examples``` directory you can find a few example scripts to test scheduleR's functionality with.
 
+## Browser compatability
+
+Up to now only tested on a recent Chrome browser.
+
 ## Issues, questions, feedback
 
 Create a new issue at [scheduleR's GitHub site](https://github.com/Bart6114/scheduleR/issues) or leave me a message at bartsmeets86 <at> gmail.com.
