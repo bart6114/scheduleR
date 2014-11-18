@@ -24,7 +24,7 @@ Optional dependencies (necessary for generating Rmarkdown reports):
 
 ## Installation
 
-First download the repository using the latest [tarball](https://api.github.com/repos/Bart6114/scheduleR/tarball/) / [zip file](https://api.github.com/repos/Bart6114/scheduleR/zipfile/) and extract it or simply clone the repository:
+First download the repository using the latest [tarball](https://api.github.com/repos/Bart6114/scheduleR/tarball/) / [zip file](https://github.com/Bart6114/scheduleR/archive/master.zip) and extract it or simply clone the repository:
 
     git clone https://github.com/Bart6114/scheduleR.git
 
