@@ -12,18 +12,19 @@ scheduleR's web interface is built using Node.js and tested under GNU/Linux and 
 
 Minimal dependencies:
 
-- [Node.js](http://nodejs.org/)
+- [Node.js](http://nodejs.org/) (with npm)
 - [R](http://www.r-project.org/)
 - [mongodb](http://www.mongodb.org/)
 
-Optional dependencies (for generating Rmarkdown reports):
+Optional dependencies (necessary for generating Rmarkdown reports):
 
 - [Pandoc](http://johnmacfarlane.net/pandoc/)
 - [rmarkdown](https://github.com/rstudio/rmarkdown) (most recent version installed using devtools)
+- [knitr](http://yihui.name/knitr/)
 
 ## Installation
 
-First download the repository using the latest [tarball](), [zip file]() and extract it or simply clone the repository:
+First download the repository using the latest [tarball](https://api.github.com/repos/Bart6114/scheduleR/tarball/) / [zip file](https://api.github.com/repos/Bart6114/scheduleR/zipfile/) and extract it or simply clone the repository:
 
     git clone https://github.com/Bart6114/scheduleR.git
 
@@ -68,6 +69,8 @@ Using **new task** one can schedule a new script:
 - **schedule** the desired schedule (see the [cron manual](http://unixhelp.ed.ac.uk/CGI/man-cgi?crontab+5)
 - **on success** addresses to send _successful execution_ notification to
 - **on error** addresses to send _unsuccesful execution_ notification to
+
+In the ```examples``` directory you can find a few example scripts to test scheduleR's functionality with.
 
 ## Issues, questions, feedback
 
