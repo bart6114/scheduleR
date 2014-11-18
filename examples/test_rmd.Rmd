@@ -1,5 +1,5 @@
 ---
-title: "Habits"
+title: "Test report"
 output:
   pdf_document: default
 ---
