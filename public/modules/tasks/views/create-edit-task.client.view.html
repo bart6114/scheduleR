@@ -124,50 +124,50 @@
                 <div class="form-group">
                     <div class="col-md-2">
                         <div class="row">
-                             <label for="exampleInputEmail1">Minute</label>
+                             <label for="schedule.minutes">Minute</label>
                         </div>
                         <div class="row">
-                            <select class="form-control" data-ng-model="schedule.minutes" ng-options="minute for minute in scheduleOptions.minutes" data-ng-change="fillCron();" multiple>
+                            <select class="form-control" id="schedule.minutes" data-ng-model="schedule.minutes" ng-options="minute for minute in scheduleOptions.minutes" data-ng-change="fillCron();" multiple>
                             </select>
                         </div>
                     </div>
 
                     <div class="col-md-2">
                         <div class="row">
-                             <label for="exampleInputEmail1">Hour</label>
+                             <label for="schedule.hours">Hour</label>
                         </div>
                         <div class="row">
-                            <select class="form-control" data-ng-model="schedule.hours" ng-options="hour for hour in scheduleOptions.hours" data-ng-change="fillCron();" multiple>
+                            <select class="form-control" id="schedule.hours" data-ng-model="schedule.hours" ng-options="hour for hour in scheduleOptions.hours" data-ng-change="fillCron();" multiple>
                             </select>
                         </div>
                     </div>
 
                     <div class="col-md-2">
                         <div class="row">
-                             <label for="exampleInputEmail1">Days</label>
+                             <label for="schedule.days">Days</label>
                         </div>
                         <div class="row">
-                            <select class="form-control" data-ng-model="schedule.days" ng-options="day for day in scheduleOptions.days" data-ng-change="fillCron();" multiple>
+                            <select class="form-control" id="schedule.days" data-ng-model="schedule.days" ng-options="day for day in scheduleOptions.days" data-ng-change="fillCron();" multiple>
                             </select>
                         </div>
                     </div>
 
                     <div class="col-md-2">
                         <div class="row">
-                             <label for="exampleInputEmail1">Months</label>
+                             <label for="schedule.months">Months</label>
                         </div>
                         <div class="row">
-                            <select class="form-control" data-ng-model="schedule.months" ng-options="month for month in scheduleOptions.months" data-ng-change="fillCron();" multiple>
+                            <select class="form-control" id="schedule.months" data-ng-model="schedule.months" ng-options="month for month in scheduleOptions.months" data-ng-change="fillCron();" multiple>
                             </select>
                         </div>
                     </div>
 
                     <div class="col-md-2">
                         <div class="row">
-                             <label for="exampleInputEmail1">Weekdays</label>
+                             <label for="schedule.weekdays">Weekdays</label>
                         </div>
                         <div class="row">
-                            <select class="form-control" data-ng-model="schedule.weekdays" ng-options="weekday for weekday in scheduleOptions.weekdays" data-ng-change="fillCron();" multiple>
+                            <select class="form-control" id="schedule.weekdays" data-ng-model="schedule.weekdays" ng-options="weekday for weekday in scheduleOptions.weekdays" data-ng-change="fillCron();" multiple>
                             </select>
                         </div>
                     </div>
@@ -253,7 +253,7 @@
 
 
                 <div class="form-group">
-                    <input type="submit" class="btn btn-default pull-right">
+                    <input type="submit" class="btn btn-default pull-right" value="Save">
                 </div>
                 <div data-ng-show="error" class="text-danger">
                     <strong data-ng-bind="error"></strong>

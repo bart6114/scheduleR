@@ -1,4 +1,2 @@
 - add FTP upload
 - redirect stderr to log
-- checkout bootstrap theme
-- remove bootswatch theme and add some less variables

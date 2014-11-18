@@ -6,8 +6,6 @@ scheduleR serves as an easy web interface for scheduling (simple) R scripts up t
 
 By providing easy access to the scheduling of R scripts and Rmarkdown files, scheduleR tries to make automated data analytics and reporting as easy as possible.
 
-scheduleR's web interface is built using Node.js and tested under GNU/Linux and Windows.
-
 ![](http://i.imgur.com/fmlUpPr.png)
 
 ## Requirements
@@ -23,6 +21,9 @@ Optional dependencies (necessary for generating Rmarkdown reports):
 - [Pandoc](http://johnmacfarlane.net/pandoc/)
 - [rmarkdown](https://github.com/rstudio/rmarkdown) (most recent version installed using devtools)
 - [knitr](http://yihui.name/knitr/)
+
+scheduleR's web interface is built using Node.js and tested under GNU/Linux and Windows. Feedback on Mac compatibility is appreciated.
+
 
 ## Installation
 
@@ -55,6 +56,10 @@ You can start scheduleR by running
 
 You can then point your browser at the configured port & server address (default is [http://localhost:3000](http://localhost:3000)).
 
+## User management
+
+At the first start of scheduleR an initial signup option is available. After the initial signup new users can be invited (an account will be created for them).
+
 ## Scheduling tasks
 
 The **list tasks** view gives an overview of all the scheduled tasks. One can choose a specific task to get a detailed overview on run times and logs. The edit mode is also available via the detailed view.
@@ -69,10 +74,10 @@ Using **new task** one can schedule a new script:
 - **render with Rmarkdown** will default to ```true``` for ```.Rmd``` files
 - **Rmd output path** where to copy the resulting report (optional)
 - **Rmd mail message** a message for the body of the report mail
-- **mail report to** addresses to the resulting report to (as attachment)
+- **mail report to** addresses to the resulting report to (as attachment) - make sure to press enter after each address
 - **schedule** the desired schedule (see the [cron manual](http://unixhelp.ed.ac.uk/CGI/man-cgi?crontab+5)
-- **on success** addresses to send _successful execution_ notification to
-- **on error** addresses to send _unsuccesful execution_ notification to
+- **on success** addresses to send _successful execution_ notification to - make sure to press enter after each address
+- **on error** addresses to send _unsuccesful execution_ notification to - make sure to press enter after each address
 
 In the ```examples``` directory you can find a few example scripts to test scheduleR's functionality with.
 
@@ -82,4 +87,4 @@ Up to now only tested on a recent Chrome browser.
 
 ## Issues, questions, feedback
 
-Create a new issue at [scheduleR's GitHub site](https://github.com/Bart6114/scheduleR/issues) or leave me a message at bartsmeets86 <at> gmail.com.
+Create a new issue at [scheduleR's GitHub site](https://github.com/Bart6114/scheduleR/issues) or leave me a message at bartsmeets86 | at | gmail.com.
