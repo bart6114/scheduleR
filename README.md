@@ -8,6 +8,8 @@ By providing easy access to the scheduling of R scripts and Rmarkdown files, sch
 
 scheduleR's web interface is built using Node.js and tested under GNU/Linux and Windows.
 
+![](http://i.imgur.com/fmlUpPr.png)
+
 ## Requirements
 
 Minimal dependencies:
@@ -45,11 +47,11 @@ Next, run the following command to install dependencies.
 
 ## Running scheduleR
 
-You can start scheduleR by running either
+You can start scheduleR by running
 
     npm start
 
-You can next point your browser at the configured port & server address. Defaults to [http://localhost:3000](http://localhost:3000).
+You can then point your browser at the configured port & server address (default is [http://localhost:3000](http://localhost:3000)).
 
 ## Scheduling tasks
 
