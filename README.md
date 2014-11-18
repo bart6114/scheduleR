@@ -34,6 +34,8 @@ Next, run the following command to install dependencies.
 
     npm install
 
+## Configuration
+
 To configure scheduleR go to the directory containing the installation and edit the ```user.config.json``` file to your likings:
 
 - **uploadDir** path to upload your scripts to
@@ -74,7 +76,7 @@ Using **new task** one can schedule a new script:
 
 In the ```examples``` directory you can find a few example scripts to test scheduleR's functionality with.
 
-## Browser compatability
+## Browser compatibility
 
 Up to now only tested on a recent Chrome browser.
 
