@@ -136,11 +136,24 @@ module.exports = function(grunt) {
 			unit: {
 				configFile: 'karma.conf.js'
 			}
+		},
+		copy: {
+			build: {
+				files: [{
+					//for bootstrap fonts
+					expand: true,
+					dot: true,
+					cwd: 'public/lib/bootstrap/dist',
+					src: ['fonts/*.*'],
+					dest: 'public/dist/'
+				}]
+			}
 		}
 	});
 
 	// Load NPM tasks
 	require('load-grunt-tasks')(grunt);
+
 
 	// Making grunt default to force in order not to break the project.
 	grunt.option('force', true);
@@ -163,8 +176,11 @@ module.exports = function(grunt) {
 	// Lint task(s).
 	grunt.registerTask('lint', ['jshint', 'csslint']);
 
+	// copy task
+	//grunt.registerTask('copy', ['copy']);
+
 	// Build task(s).
-	grunt.registerTask('build', ['lint', 'loadConfig', 'ngAnnotate', 'uglify', 'cssmin']);
+	grunt.registerTask('build', ['lint', 'loadConfig', 'ngAnnotate', 'uglify', 'cssmin', 'copy']);
 
 	// Test task.
 	grunt.registerTask('test', ['env:test', 'mochaTest', 'karma:unit']);
