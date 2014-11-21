@@ -6,6 +6,8 @@ scheduleR serves as an easy web interface for scheduling (simple) R scripts up t
 
 By providing easy access to the scheduling of R scripts and Rmarkdown files, scheduleR tries to make automated data analytics and reporting as easy as possible.
 
+scheduleR is meant to be used on a server. It can be used locally but that mean that you have to keep a mongodb server and scheduleR running at all times.
+
 ![](http://i.imgur.com/fmlUpPr.png)
 
 ## Requirements
