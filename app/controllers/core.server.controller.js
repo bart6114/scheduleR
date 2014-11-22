@@ -12,3 +12,12 @@ exports.index = function(req, res) {
 		appVersion: config.appVersion
 	});
 };
+
+/**
+ * App version
+ */
+exports.version = function(req, res) {
+	res.jsonp(config.appVersion);
+};
+
+
