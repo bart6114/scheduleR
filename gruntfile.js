@@ -71,7 +71,7 @@ module.exports = function(grunt) {
 					mangle: false
 				},
 				files: {
-					'public/dist/js/application.min.js': 'public/dist/application.js'
+					'public/dist/js/application.min.js': 'public/dist/js/application.js'
 				}
 			}
 		},

@@ -34009,7 +34009,7 @@ angular.module('core').controller('FooterController', ['$scope', 'Authentication
 		$http.get('/version')
 			.success(function(data) {
 				$scope.appVersion = JSON.parse(data);
-			})
+			});
 	}
 ]);
 
