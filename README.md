@@ -94,4 +94,7 @@ Create a new issue at [scheduleR's GitHub site](https://github.com/Bart6114/sche
 
 ## Changes
 
-- 2014-12-02: Added a "run once" button to test scheduled tasks
+### v0.0.6
+
+- Added a "run once" button to test scheduled tasks
+- Added status (success / error) to notification mails
