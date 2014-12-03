@@ -41,6 +41,17 @@ exports.read = function(req, res) {
 };
 
 /**
+* Run a Task once
+*/
+exports.runOnce = function(req, res){
+	var task = req.task;
+	taskList.runTaskOnce(task);
+	res.jsonp({});
+
+};
+
+
+/**
  * Update a Task
  */
 exports.update = function(req, res) {

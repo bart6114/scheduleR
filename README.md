@@ -90,3 +90,8 @@ Up to now only tested on a recent Chrome browser.
 ## Issues, questions, feedback
 
 Create a new issue at [scheduleR's GitHub site](https://github.com/Bart6114/scheduleR/issues) or leave me a message at bartsmeets86 | at | gmail.com.
+
+
+## Changes
+
+- 2014-12-02: Added a "run once" button to test scheduled tasks

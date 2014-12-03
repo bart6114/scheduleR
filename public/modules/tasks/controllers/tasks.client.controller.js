@@ -2,8 +2,8 @@
 
 
 // Tasks controller
-angular.module('tasks').controller('TasksController', ['$scope', '$stateParams', '$upload', '$location', 'Authentication', 'Tasks', 'LogsArray',
-	function($scope, $stateParams, $upload, $location, Authentication, Tasks, LogsArray ) {
+angular.module('tasks').controller('TasksController', ['$scope', '$stateParams', '$upload', '$http', '$location', 'Authentication', 'Tasks', 'LogsArray',
+	function($scope, $stateParams, $upload, $http, $location, Authentication, Tasks, LogsArray ) {
 		$scope.authentication = Authentication;
 
 		$scope.mailAddresses = {
@@ -29,16 +29,26 @@ angular.module('tasks').controller('TasksController', ['$scope', '$stateParams',
 		};
 
 		$scope.fillCron = function(){
-			var cronString = 
-			$scope.schedule.minutes + ' ' + 
-			$scope.schedule.hours + ' ' + 
-			$scope.schedule.days + ' ' + 
-			$scope.schedule.months + ' ' + 
-			$scope.schedule.weekdays;
+			var cronString =
+				$scope.schedule.minutes + ' ' +
+				$scope.schedule.hours + ' ' +
+				$scope.schedule.days + ' ' +
+				$scope.schedule.months + ' ' +
+				$scope.schedule.weekdays;
 
 			$scope.task.cron = cronString;
 		};
 
+
+		$scope.runOnce = function() {
+			$http.post('/tasks/' + $scope.task._id + '/run', {msg:'hello word!'})
+				.success(function(data, status, headers, config) {
+					console.log("Running once");
+				})
+				.error(function(err) {
+					console.log(err);
+				});
+		};
 
 		$scope.onFileSelect = function($files) {
 			//$files: an array of files selected, each file has name, size, and type.

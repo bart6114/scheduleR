@@ -88,11 +88,11 @@ function sendNotificationMail(from, mailAdresses, JSONvalues, errCallback){
                     errCallback(err);
                 }
 
-
+                var status = JSONvalues.status ? 'SUCCESS' : 'ERROR';
                 var mailOptions = {
                     to: mailAdresses,
                     from: from,
-                    subject: 'Rschedule notification: ' + JSONvalues.name,
+                    subject: 'Rschedule ' +  status + ' notification: ' + JSONvalues.name,
                     html: HTMLstring
                 };
 
@@ -110,6 +110,3 @@ function sendNotificationMail(from, mailAdresses, JSONvalues, errCallback){
 }
 
 module.exports.sendNotificationMail = sendNotificationMail;
-
-
-

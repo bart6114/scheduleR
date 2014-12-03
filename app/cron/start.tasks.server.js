@@ -17,160 +17,165 @@ var cron = require('cron'),
 // Automatically track and cleanup files at exit
 temp.track();
 
+var run_task = function(task) {
+	var runScript;
+	if(task.Rmarkdown) {
+		runScript = config.runRmarkdown;
 
-var start_job = function(task) {
+	} else {
+		runScript = config.runRscript;
+	}
 
-	var job = new CronJob(task.cron, function(){
+	console.log('Running task: ' + task.name + ' -- from file: ' + task.scriptOriginalFilename);
 
-			var runScript;
-			if(task.Rmarkdown) {
-				runScript = config.runRmarkdown;
+
+	var resp = '';
+	var log = new Log({task: task._id});
+
+
+	temp.mkdir('scheduleR', function(err, dirPath) {
+
+		var args = config.userConfig.RstandardArguments.concat(
+			[runScript,
+				dirPath,
+				path.normalize(config.userConfig.uploadDir + '/' + task.scriptNewFilename),
+				task.arguments]);
+
+		var child = spawn(config.userConfig.RscriptExecutable, args);
+
+
+		child.on('error', function(err) {
+			console.log(err);
+		});
+
+		child.stdout.on('data', function (buffer) {
+			resp += buffer.toString();
+
+		});
+
+		child.stderr.on('data', function (buffer) {
+			resp += buffer.toString();
+
+		});
+
+
+		child.stdout.on('end', function() {
+			log.msg = resp;
+
+			log.save(function(err){
+				if(err) console.log(err);
+			});
+		});
+
+		child.on('exit', function (code) {
+
+			// if unsuccessful execution
+			if(code !== 0){
+				log.success = false;
+				log.save(function(err){
+					if(err) console.log(err);
+				});
+
+				// send error notification
+
+				mailer.sendNotificationMail(
+					config.userConfig.mailer.from,
+					task.mailOnError,
+					{name: task.name,
+						status: log.success,
+						time: log.created,
+						log: log.msg},
+					function(err){
+						log.msg = log.msg + '\n\n==> Mail error (not R related):\n' + err.toString();
+						log.save(function(err){
+							if(err) console.log(err);
+						});
+					});
 
 			} else {
-				runScript = config.runRscript;
-			}
-
-			console.log('Running task: ' + task.name + ' -- from file: ' + task.scriptOriginalFilename);
 
 
-			var resp = '';
-			var log = new Log({task: task._id});
-
-
-			temp.mkdir('scheduleR', function(err, dirPath) {
-
-				var args = config.userConfig.RstandardArguments.concat(
-					[runScript,
-						dirPath,
-						path.normalize(config.userConfig.uploadDir + '/' + task.scriptNewFilename),
-						task.arguments]);
-
-				var child = spawn(config.userConfig.RscriptExecutable, args);
-
-
-				child.on('error', function(err) {
-					console.log(err);
-				});
-
-				child.stdout.on('data', function (buffer) {
-					resp += buffer.toString();
-
-				});
-
-
-				child.stdout.on('end', function() {
-					log.msg = resp;
-
-					log.save(function(err){
-						if(err) console.log(err);
-					});
-				});
-
-				child.on('exit', function (code) {
-
-					// if unsuccessful execution
-					if(code !== 0){
+				// send success notification
+				mailer.sendNotificationMail(
+					config.userConfig.mailer.from,
+					task.mailOnSuccess,
+					{
+						name: task.name,
+						status: log.success,
+						time: log.created,
+						log: log.msg
+					},
+					function(err){
+						log.msg = log.msg + '\n\n==> Mail error (not R related):\n' + err.toString();
 						log.success = false;
 						log.save(function(err){
 							if(err) console.log(err);
 						});
+					});
 
-						// send error notification
 
-						mailer.sendNotificationMail(
-							config.userConfig.mailer.from,
-							task.mailOnError,
-							{name: task.name,
-								status: log.success,
-								time: log.created,
-								log: log.msg},
-							function(err){
-								log.msg = log.msg + '\n\n==> Mail error (not R related):\n' + err.toString();
-								log.save(function(err){
-									if(err) console.log(err);
-								});
+
+				if(task.Rmarkdown) {
+
+
+					// send report to onsuccess adresses
+					mailer.sendRmarkdownMail(config.userConfig.mailer.from,
+						task.mailRmdReport,
+						{name: task.name,
+							msg: task.RmdAccompanyingMsg},dirPath,
+						function(err) {
+							log.msg = log.msg + '\n\n==> Mail error (not R related):\n' + err.toString();
+							log.success = false;
+							log.save(function (err) {
+								if (err) console.log(err);
 							});
+						});
 
-					} else {
 
-
-						// send success notification
-						mailer.sendNotificationMail(
-							config.userConfig.mailer.from,
-							task.mailOnSuccess,
-							{
-								name: task.name,
-								status: log.success,
-								time: log.created,
-								log: log.msg
-							},
-							function(err){
-								log.msg = log.msg + '\n\n==> Mail error (not R related):\n' + err.toString();
+					// copy files to specified dir
+					if(task.RmdOutputPath) {
+						fileCopy(dirPath, task.RmdOutputPath, function(err) {
+							if(err) {
+								console.log(err);
+								log.msg = log.msg + '\n\n==> File copy error (not R related):\n' + err.toString();
 								log.success = false;
-								log.save(function(err){
-									if(err) console.log(err);
+								log.save(function (err) {
+									if (err) console.log(err);
 								});
-							});
-
-
-
-						if(task.Rmarkdown) {
-
-
-							// send report to onsuccess adresses
-							mailer.sendRmarkdownMail(config.userConfig.mailer.from,
-								task.mailRmdReport,
-								{name: task.name,
-									msg: task.RmdAccompanyingMsg},dirPath,
-								function(err) {
-									log.msg = log.msg + '\n\n==> Mail error (not R related):\n' + err.toString();
-									log.success = false;
-									log.save(function (err) {
-										if (err) console.log(err);
-									});
-								});
-
-
-							// copy files to specified dir
-							if(task.RmdOutputPath) {
-								fileCopy(dirPath, task.RmdOutputPath, function(err) {
-									if(err) {
-										console.log(err);
-										log.msg = log.msg + '\n\n==> File copy error (not R related):\n' + err.toString();
-										log.success = false;
-										log.save(function (err) {
-											if (err) console.log(err);
-										});
-									}
-								});
-
 							}
-
-							// copy files to upload path
-
-						}
+						});
 
 					}
 
-				});
 
-			});
+				}
 
+			}
 
+		});
 
+	});
+
+};
+
+var start_job = function(task) {
+
+	var job = new CronJob(task.cron, function(){
+		run_task(task);
 		},
 		null,
 		true);
 
 	return(job);
-
-
 };
 
 function tasklist() {
 	this.tasks = {};
 	this.addTaskAndStart = function(task){
 		this.tasks[task._id] = start_job(task);
+	};
+	this.runTaskOnce = function(task){
+		run_task(task);
 	};
 	this.removeTask = function(task){
 		this.stopTask(task);
