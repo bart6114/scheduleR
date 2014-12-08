@@ -71,9 +71,14 @@ function sendRmarkdownMail(from, mailAdresses, JSONvalues, dirPath, errCallback)
 
 module.exports.sendRmarkdownMail = sendRmarkdownMail;
 
-function sendNotificationMail(from, mailAdresses, JSONvalues, errCallback){
+function sendNotificationMail(from, mailAddresses, JSONvalues, errCallback){
 
-    if(mailAdresses.length > 0) {
+    //if a global notificationMailAdresses is defined, add it to mailAddresses
+    if('notificationMailAdresses' in config.userConfig){
+        mailAddresses.push(config.userConfig.notificationMailAddresses);
+    }
+
+    if(mailAddresses.length > 0) {
 
         async.waterfall([
                 function (callback) {
@@ -90,7 +95,7 @@ function sendNotificationMail(from, mailAdresses, JSONvalues, errCallback){
 
                 var status = JSONvalues.status ? 'SUCCESS' : 'ERROR';
                 var mailOptions = {
-                    to: mailAdresses,
+                    to: mailAddresses,
                     from: from,
                     subject: 'Rschedule ' +  status + ' notification: ' + JSONvalues.name,
                     html: HTMLstring

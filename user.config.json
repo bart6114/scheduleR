@@ -5,6 +5,9 @@
     "--verbose",
     "--no-restore"
   ],
+  "notificationMailAddresses": [
+    "...@gmail.com"
+  ],
   "mailer":
   {
     "from": "scheduleR <foo@blurdybloop.com>",
