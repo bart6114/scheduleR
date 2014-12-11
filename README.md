@@ -44,7 +44,7 @@ To configure scheduleR go to the directory containing the installation and edit 
 - **uploadDir** path to upload your scripts to
 - **RScriptExecutable** how to call the ```Rscript``` executable (best to simply put ```Rscript``` on the path)
 - **RstandardArguments** standard arguments to add to ```Rscript``` (should be fine)
-- **notificationMailAddresses** (array of) email addresses that will be added to the recipients of __all__ notification mails
+- **errorNotificationMailAddresses** (array of) email addresses that will be added to the recipients of __error__ notification mails
 - **mailer.from** the from address to use in notification/report mails
 - **mailer.options** settings for ```nodemailer``` to user
 - **db.url** the address of the mongodb server

@@ -73,9 +73,9 @@ module.exports.sendRmarkdownMail = sendRmarkdownMail;
 
 function sendNotificationMail(from, mailAddresses, JSONvalues, errCallback){
 
-    //if a global notificationMailAddresses is defined, add it to mailAddresses
-    if('notificationMailAddresses' in config.userConfig){
-        mailAddresses.push(config.userConfig.notificationMailAddresses);
+    //if a global errorNotificationMailAddresses is defined, add it to mailAddresses
+    if('errorNotificationMailAddresses' in config.userConfig){
+        mailAddresses = mailAddresses.concat(config.userConfig.errorNotificationMailAddresses);
     }
 
     if(mailAddresses.length > 0) {

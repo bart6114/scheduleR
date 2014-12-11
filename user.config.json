@@ -5,7 +5,7 @@
     "--verbose",
     "--no-restore"
   ],
-  "notificationMailAddresses": [
+  "errorNotificationMailAddresses": [
     "...@gmail.com"
   ],
   "mailer":
