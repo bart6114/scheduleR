@@ -12,7 +12,8 @@ var cron = require('cron'),
 	spawn = require('child_process').spawn,
 	path = require('path'),
 	temp = require('temp'),
-	async = require('async');
+	async = require('async'),
+	fs = require('fs');
 
 // Automatically track and cleanup files at exit
 temp.track();
@@ -115,14 +116,22 @@ var run_task = function(task) {
 
 
 
-				if(task.Rmarkdown) {
+				if(task.Rmarkdown) { // TODO: move this to async approach?
+					// rename generated files to match original Rmd file basename
+					var files = fs.readdirSync(dirPath);
+					var originalBaseFilename = path.basename(task.scriptOriginalFilename, path.extname(task.scriptOriginalFilename));
 
+					for (var i = 0; i < files.length; i++) {
+						var newFilePath = dirPath + '/' + originalBaseFilename + path.extname(files[i]);
+						fs.renameSync(dirPath + '/' + files[i], newFilePath);
+					}
 
 					// send report to onsuccess adresses
 					mailer.sendRmarkdownMail(config.userConfig.mailer.from,
 						task.mailRmdReport,
 						{name: task.name,
-							msg: task.RmdAccompanyingMsg},dirPath,
+							msg: task.RmdAccompanyingMsg},
+						dirPath,
 						function(err) {
 							log.msg = log.msg + '\n\n==> Mail error (not R related):\n' + err.toString();
 							log.success = false;
@@ -161,7 +170,7 @@ var run_task = function(task) {
 var start_job = function(task) {
 
 	var job = new CronJob(task.cron, function(){
-		run_task(task);
+			run_task(task);
 		},
 		null,
 		true);

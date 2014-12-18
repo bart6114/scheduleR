@@ -74,15 +74,16 @@ var TaskSchema = new Schema({
 });
 
 TaskSchema.virtual('success').get(function() {
-  return this._success;
+	return this._success;
 });
 
 TaskSchema.virtual('success').set(function(success) {
-  return this._success = success;
+	this._success = success;
+	return this._success;
 });
 
 TaskSchema.set('toObject', {
-  getters: true
+	getters: true
 });
 
 

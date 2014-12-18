@@ -95,6 +95,10 @@ Create a new issue at [scheduleR's GitHub site](https://github.com/Bart6114/sche
 
 ## Changes
 
+### v0.0.8
+
+- The filenames of Rmarkdown reports are renamed back to the original filename (instead of the randomly generated upload filename)
+
 ### v0.0.7
 
 - Added a "notificationMailAddresses" variable to user.config.json, email addresses specified here will be added to the recipients of all notification mails

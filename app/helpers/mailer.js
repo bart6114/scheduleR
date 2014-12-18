@@ -13,6 +13,7 @@ var nodemailer = require('nodemailer'),
 var transporter = nodemailer.createTransport(config.userConfig.mailer.options);
 
 function sendRmarkdownMail(from, mailAdresses, JSONvalues, dirPath, errCallback){
+
     if(mailAdresses.length > 0) {
 
         async.waterfall([
@@ -74,7 +75,7 @@ module.exports.sendRmarkdownMail = sendRmarkdownMail;
 function sendNotificationMail(from, mailAddresses, JSONvalues, errCallback){
 
     //if a global errorNotificationMailAddresses is defined, add it to mailAddresses
-    if('errorNotificationMailAddresses' in config.userConfig && JSONvalues.status == false){
+    if('errorNotificationMailAddresses' in config.userConfig && JSONvalues.status === false){
         mailAddresses = mailAddresses.concat(config.userConfig.errorNotificationMailAddresses);
     }
 
@@ -83,7 +84,7 @@ function sendNotificationMail(from, mailAddresses, JSONvalues, errCallback){
 
         async.waterfall([
                 function (callback) {
-                     swig.renderFile('app/helpers/templates/mail.notification.html', JSONvalues, function (err, HTMLstring) {
+                    swig.renderFile('app/helpers/templates/mail.notification.html', JSONvalues, function (err, HTMLstring) {
                         callback(err, HTMLstring);
                     });
                 }
