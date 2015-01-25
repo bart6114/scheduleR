@@ -37,10 +37,10 @@ exports.invite = function(req, res) {
                 password: initialPassword,
                 url: 'http://' + req.headers.host
             }, function(err, emailHTML) {
-                callback(err, user, emailHTML);
+                callback(err, user, emailHTML, initialPassword);
             });
         },
-        function(user, emailHTML, callback){
+        function(user, emailHTML, initialPassword, callback){
             var smtpTransport = nodemailer.createTransport(config.userConfig.mailer.options);
             var mailOptions = {
                 to: user.email,
@@ -56,7 +56,7 @@ exports.invite = function(req, res) {
                   console.log('Error when sending email with user details to: ' + user.email);
                   console.log('--> showing details in server-side console: ');
                   console.log('-- username: ' + user.username);
-                  console.log('-- initial password: ' + user.initialPassword + '\n\n');
+                  console.log('-- initial password: ' + initialPassword + '\n\n');
                 }
 
                 callback(err);
