@@ -97,7 +97,7 @@ Create a new issue at [scheduleR's GitHub site](https://github.com/Bart6114/sche
 
 ### v0.0.9
 
-- Inviting users depended on the ability to send emails (hence have access to a mail server). Quick fix: if there is an error in sending the account details to the users the username and __initial__ password will be shown on the server-side console.
+- Inviting users depended on the ability to send emails (hence have access to a mail server). Quick fix: if there is an error in sending the account details to the user the username and __initial__ password will be printed on the server-side console.
 
 ### v0.0.8
 
