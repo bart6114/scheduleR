@@ -22,7 +22,7 @@
     }
   },
   "db": {
-    "url": "mongodb://Bart6114:Skyhigh-12@ds031581.mongolab.com:31581/schedule-r",
+    "url": "mongodb://localhost",
     "suffix": "scheduleR"
   },
   "port": 3000
