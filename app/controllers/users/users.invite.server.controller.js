@@ -52,6 +52,11 @@ exports.invite = function(req, res) {
             smtpTransport.sendMail(mailOptions, function(err) {
                 if (!err) {
                     console.log('An email has been sent to ' + user.email + ' with further instructions.');
+                } else {
+                  console.log('Error when sending email with user details to: ' + user.email);
+                  console.log('--> showing details in server-side console: ');
+                  console.log('-- username: ' + user.username);
+                  console.log('-- initial password: ' + user.initialPassword + '\n\n');
                 }
 
                 callback(err);
