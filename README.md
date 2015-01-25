@@ -61,7 +61,7 @@ You can then point your browser at the configured port & server address (default
 
 ## User management
 
-At the first start of scheduleR an initial signup option is available. After the initial signup new users can be invited (an account will be created for them).
+At the first start of scheduleR an initial signup option is available. After the initial signup new users can be invited (an account will be created for them). An invite email will be send to them with their username and initial password. If something goes wrong in sending this email (e.g. when you don't have access to a mail server) the new user's username and initial password are shown in the server-side console.
 
 ## Scheduling tasks
 
@@ -94,6 +94,10 @@ Create a new issue at [scheduleR's GitHub site](https://github.com/Bart6114/sche
 
 
 ## Changes
+
+### v0.0.9
+
+- Inviting users depended on the ability to send emails (hence have access to a mail server). Quick fix: if there is an error in sending the account details to the users the username and __initial__ password will be shown on the server-side console.
 
 ### v0.0.8
 
