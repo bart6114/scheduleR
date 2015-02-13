@@ -3,3 +3,5 @@
 - look at day/month full name vs numeric ?
 - look at name of included file in email attachments
 - show last edit timestamp + by whom
+- name of outputfiles: time based tags? e.g. %y-%m-%d
+- optimise query of logs (getting overview is slow - mostly due to getting statuses) 
