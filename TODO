@@ -5,3 +5,4 @@
 - show last edit timestamp + by whom
 - name of outputfiles: time based tags? e.g. %y-%m-%d
 - optimise query of logs (getting overview is slow - mostly due to getting statuses) 
+- create DEB package + windows install?
