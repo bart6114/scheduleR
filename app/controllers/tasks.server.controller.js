@@ -112,7 +112,8 @@ exports.list = function(req, res) {
 				async.map(tasks, function(task, callback) {
 					Log.findOne()
 						.where({'task': task._id})
-						.sort({'created': -1})
+						.sort({ $natural: -1 })
+						.limit(1)
 						.exec(function(err, log) {
 
 							if(log) task.success = log.success;
