@@ -95,6 +95,10 @@ Create a new issue at [scheduleR's GitHub site](https://github.com/Bart6114/sche
 
 ## Changes
 
+### v0.0.10
+
+- Small optimizations to retrieving big log lists
+
 ### v0.0.9
 
 - Inviting users depended on the ability to send emails (hence have access to a mail server). Quick fix: if there is an error in sending the account details to the user the username and __initial__ password will be printed on the server-side console.
