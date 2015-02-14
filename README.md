@@ -95,6 +95,12 @@ Create a new issue at [scheduleR's GitHub site](https://github.com/Bart6114/sche
 
 ## Changes
 
+### v.0.0.11
+
+- Added (limited) pagination to logs in detailed task view in order to improve performance
+- Improved file renaming method
+- Functionality to add timestamps to the filename of generated Rmd reports
+
 ### v0.0.10
 
 - Small optimizations to retrieving big log lists

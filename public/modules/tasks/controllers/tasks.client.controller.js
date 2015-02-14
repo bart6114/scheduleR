@@ -140,6 +140,7 @@ angular.module('tasks').controller('TasksController', ['$scope', '$stateParams',
 				mailOnSuccess: $scope.mailAddresses.onSuccess,
 				mailRmdReport: $scope.mailAddresses.rmdReport,
 				Rmarkdown: this.task.Rmarkdown,
+				RmdFilenameTimestamp: this.task.RmdFilenameTimestamp,
 				RmdAccompanyingMsg: this.task.RmdAccompanyingMsg,
 				RmdOutputPath: this.task.RmdOutputPath
 			});
@@ -231,7 +232,16 @@ angular.module('tasks').controller('TasksController', ['$scope', '$stateParams',
 			});
 
 
-
 		};
+
+		$scope.getOlderLogs = function() {
+
+			$scope.logs = LogsArray.get({
+				taskId: $stateParams.taskId,
+				lastLogId: $scope.logs[$scope.logs.length-1]._id
+			});
+		};
+
+
 	}
 ]);

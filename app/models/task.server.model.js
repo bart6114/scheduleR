@@ -29,6 +29,10 @@ var TaskSchema = new Schema({
 		type: Boolean,
 		default: false
 	},
+	RmdFilenameTimestamp: {
+		type: Boolean,
+		default: false
+	},
 	RmdOutputPath: {
 		type: String,
 		default: '',

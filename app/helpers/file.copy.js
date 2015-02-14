@@ -21,7 +21,7 @@ function copyFiles(sourceDir, targetDir, callback) {
         function(err, files){
             async.forEach(files, function(sourceFile) {
 
-                console.log('copying ' + sourceFile + ' to ' + sourceDir);
+                console.log('copying ' + sourceFile + ' to ' + targetDir);
 
                 var rd = fs.createReadStream(path.normalize(sourceDir + '/' + sourceFile));
                 rd.on('error', function (err) {

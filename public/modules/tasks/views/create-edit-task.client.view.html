@@ -64,10 +64,17 @@
                 <hr>
 
                 <div class="form-group">
-                    <label class="col-md-2 control-label" for="Rmarkdown">Render with Rmarkdown</label>
+                    <label class="col-md-2 control-label" for="Rmarkdown">Render with rmarkdown</label>
                     <div class="col-md-6">
                         <input type="checkbox" name="Rmarkdown" id="Rmarkdown" data-ng-model="task.Rmarkdown" value=1 checked>
                     </div>
+                </div>
+
+                <div class="form-group" ng-show="task.Rmarkdown">
+                  <label class="col-md-2 control-label" for="RmdFilenameTimestamp">Add timestamp to filename</label>
+                  <div class="col-md-6">
+                    <input type="checkbox" name="RmdFilenameTimestamp" id="RmdFilenameTimestamp" data-ng-model="task.RmdFilenameTimestamp">
+                  </div>
                 </div>
 
 
@@ -190,7 +197,7 @@
                 <h4>Notifications</h4>
                 <hr>
 
-                
+
                 <div class="row mail-addresses">
                     <div class = "col-md-offset-2 col-md-6">
                         <ul class="list-unstyled">
@@ -218,7 +225,7 @@
                                 Not valid a valid email address
                             </span>
                         </div>
-                        
+
                     </div>
                 </div>
 

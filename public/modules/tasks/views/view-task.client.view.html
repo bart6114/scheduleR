@@ -1,4 +1,4 @@
-<section data-ng-controller="TasksController" data-ng-init="findOneWithLogs()">
+<section data-ng-controller="TasksController" data-ng-init="findOneWithLogs()" style="margin-bottom:5px;">
 	<div class="page-header">
 		<h1 data-ng-bind="task.name"></h1>
 
@@ -78,4 +78,8 @@
 		</tr>
 		</tbody>
 	</table>
+	<a class="btn btn-xs btn-default pull-right" data-ng-show="logs.length>=10"data-ng-click="getOlderLogs();">
+		<i class="glyphicon glyphicon-chevron-right"></i> Retrieve older logs
+	</a>
+	<br>
 </section>

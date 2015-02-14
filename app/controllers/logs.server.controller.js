@@ -15,10 +15,14 @@ var mongoose = require('mongoose'),
  * List of Logs
  */
 exports.list = function(req, res) {
+
+  if(req.query.lastLogId === undefined ){
+
   Log.find({
       'task': req.task._id
     })
-    .sort({$natural: -1})
+    .limit(10)
+    .sort({'_id': -1})
     .exec(function(err, logs) {
       if (err) {
         return res.status(400).send({
@@ -28,6 +32,25 @@ exports.list = function(req, res) {
         res.jsonp(logs);
       }
     });
+  } else {
+    Log.find({
+      'task': req.task._id,
+      '_id': {'$lt': req.query.lastLogId}
+    })
+    .limit(10)
+    .sort({'_id': -1})
+    .exec(function(err, logs) {
+      if (err) {
+        return res.status(400).send({
+          message: errorHandler.getErrorMessage(err)
+        });
+      } else {
+        res.jsonp(logs);
+      }
+    });
+
+
+  }
 };
 
 /**
