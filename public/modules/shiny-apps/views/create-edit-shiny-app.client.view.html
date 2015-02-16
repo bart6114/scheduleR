@@ -1,0 +1,53 @@
+<section data-ng-controller="ShinyAppsController" data-ng-init="create_or_edit()">
+    <div class="page-header">
+        <h1>New Shiny app</h1>
+    </div>
+    <div class="col-md-12">
+        <form name = "newAppForm" class="form-horizontal" data-ng-submit="create()" novalidate>
+            <fieldset>
+
+                <div class="form-group">
+                    <label class="col-md-2 control-label" for="name">Name</label>
+                    <div class="col-md-6">
+                        <input id="name" name="name" type="text" placeholder="Name" class="form-control input-md" required="" data-ng-model="shinyApp.name">
+
+                    </div>
+                </div>
+
+
+                <div class="form-group">
+                    <label class="col-md-2 control-label" for="description">Description</label>
+                    <div class="col-md-6">
+                        <textarea class="form-control" id="description" name="description" placeholder="Enter optional description" data-ng-model="shinyApp.description"></textarea>
+                    </div>
+                </div>
+
+
+                <div class="form-group">
+                    <label class="col-md-2 control-label" for="appfile">Script file</label>
+                    <div class="col-md-6">
+                        <span class="error text-info" ng-show="shinyApp.packageOriginalFilename">
+                            Current file: {{shinyApp.packageOriginalFilename}}
+                        </span>
+                        <input id="appfile" name="appfile" class="input-file" type="file" ng-file-select="onFileSelect($files)" data-ng-model="appfile">
+                        <span class="error" ng-show="newAppForm['appfile'].$error.size">
+                            File is too large (max. 500kb)
+                        </span>
+                        <span class="error" ng-show="newAppForm['appfile'].$error.filetype">
+                          Filetype should be .zip!
+                        </span>
+                    </div>
+
+                </div>
+
+
+                <div class="form-group">
+                    <input type="submit" class="btn btn-default pull-right">
+                </div>
+                <div data-ng-show="error" class="text-danger">
+                    <strong data-ng-bind="error"></strong>
+                </div>
+            </fieldset>
+        </form>
+    </div>
+</section>

@@ -1,6 +1,6 @@
 'use strict';
 
-var taskList = require('../cron/start.tasks.server');
+var taskList = require('../helpers/start.tasks.server');
 
 /**
  * Module dependencies.
