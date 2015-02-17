@@ -16,6 +16,7 @@ module.exports = {
 	appVersion: packageInfo.version,
 	runRscript: 'R/run_rscript.R',
 	runRmarkdown: 'R/run_rmarkdown.R',
+	runShiny: 'R/run_shiny_app.R',
 	userConfig: userConfig,
 	port: process.env.PORT || 3000,
 	templateEngine: 'swig',
@@ -53,6 +54,3 @@ module.exports = {
 		]
 	}
 };
-
-
-

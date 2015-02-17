@@ -6,7 +6,19 @@
 var mongoose = require('mongoose'),
 	errorHandler = require('./errors.server.controller'),
 	ShinyApp = mongoose.model('ShinyApp'),
+	shinyAppList = require('../helpers/start.shinyapp.server'),
 	_ = require('lodash');
+
+	/**
+	* Start a Shiny app
+	*/
+
+exports.startApp = function(req, res){
+	shinyAppList.addApp(req.shinyApp);
+	console.log(req.shinyApp);
+
+};
+
 
 /**
  * Create a Shiny app
@@ -72,7 +84,7 @@ exports.delete = function(req, res) {
 /**
  * List of Shiny apps
  */
-exports.list = function(req, res) { 
+exports.list = function(req, res) {
 	ShinyApp.find().sort('-created').populate('user', 'displayName').exec(function(err, shinyApps) {
 		if (err) {
 			return res.status(400).send({
@@ -87,7 +99,7 @@ exports.list = function(req, res) {
 /**
  * Shiny app middleware
  */
-exports.shinyAppByID = function(req, res, next, id) { 
+exports.shinyAppByID = function(req, res, next, id) {
 	ShinyApp.findById(id).populate('user', 'displayName').exec(function(err, shinyApp) {
 		if (err) return next(err);
 		if (! shinyApp) return next(new Error('Failed to load Shiny app ' + id));

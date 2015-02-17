@@ -41,7 +41,7 @@ angular.module('tasks').controller('TasksController', ['$scope', '$stateParams',
 
 
 		$scope.runOnce = function() {
-			$http.post('/tasks/' + $scope.task._id + '/run', {msg:'hello word!'})
+			$http.post('/tasks/' + $scope.task._id + '/run')
 				.success(function(data, status, headers, config) {
 					console.log('Running once');
 				})

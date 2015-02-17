@@ -14,6 +14,9 @@ module.exports = function(app) {
 		.put(users.requiresLogin, shinyApps.hasAuthorization, shinyApps.update)
 		.delete(users.requiresLogin, shinyApps.hasAuthorization, shinyApps.delete);
 
+		app.route('/shiny-apps/:shinyAppId/run')
+		.post(users.requiresLogin, shinyApps.startApp);
+
 	// Finish by binding the Shiny app middleware
 	app.param('shinyAppId', shinyApps.shinyAppByID);
 };
