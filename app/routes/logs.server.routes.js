@@ -5,10 +5,10 @@ module.exports = function(app) {
 	var logs = require('../../app/controllers/logs');
 
 	app.route('/tasks/:taskId/logs')
-		.get(logs.list);
+		.get(users.requiresLogin, logs.list);
 
 	app.route('/tasks/:taskId/logs/:logId')
-		.get(logs.read);
+		.get(users.requiresLogin, logs.read);
 
 	// Finish by binding the Task middleware
 	app.param('logId', logs.logByID);

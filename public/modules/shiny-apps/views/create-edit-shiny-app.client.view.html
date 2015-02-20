@@ -3,7 +3,7 @@
         <h1>New Shiny app</h1>
     </div>
     <div class="col-md-12">
-        <form name = "newAppForm" class="form-horizontal" data-ng-submit="create()" novalidate>
+        <form name = "newAppForm" class="form-horizontal" data-ng-submit="editing ? update() : create()" novalidate>
             <fieldset>
 
                 <div class="form-group">
@@ -39,6 +39,17 @@
                     </div>
 
                 </div>
+
+                <div class="form-group">
+                  <label class="col-md-2 control-label" for="name">URL suffix</label>
+                  <div class="col-md-6">
+                    <input id="urlSuffix" name="urlSuffix" type="text" placeholder="URL suffix" class="form-control input-md" required="" data-ng-model="shinyApp.urlSuffix">
+
+                  </div>
+                </div>
+
+
+
 
 
                 <div class="form-group">

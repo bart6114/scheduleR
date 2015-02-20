@@ -20,75 +20,125 @@ function randomIntInc(low, high) {
 }
 
 
-var startApp = function(shinyApp, port) {
+var startApp = function(shinyApp, port, callback) {
 
-    async.waterfall([
-            function(callback) {
-
-                var args = config.userConfig.RstandardArguments.concat(
-                    [config.runShiny,
-                        path.normalize(config.userConfig.uploadDir + '/' + shinyApp.packageNewFilename),
-                        port
-                    ]);
-                console.log('args', args);
-                var child = spawn(config.userConfig.RscriptExecutable, args, {maxBuffer: 200*10000});
-
-                // var resp = '';
-                //
-                // child.on('error', function(err) {
-                //     console.log(err);
-                // });
-                //
-                // child.stdout.on('data', function(buffer) {
-                //     console.log(buffer.toString());
-                //     resp += buffer.toString();
-                //
-                // });
-                //
-                // child.stderr.on('data', function(buffer) {
-                //     console.log(buffer.toString());
-                //     resp += buffer.toString();
-                //
-                // });
-                //
-                //
-                // child.stdout.on('end', function() {
-                //     // log.msg = resp;
-                //     //
-                //     // log.save(function(err) {
-                //     //     if (err) console.log(err);
-                //     // });
-                //     console.log(resp);
-                // });
-
-                callback(child);
+    var log = new Log({
+        task: shinyApp._id
+    });
 
 
+    var args = config.userConfig.RstandardArguments.concat(
+        [config.runShiny,
+            path.normalize(config.userConfig.uploadDir + '/' + shinyApp.packageNewFilename),
+            port
+        ]);
+
+
+    var child = spawn(config.userConfig.RscriptExecutable, args);
+
+    var resp = '';
+
+    child.on('error', function(err) {
+        // console.log(err);
+        callback(undefined, err);
+    });
+
+    child.stdout.on('data', function(buffer) {
+        // console.log(buffer.toString());
+        resp += buffer.toString();
+
+    });
+
+    child.stderr.on('data', function(buffer) {
+        // console.log(buffer.toString());
+        resp += buffer.toString();
+
+    });
+
+
+    child.stdout.on('end', function() {
+        log.msg = resp;
+
+        log.save(function(err) {
+            if (err) {
+                console.log(err);
+                callback(undefined, err);
             }
-        ],
-        function(err, result) {
-            //console.log(err, result);
         });
+
+    });
+
+    callback(child);
+
+
+
 
 };
 
 var ShinyAppList = function() {
     this.apps = {};
 
-    this.addApp = function(shinyApp) {
+    this.startApp = function(shinyApp, callback) {
+        console.log('Starting app: ' + shinyApp.name);
+        // check if app already running
+        // if so stop and delete from list
+
+        if (shinyApp._id in this.apps) {
+            this.stopApp(shinyApp._id);
+
+        }
+
+        // start (new instance)
+
+        var port = randomIntInc(4000, 8000);
+
         this.apps[shinyApp._id] = {
             shinyApp: shinyApp,
-            running: true
+            port: port
         };
-        var port = randomIntInc(4000, 8000);
-        startApp(shinyApp, port);
+
+        var parent = this;
+
+        startApp(shinyApp, port, function(child, err) {
+
+            if (err) parent.apps[shinyApp._id].running = false;
+
+            else {
+                parent.apps[shinyApp._id].running = true;
+                parent.apps[shinyApp._id].child = child;
+            }
+
+            callback(port, err);
+        });
     };
 
-    this.startApp = function(shinyApp) {
-
-        startApp(this.apps[shinyApp._id].shinyApp);
-        this.apps[shinyApp._id].running = true;
+    this.stopApp = function(shinyApp) {
+        console.log('Stopping app: ' + shinyApp.name);
+        if (shinyApp._id in this.apps) {
+            this.apps[shinyApp._id].child.kill();
+            delete this.apps[shinyApp._id];
+        }
     };
+
+    this.isRunning = function(shinyApp) {
+        if (shinyApp._id in this.apps) return (true);
+        else return (false);
+    };
+
+    this.getAppPort = function(urlSuffix, callback){
+      var key;
+
+      for (key in this.apps) {
+        if(this.apps[key].shinyApp.urlSuffix === urlSuffix){
+          callback(this.apps[key].port);
+          return;
+        }
+      }
+      callback();
+
+
+    };
+
 };
 
 var shinyAppList = new ShinyAppList();

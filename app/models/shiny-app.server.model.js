@@ -31,6 +31,12 @@ var ShinyAppSchema = new Schema({
 		default: '',
 		trim: true
 	},
+	urlSuffix: {
+		type: String,
+		default: '',
+		required: 'Please enter URL suffix',
+		trim: true
+	},
 	created: {
 		type: Date,
 		default: Date.now

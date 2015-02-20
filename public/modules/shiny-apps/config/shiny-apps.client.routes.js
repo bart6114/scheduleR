@@ -19,7 +19,7 @@ angular.module('shiny-apps').config(['$stateProvider',
 		}).
 		state('editShinyApp', {
 			url: '/shiny-apps/:shinyAppId/edit',
-			templateUrl: 'modules/shiny-apps/views/edit-shiny-app.client.view.html'
+			templateUrl: 'modules/shiny-apps/views/create-edit-shiny-app.client.view.html'
 		});
 	}
 ]);

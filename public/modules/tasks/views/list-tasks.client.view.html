@@ -18,14 +18,14 @@
             </span>
 
 
-			<small class="list-group-item-text text-muted">
+            <small class="list-group-item-text text-muted">
                 Created on
-				<span data-ng-bind="task.created | date:'medium'"></span>
-				by
-				<span data-ng-bind="task.user.displayName"></span>
-			</small>
+                <span data-ng-bind="task.created | date:'medium'"></span>
+                by
+                <span data-ng-bind="task.user.displayName"></span>
+            </small>
 
-			<h4 class="list-group-item-heading">
+            <h4 class="list-group-item-heading">
                 <span data-ng-class="task.enabled ? 'text-primary' : 'text-muted'" data-ng-bind="task.name"></span>
             </h4>
             <small data-ng-bind="task.scriptOriginalFilename"></small>:
@@ -33,6 +33,6 @@
         </a>
     </div>
     <div class="alert alert-warning text-center" data-ng-hide="!tasks.$resolved || tasks.length">
-    	No Tasks yet, why don't you <a href="/#!/tasks/create">create one</a>?
+        No Tasks yet, why don't you <a href="/#!/tasks/create">create one</a>?
     </div>
 </section>

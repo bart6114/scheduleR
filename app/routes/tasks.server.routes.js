@@ -6,14 +6,14 @@ module.exports = function(app) {
 
 	// Tasks Routes
 	app.route('/tasks')
-		.get(tasks.list)
+		.get(users.requiresLogin, tasks.list)
 		.post(users.requiresLogin, tasks.create);
 
 	app.route('/tasks/:taskId/run')
 		.post(users.requiresLogin, tasks.hasAuthorization, tasks.runOnce);
 
 	app.route('/tasks/:taskId')
-		.get(tasks.read)
+		.get(users.requiresLogin, tasks.read)
 		.put(users.requiresLogin, tasks.hasAuthorization, tasks.update)
 		.delete(users.requiresLogin, tasks.hasAuthorization, tasks.delete);
 

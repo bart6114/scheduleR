@@ -7,11 +7,27 @@ angular.module('shiny-apps').controller('ShinyAppsController', ['$scope', '$stat
 
         // Start app
         $scope.startApp = function() {
-            $http.post('/shiny-apps/' + $scope.shinyApp._id + '/run')
+            $http.post('/shiny-apps/' + $scope.shinyApp._id + '/start')
                 .success(function(data, status, headers, config) {
                     console.log('Shiny app launched!');
+                    $scope.shinyApp.running = true;
                 })
                 .error(function(err) {
+                    console.log('Error when starting app...');
+                    console.log(err);
+                });
+
+        };
+
+        // Start app
+        $scope.stopApp = function() {
+            $http.post('/shiny-apps/' + $scope.shinyApp._id + '/stop')
+                .success(function(data, status, headers, config) {
+                    console.log('Shiny app stopped... :(');
+                    $scope.shinyApp.running = false;
+                })
+                .error(function(err) {
+                    console.log('Error when stopping app...');
                     console.log(err);
                 });
 
@@ -21,8 +37,8 @@ angular.module('shiny-apps').controller('ShinyAppsController', ['$scope', '$stat
         // Init create/edit from
         $scope.create_or_edit = function() {
 
-            if ($stateParams.shinyappId) {
-                $scope.findOneWithLogs();
+            if ($stateParams.shinyAppId) {
+                $scope.findOne();
                 $scope.editing = true;
             } else {
                 $scope.shinyApp = new ShinyApps();
@@ -31,6 +47,9 @@ angular.module('shiny-apps').controller('ShinyAppsController', ['$scope', '$stat
 
         // Create new Shiny app
         $scope.create = function() {
+
+            // make suffix url friendly
+            $scope.shinyApp.urlSuffix = encodeURI($scope.shinyApp.urlSuffix);
 
             // Redirect after save
             $scope.shinyApp.$save(function(response) {
@@ -62,6 +81,11 @@ angular.module('shiny-apps').controller('ShinyAppsController', ['$scope', '$stat
 
         // Update existing Shiny app
         $scope.update = function() {
+            console.log(3432432);
+
+            // make suffix url friendly
+            $scope.shinyApp.urlSuffix = encodeURI($scope.shinyApp.urlSuffix);
+
             var shinyApp = $scope.shinyApp;
 
             shinyApp.$update(function() {

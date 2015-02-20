@@ -1,19 +1,31 @@
 <section data-ng-controller="ShinyAppsController" data-ng-init="find()">
     <div class="page-header">
         <h1>Shiny apps</h1>
+        <strong>experimental!</strong>
     </div>
     <div class="list-group">
         <a data-ng-repeat="shinyApp in shinyApps" data-ng-href="#!/shiny-apps/{{shinyApp._id}}" class="list-group-item">
-			<small class="list-group-item-text">
-				Posted on
-				<span data-ng-bind="shinyApp.created | date:'medium'"></span>
-				by
-				<span data-ng-bind="shinyApp.user.displayName"></span>
-			</small>
-			<h4 class="list-group-item-heading" data-ng-bind="shinyApp.name"></h4>
+            <span class="label pull-right task-info label-success" data-ng-show="shinyApp.running">
+                Running
+                <span class="glyphicon glyphicon-ok"></span>
+            </span>
+
+
+            <span class="label pull-right task-info label-default" data-ng-show="!shinyApp.running">
+              Stopped
+              <span class="glyphicon glyphicon-stop"></span>
+            </span>
+
+            <small class="list-group-item-text">
+                Posted on
+                <span data-ng-bind="shinyApp.created | date:'medium'"></span>
+                by
+                <span data-ng-bind="shinyApp.user.displayName"></span>
+            </small>
+            <h4 class="list-group-item-heading" data-ng-bind="shinyApp.name"></h4>
         </a>
     </div>
     <div class="alert alert-warning text-center" data-ng-hide="!shinyApps.$resolved || shinyApps.length">
-    	No Shiny apps yet, why don't you <a href="/#!/shiny-apps/create">add one</a>?
+        No Shiny apps yet, why don't you <a href="/#!/shiny-apps/create">add one</a>?
     </div>
 </section>

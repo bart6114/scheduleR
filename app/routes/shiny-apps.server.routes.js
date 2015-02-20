@@ -6,7 +6,7 @@ module.exports = function(app) {
 
 	// Shiny apps Routes
 	app.route('/shiny-apps')
-		.get(shinyApps.list)
+		.get(users.requiresLogin, shinyApps.list)
 		.post(users.requiresLogin, shinyApps.create);
 
 	app.route('/shiny-apps/:shinyAppId')
@@ -14,8 +14,17 @@ module.exports = function(app) {
 		.put(users.requiresLogin, shinyApps.hasAuthorization, shinyApps.update)
 		.delete(users.requiresLogin, shinyApps.hasAuthorization, shinyApps.delete);
 
-		app.route('/shiny-apps/:shinyAppId/run')
+		app.route('/shiny-apps/:shinyAppId/start')
 		.post(users.requiresLogin, shinyApps.startApp);
+
+		app.route('/shiny-apps/:shinyAppId/stop')
+		.post(users.requiresLogin, shinyApps.stopApp);
+
+
+		// Access running shiny apps
+		app.route('/app/:shinyAppUrlSuffix')
+		.get(shinyApps.gotoApp);
+
 
 	// Finish by binding the Shiny app middleware
 	app.param('shinyAppId', shinyApps.shinyAppByID);

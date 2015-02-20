@@ -18,20 +18,22 @@
         <a class="btn btn-success" data-ng-show="!shinyApp.running" data-ng-click="startApp();">
             <i class="glyphicon glyphicon-play"></i>
         </a>
+        <a data-ng-href="/app/{{shinyApp.urlSuffix}}" class="btn btn-default" data-ng-show="shinyApp.running">
+          <span class="glyphicon glyphicon-link"></span>
+        </a>
 
     </div>
 
-    <!-- <div class="pull-right" data-ng-show="((authentication.user) && (authentication.user._id == shinyApp.user._id))">
-        <a class="btn btn-primary" href="/#!/shiny-apps/{{shinyApp._id}}/edit">
-            <i class="glyphicon glyphicon-edit"></i>
-        </a>
-        <a class="btn btn-primary" data-ng-click="remove();">
-            <i class="glyphicon glyphicon-trash"></i>
-        </a>
-    </div> -->
+    <p><strong>Description:</strong> <span data-ng-bind="shinyApp.description"></span></p>
+    <p><strong>Filename:</strong> <span data-ng-bind="shinyApp.packageOriginalFilename"></span></p>
+    <p><strong>URL suffix:</strong> <span data-ng-bind="shinyApp.urlSuffix"></span></p>
+
+    <div  data-ng-show="shinyApp.running" class="alert alert-success" role="alert">App is up and running!</div>
+
+
     <small>
         <em class="text-muted">
-            Posted on
+            Created on
             <span data-ng-bind="shinyApp.created | date:'mediumDate'"></span>
             by
             <span data-ng-bind="shinyApp.user.displayName"></span>
