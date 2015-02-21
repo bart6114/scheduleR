@@ -38,7 +38,8 @@ describe('Shiny app CRUD tests', function() {
 		// Save a user to the test db and create new Shiny app
 		user.save(function() {
 			shinyApp = {
-				name: 'Shiny app Name'
+				name: 'Shiny app Name',
+				urlSuffix: 'testUrl'
 			};
 
 			done();
@@ -114,8 +115,8 @@ describe('Shiny app CRUD tests', function() {
 					.expect(400)
 					.end(function(shinyAppSaveErr, shinyAppSaveRes) {
 						// Set message assertion
-						(shinyAppSaveRes.body.message).should.match('Please fill Shiny app name');
-						
+						(shinyAppSaveRes.body.message).should.match('Please enter app name');
+
 						// Handle Shiny app save error
 						done(shinyAppSaveErr);
 					});
@@ -163,42 +164,42 @@ describe('Shiny app CRUD tests', function() {
 			});
 	});
 
-	it('should be able to get a list of Shiny apps if not signed in', function(done) {
-		// Create new Shiny app model instance
-		var shinyAppObj = new ShinyApp(shinyApp);
+	// it('should be able to get a list of Shiny apps if not signed in', function(done) {
+	// 	// Create new Shiny app model instance
+	// 	var shinyAppObj = new ShinyApp(shinyApp);
+	//
+	// 	// Save the Shiny app
+	// 	shinyAppObj.save(function() {
+	// 		// Request Shiny apps
+	// 		request(app).get('/shiny-apps')
+	// 			.end(function(req, res) {
+	// 				// Set assertion
+	// 				res.body.should.be.an.Array.with.lengthOf(1);
+	//
+	// 				// Call the assertion callback
+	// 				done();
+	// 			});
+	//
+	// 	});
+	// });
 
-		// Save the Shiny app
-		shinyAppObj.save(function() {
-			// Request Shiny apps
-			request(app).get('/shiny-apps')
-				.end(function(req, res) {
-					// Set assertion
-					res.body.should.be.an.Array.with.lengthOf(1);
 
-					// Call the assertion callback
-					done();
-				});
-
-		});
-	});
-
-
-	it('should be able to get a single Shiny app if not signed in', function(done) {
-		// Create new Shiny app model instance
-		var shinyAppObj = new ShinyApp(shinyApp);
-
-		// Save the Shiny app
-		shinyAppObj.save(function() {
-			request(app).get('/shiny-apps/' + shinyAppObj._id)
-				.end(function(req, res) {
-					// Set assertion
-					res.body.should.be.an.Object.with.property('name', shinyApp.name);
-
-					// Call the assertion callback
-					done();
-				});
-		});
-	});
+	// it('should be able to get a single Shiny app if not signed in', function(done) {
+	// 	// Create new Shiny app model instance
+	// 	var shinyAppObj = new ShinyApp(shinyApp);
+	//
+	// 	// Save the Shiny app
+	// 	shinyAppObj.save(function() {
+	// 		request(app).get('/shiny-apps/' + shinyAppObj._id)
+	// 			.end(function(req, res) {
+	// 				// Set assertion
+	// 				res.body.should.be.an.Object.with.property('name', shinyApp.name);
+	// 
+	// 				// Call the assertion callback
+	// 				done();
+	// 			});
+	// 	});
+	// });
 
 	it('should be able to delete Shiny app instance if signed in', function(done) {
 		agent.post('/auth/signin')
@@ -238,7 +239,7 @@ describe('Shiny app CRUD tests', function() {
 	});
 
 	it('should not be able to delete Shiny app instance if not signed in', function(done) {
-		// Set Shiny app user 
+		// Set Shiny app user
 		shinyApp.user = user;
 
 		// Create new Shiny app model instance

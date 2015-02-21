@@ -93,17 +93,20 @@
 		it('$scope.create() with valid form data should send a POST request with the form input values and then locate to new object URL', inject(function(ShinyApps) {
 			// Create a sample Shiny app object
 			var sampleShinyAppPostData = new ShinyApps({
-				name: 'New Shiny app'
+				name: 'New Shiny app',
+				urlSuffix: 'testurl'
 			});
 
 			// Create a sample Shiny app response
 			var sampleShinyAppResponse = new ShinyApps({
 				_id: '525cf20451979dea2c000001',
-				name: 'New Shiny app'
+				name: 'New Shiny app',
+				urlSuffix: 'testurl'
 			});
 
 			// Fixture mock form input values
 			scope.name = 'New Shiny app';
+			scope.shinyApp = sampleShinyAppPostData; // (includes urlSuffix)
 
 			// Set POST response
 			$httpBackend.expectPOST('shiny-apps', sampleShinyAppPostData).respond(sampleShinyAppResponse);

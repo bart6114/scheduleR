@@ -10,7 +10,7 @@ module.exports = function(app) {
 		.post(users.requiresLogin, shinyApps.create);
 
 	app.route('/shiny-apps/:shinyAppId')
-		.get(shinyApps.read)
+		.get(users.requiresLogin, shinyApps.read)
 		.put(users.requiresLogin, shinyApps.update)
 		.delete(users.requiresLogin, shinyApps.delete);
 

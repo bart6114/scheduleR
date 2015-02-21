@@ -27,10 +27,11 @@ describe('Shiny app Model Unit Tests:', function() {
 			password: 'password'
 		});
 
-		user.save(function() { 
+		user.save(function() {
 			shinyApp = new ShinyApp({
 				name: 'Shiny app Name',
-				user: user
+				user: user,
+				urlSuffix: 'testUrl'
 			});
 
 			done();
@@ -45,7 +46,7 @@ describe('Shiny app Model Unit Tests:', function() {
 			});
 		});
 
-		it('should be able to show an error when try to save without name', function(done) { 
+		it('should be able to show an error when try to save without name', function(done) {
 			shinyApp.name = '';
 
 			return shinyApp.save(function(err) {
@@ -55,7 +56,7 @@ describe('Shiny app Model Unit Tests:', function() {
 		});
 	});
 
-	afterEach(function(done) { 
+	afterEach(function(done) {
 		ShinyApp.remove().exec();
 		User.remove().exec();
 
