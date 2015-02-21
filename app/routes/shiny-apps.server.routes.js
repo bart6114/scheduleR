@@ -11,8 +11,8 @@ module.exports = function(app) {
 
 	app.route('/shiny-apps/:shinyAppId')
 		.get(shinyApps.read)
-		.put(users.requiresLogin, shinyApps.hasAuthorization, shinyApps.update)
-		.delete(users.requiresLogin, shinyApps.hasAuthorization, shinyApps.delete);
+		.put(users.requiresLogin, shinyApps.update)
+		.delete(users.requiresLogin, shinyApps.delete);
 
 		app.route('/shiny-apps/:shinyAppId/start')
 		.post(users.requiresLogin, shinyApps.startApp);

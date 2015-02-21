@@ -1,10 +1,25 @@
 <section data-ng-controller="HomeController">
 
-	<h1>scheduleR</h1>
-	<p>Automate the execution of R scripts</p>
+    <h1>scheduleR</h1>
+    <p>Automate the execution of R scripts and apps</p>
 
-	<a href="http://xkcd.com/" data-ng-show = "XKCDurl !== '#'">
-		<img data-ng-src="{{XKCDurl}}" alt="Some XKCD inspiration :)" class="xkcd-img">
-	</a>
+    <div class="pull-right">
+        <a href="#!/tasks" class="btn btn-xs btn-default">
+            Enabled tasks
+            <span class="badge">{{stats.tasks}}</span>
+        </a>
+        <a href="#!/shiny-apps" class="btn btn-xs btn-default">
+            Running apps
+            <span class="badge">{{stats.apps}}</span>
+        </a>
+    </div>
+
+
+
+    <p style="margin-top: 50px;">
+        <a href="http://xkcd.com/" data-ng-show="XKCDurl !== '#'">
+            <img data-ng-src="{{XKCDurl}}" alt="Some XKCD inspiration :)" class="xkcd-img">
+        </a>
+    </p>
 
 </section>

@@ -20,6 +20,7 @@ exports.gotoApp = function(req, res) {
             var host = req.get('host').replace(/:.*/, '');
             var redirectUrl = 'http://' + host + ':' + port;
             res.redirect(redirectUrl);
+            return;
         }
     });
 
@@ -82,6 +83,10 @@ exports.create = function(req, res) {
  * Show the current Shiny app
  */
 exports.read = function(req, res) {
+    // check if app is running
+    req.shinyApp = req.shinyApp.toObject();
+    req.shinyApp.running = shinyAppList.isRunning(req.shinyApp) ? true : false;
+
     res.jsonp(req.shinyApp);
 };
 
@@ -105,7 +110,7 @@ exports.update = function(req, res) {
 };
 
 /**
- * Delete an Shiny app
+ * Delete a Shiny app
  */
 exports.delete = function(req, res) {
     var shinyApp = req.shinyApp;
@@ -153,20 +158,17 @@ exports.shinyAppByID = function(req, res, next, id) {
         if (err) return next(err);
         if (!shinyApp) return next(new Error('Failed to load Shiny app ' + id));
 
-        // check if app is running
-        shinyApp = shinyApp.toObject();
-        shinyApp.running = shinyAppList.isRunning(shinyApp) ? true : false;
         req.shinyApp = shinyApp;
         next();
     });
 };
-
-/**
- * Shiny app authorization middleware
- */
-exports.hasAuthorization = function(req, res, next) {
-    if (req.shinyApp.user.id !== req.user.id) {
-        return res.status(403).send('User is not authorized');
-    }
-    next();
-};
+//
+// /**
+//  * Shiny app authorization middleware
+//  */
+// exports.hasAuthorization = function(req, res, next) {
+//     if (!req.user.id) {
+//         return res.status(403).send('User is not authorized');
+//     }
+//     next();
+// };

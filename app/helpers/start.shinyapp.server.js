@@ -34,7 +34,7 @@ var startApp = function(shinyApp, port, callback) {
         ]);
 
 
-    var child = spawn(config.userConfig.RscriptExecutable, args);
+    var child = spawn(config.userConfig.RscriptExecutable, args, {detached: true});
 
     var resp = '';
 
@@ -123,6 +123,10 @@ var ShinyAppList = function() {
     this.isRunning = function(shinyApp) {
         if (shinyApp._id in this.apps) return (true);
         else return (false);
+    };
+
+    this.numberOfRunningApps = function(){
+      return(Object.keys(this.apps).length);
     };
 
     this.getAppPort = function(urlSuffix, callback){

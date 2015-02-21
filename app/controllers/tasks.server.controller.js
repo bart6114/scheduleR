@@ -1,6 +1,6 @@
 'use strict';
 
-var taskList = require('../helpers/start.tasks.server');
+
 
 /**
  * Module dependencies.
@@ -10,7 +10,8 @@ var mongoose = require('mongoose'),
 	Task = mongoose.model('Task'),
 	Log = mongoose.model('Log'),
 	_ = require('lodash'),
-	async = require('async');
+	async = require('async'),
+	taskList = require('../helpers/start.tasks.server');
 
 /**
  * Create a Task
