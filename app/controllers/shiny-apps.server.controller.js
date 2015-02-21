@@ -21,7 +21,6 @@ exports.gotoApp = function(req, res) {
             var redirectUrl = 'http://' + host + ':' + port;
             res.redirect(redirectUrl);
             return;
-        }
     });
 
     res.status(404).send('<p>App not found or not running.... </p> <p>But maybe this cat gives you some relief?</p> \
