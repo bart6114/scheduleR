@@ -1,13 +1,14 @@
 'use strict';
 
 var cron = require('cron'),
+    net = require('net'),
     mongoose = require('mongoose'),
     ShinyApp = mongoose.model('ShinyApp'),
     Log = mongoose.model('Log'),
     config = require('../../config/config'),
-    // mailer = require('../helpers/mailer'),
-    // fileCopy = require('../helpers/file.copy'),
-    // CronJob = require('cron').CronJob,
+// mailer = require('../helpers/mailer'),
+// fileCopy = require('../helpers/file.copy'),
+// CronJob = require('cron').CronJob,
     spawn = require('child_process').spawn,
     path = require('path'),
     temp = require('temp'),
@@ -34,24 +35,44 @@ var startApp = function(shinyApp, port, callback) {
         ]);
 
 
-    var child = spawn(config.userConfig.RscriptExecutable, args, {detached: true});
+    var child = spawn(config.userConfig.RscriptExecutable, args, {
+        detached: true
+    });
 
     var resp = '';
 
     child.on('error', function(err) {
-        // console.log(err);
+        log.success = false;
+
+        resp += err.toString();
+
+        log.msg = resp;
+        log.save(function(err) {
+            if (err) callback(err);
+        });
+
         callback(undefined, err);
     });
 
     child.stdout.on('data', function(buffer) {
-        // console.log(buffer.toString());
         resp += buffer.toString();
+
+        log.msg = resp;
+        log.save(function(err) {
+            if (err) callback(err);
+        });
+
 
     });
 
     child.stderr.on('data', function(buffer) {
-        // console.log(buffer.toString());
+
         resp += buffer.toString();
+        log.msg = resp;
+        log.save(function(err) {
+            if (err) callback(err);
+        });
+
 
     });
 
@@ -90,7 +111,7 @@ var ShinyAppList = function() {
 
         // start (new instance)
 
-        var port = randomIntInc(4000, 8000);
+        var port = randomIntInc(8000, 10000);
 
         this.apps[shinyApp._id] = {
             shinyApp: shinyApp,
@@ -115,30 +136,53 @@ var ShinyAppList = function() {
     this.stopApp = function(shinyApp) {
         console.log('Stopping app: ' + shinyApp.name);
         if (shinyApp._id in this.apps) {
-            this.apps[shinyApp._id].child.kill();
+            try {
+                this.apps[shinyApp._id].child.kill();
+            }
+            catch(err){
+                console.log('Problem killing process: ' + shinyApp.name);
+            }
             delete this.apps[shinyApp._id];
         }
     };
 
     this.isRunning = function(shinyApp) {
-        if (shinyApp._id in this.apps) return (true);
-        else return (false);
-    };
+        if (shinyApp._id in this.apps){
 
-    this.numberOfRunningApps = function(){
-      return(Object.keys(this.apps).length);
-    };
+            var appList = this;
 
-    this.getAppPort = function(urlSuffix, callback){
-      var key;
+            var client = net.connect({port: this.apps[shinyApp._id].port},
+                function() { //'connect' listener
+                    console.log('client connected');
+                    client.end();
+                });
 
-      for (key in this.apps) {
-        if(this.apps[key].shinyApp.urlSuffix === urlSuffix){
-          callback(this.apps[key].port);
-          return;
+            client.on('error', function(err){
+                console.log('client not running');
+                appList.stopApp(shinyApp);
+                return false;
+            });
+
+            return true;
+
         }
-      }
-      callback();
+        else return false;
+    };
+
+    this.numberOfRunningApps = function() {
+        return (Object.keys(this.apps).length);
+    };
+
+    this.getAppPort = function(urlSuffix, callback) {
+        var key;
+
+        for (key in this.apps) {
+            if (this.apps[key].shinyApp.urlSuffix === urlSuffix) {
+                callback(this.apps[key].port);
+                return;
+            }
+        }
+        callback();
 
 
     };

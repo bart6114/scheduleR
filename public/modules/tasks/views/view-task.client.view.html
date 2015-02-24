@@ -1,85 +1,92 @@
 <section data-ng-controller="TasksController" data-ng-init="findOneWithLogs()" style="margin-bottom:5px;">
-	<div class="page-header">
-		<h1 data-ng-bind="task.name"></h1>
+    <div class="page-header">
+        <h1 data-ng-bind="task.name"></h1>
 
-	</div>
-	<div class="pull-right"> <!-- data-ng-show="authentication.user._id == task.user._id"> -->
-		<a class="btn btn-primary" href="/#!/tasks/{{task._id}}/edit">
-			<i class="glyphicon glyphicon-edit"></i>
-		</a>
-		<a class="btn btn-primary" data-ng-click="remove();">
-			<i class="glyphicon glyphicon-trash"></i>
-		</a>
-		<a class="btn btn-default" data-ng-show="task.enabled" data-ng-click="toggleEnabled();">
-			<i class="glyphicon glyphicon-stop"></i>
-		</a>
-		<a class="btn btn-success" data-ng-show="!task.enabled" data-ng-click="toggleEnabled();">
-			<i class="glyphicon glyphicon-play"></i>
-		</a>
-		<a class="btn btn-default" data-ng-click="runOnce();">
-			<i class="glyphicon glyphicon-play">1</i>
-		</a>
+    </div>
+    <div class="pull-right"> <!-- data-ng-show="authentication.user._id == task.user._id"> -->
+        <a class="btn btn-primary" href="/#!/tasks/{{task._id}}/edit">
+            <i class="glyphicon glyphicon-edit"></i>
+        </a>
+        <a class="btn btn-primary" data-ng-click="remove();">
+            <i class="glyphicon glyphicon-trash"></i>
+        </a>
+        <a class="btn btn-default" data-ng-show="task.enabled" data-ng-click="toggleEnabled();">
+            <i class="glyphicon glyphicon-stop"></i>
+        </a>
+        <a class="btn btn-success" data-ng-show="!task.enabled" data-ng-click="toggleEnabled();">
+            <i class="glyphicon glyphicon-play"></i>
+        </a>
+        <a class="btn btn-default" data-ng-click="runOnce();">
+            <i class="glyphicon glyphicon-play">1</i>
+        </a>
 
-	</div>
+    </div>
 
-	<p><strong>Description:</strong> <span data-ng-bind="task.description"></span></p>
-	<p><strong>Filename:</strong> <span data-ng-bind="task.scriptOriginalFilename"></span></p>
-	<p><strong>Arguments:</strong> <span data-ng-bind="task.arguments"></span></p>
-	<p><strong>Cron:</strong> <span data-ng-bind="task.cron"></span></p>
-	<p><strong>Type:</strong>
+    <p><strong>Description:</strong> <span data-ng-bind="task.description"></span></p>
+    <p><strong>Filename:</strong> <span data-ng-bind="task.scriptOriginalFilename"></span></p>
+    <p><strong>Arguments:</strong> <span data-ng-bind="task.arguments"></span></p>
+    <p><strong>Cron:</strong> <span data-ng-bind="task.cron"></span></p>
+    <p><strong>Type:</strong>
 		<span class="label label-info task-info">
                 {{task.Rmarkdown ? 'Rmarkdown' : 'Rscript'}}
 		</span>
-	</p>
-	<p><strong>Activated:</strong>
+    </p>
+    <p><strong>Activated:</strong>
 	<span class="label task-info" data-ng-class="task.enabled ? 'label-success' : 'label-default'">
 		{{task.enabled ? 'enabled' : 'disabled'}}
 	</span>
-	</p>
-	<p data-ng-show="task.enabled"><strong>Next runtime:</strong>  <span >{{ nextRuntime | date: 'medium'}}</span></p>
-	<p><strong>Notify on success</strong>
-		<span class="label label-primary mail-address" data-ng-repeat="mail in task.mailOnSuccess">{{mail}}</span>
-	</p>
+    </p>
+    <p data-ng-show="task.enabled"><strong>Next runtime:</strong>  <span >{{ nextRuntime | date: 'medium'}}</span></p>
+    <p><strong>Notify on success</strong>
+        <span class="label label-primary mail-address" data-ng-repeat="mail in task.mailOnSuccess">{{mail}}</span>
+    </p>
 
-	<p><strong>Notify on error</strong>
+    <p><strong>Notify on error</strong>
 
-		<span class="label label-primary mail-address" data-ng-repeat="mail in task.mailOnError">{{mail}}</span>
-	</p>
+        <span class="label label-primary mail-address" data-ng-repeat="mail in task.mailOnError">{{mail}}</span>
+    </p>
 
-	<p data-ng-show="task.Rmarkdown"><strong>Mail report to</strong>
-		<span class="label label-primary mail-address" data-ng-repeat="mail in task.mailRmdReport">{{mail}}</span>
-	</p>
+    <p data-ng-show="task.Rmarkdown"><strong>Mail report to</strong>
+        <span class="label label-primary mail-address" data-ng-repeat="mail in task.mailRmdReport">{{mail}}</span>
+    </p>
 
-	<small>
-		<em class="text-muted">
-			Created on
-			<span data-ng-bind="task.created | date:'mediumDate'"></span>
-			by
-			<span data-ng-bind="task.user.displayName"></span>
-		</em>
-	</small>
-	<br><br>
+    <small>
+        <em class="text-muted">
+            Created on
+            <span data-ng-bind="task.created | date:'mediumDate'"></span>
+            by
+            <span data-ng-bind="task.user.displayName"></span>
+        </em>
+    </small>
+    <br><br>
 
-	<h3>Logs</h3>
-	<table class="table table-hover table-condensed">
-		<thead>
-		<tr>
-			<th>Timestamp</th>
-			<th>Status</th>
-		</tr>
-		</thead>
-		<tbody>
-		<tr data-ng-repeat="log in logs">
-			<td>{{log.created | date: "dd-MM-yyyy HH:mm:ss"}}</td>
-			<td><a href="/#!/tasks/{{task._id}}/logs/{{log._id}}" class="label"
-				   data-ng-class="{'label-primary': log.success, 'label-warning': !log.success}">
-				{{log.success ? "success" : "error"}}
-			</a></td>
-		</tr>
-		</tbody>
-	</table>
-	<a class="btn btn-xs btn-default pull-right" data-ng-show="logs.length>=10"data-ng-click="getOlderLogs();">
-		<i class="glyphicon glyphicon-chevron-right"></i> Retrieve older logs
-	</a>
-	<br>
+    <h3>Logs</h3>
+
+    <div class="list-group">
+        <a href="/#!/logs/specific/{{log._id}}" data-ng-repeat="log in logs"  class="list-group-item">
+            <i class="label pull-right"
+               data-ng-class="{'label-primary': log.success, 'label-warning': !log.success}">
+                {{log.success ? "success" : "error"}}
+            </i>
+            <p>
+                <small>{{log.created | date: "dd-MM-yyyy HH:mm:ss"}}</small>
+            </p>
+            <p>
+                <code>{{log.msg | getTail : 50}}</code> <i> ...</i>
+            </p>
+
+        </a>
+    </div>
+
+
+    <div id="pagination" class="pull-right">
+        <a class="btn btn-xs btn-default" data-ng-show="logPage>0" data-ng-click="logPage = logPage - 1; getLogs();">
+            <i class="glyphicon glyphicon-chevron-left"></i>
+        </a>
+        {{logPage + 1}}
+        <a class="btn btn-xs btn-default" data-ng-show="logs.length>=maxNumberOfLogs" data-ng-click="logPage = logPage + 1; getLogs();">
+            <i class="glyphicon glyphicon-chevron-right"></i>
+        </a>
+    </div>
+    <br>
 </section>

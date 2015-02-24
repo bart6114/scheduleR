@@ -206,6 +206,7 @@ angular.module('tasks').controller('TasksController', ['$scope', '$stateParams',
 		// Find existing Task
 		$scope.findOneWithLogs = function() {
 
+
 			$scope.task = Tasks.get({
 				taskId: $stateParams.taskId
 			}, function(task){
@@ -225,21 +226,22 @@ angular.module('tasks').controller('TasksController', ['$scope', '$stateParams',
 					$scope.nextRuntime = later.schedule(laterSchedule).next(1);
 				}
 
+                $scope.logPage = 0;
+                $scope.maxNumberOfLogs = 5;
+                $scope.getLogs();
 			});
-
-			$scope.logs = LogsArray.get({
-				taskId: $stateParams.taskId
-			});
-
 
 		};
 
-		$scope.getOlderLogs = function() {
+
+
+		$scope.getLogs = function() {
 
 			$scope.logs = LogsArray.get({
-				taskId: $stateParams.taskId,
-				lastLogId: $scope.logs[$scope.logs.length-1]._id
-			});
+				objectId: $scope.task._id,
+                startAt: $scope.logPage * $scope.maxNumberOfLogs,
+                maxNumberOfLogs: $scope.maxNumberOfLogs
+            });
 		};
 
 

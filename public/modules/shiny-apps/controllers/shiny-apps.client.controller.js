@@ -1,8 +1,8 @@
 'use strict';
 
 // Shiny apps controller
-angular.module('shiny-apps').controller('ShinyAppsController', ['$scope', '$stateParams', '$upload', '$http', '$location', 'Authentication', 'ShinyApps',
-    function($scope, $stateParams, $upload, $http, $location, Authentication, ShinyApps) {
+angular.module('shiny-apps').controller('ShinyAppsController', ['$scope', '$stateParams', '$upload', '$http', '$location', 'Authentication', 'ShinyApps', 'LogsArray',
+    function($scope, $stateParams, $upload, $http, $location, Authentication, ShinyApps, LogsArray) {
         $scope.authentication = Authentication;
 
         // Start app
@@ -81,7 +81,6 @@ angular.module('shiny-apps').controller('ShinyAppsController', ['$scope', '$stat
 
         // Update existing Shiny app
         $scope.update = function() {
-            console.log(3432432);
 
             // make suffix url friendly
             $scope.shinyApp.urlSuffix = encodeURI($scope.shinyApp.urlSuffix);
@@ -104,6 +103,23 @@ angular.module('shiny-apps').controller('ShinyAppsController', ['$scope', '$stat
         $scope.findOne = function() {
             $scope.shinyApp = ShinyApps.get({
                 shinyAppId: $stateParams.shinyAppId
+            }, function(shinyApp){
+
+                $scope.logPage = 0;
+                $scope.maxNumberOfLogs = 5;
+                $scope.getLogs();
+
+            });
+
+
+        };
+
+        $scope.getLogs = function() {
+
+            $scope.logs = LogsArray.get({
+                objectId: $scope.shinyApp._id,
+                startAt: $scope.logPage * $scope.maxNumberOfLogs,
+                maxNumberOfLogs: $scope.maxNumberOfLogs
             });
         };
 

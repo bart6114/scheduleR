@@ -4,10 +4,10 @@
  * Module dependencies.
  */
 var mongoose = require('mongoose'),
-  _ = require('lodash'),
-  errorHandler = require('./errors'),
-  Task = mongoose.model('Task'),
-  Log = mongoose.model('Log');
+    _ = require('lodash'),
+    errorHandler = require('./errors'),
+    Task = mongoose.model('Task'),
+    Log = mongoose.model('Log');
 
 
 
@@ -16,48 +16,68 @@ var mongoose = require('mongoose'),
  */
 exports.list = function(req, res) {
 
-  if(req.query.lastLogId === undefined ){
+    var startAt = parseInt(req.query.startAt);
+    var maxNumberOfLogs = parseInt(req.query.maxNumberOfLogs);
 
-  Log.find({
-      'task': req.task._id
-    })
-    .limit(10)
-    .sort({'_id': -1})
-    .exec(function(err, logs) {
-      if (err) {
-        return res.status(400).send({
-          message: errorHandler.getErrorMessage(err)
-        });
-      } else {
-        res.jsonp(logs);
-      }
-    });
-  } else {
     Log.find({
-      'task': req.task._id,
-      '_id': {'$lt': req.query.lastLogId}
+        'task': req.param("objectId")
     })
-    .limit(10)
-    .sort({'_id': -1})
-    .exec(function(err, logs) {
-      if (err) {
-        return res.status(400).send({
-          message: errorHandler.getErrorMessage(err)
+        .sort({'_id': -1})
+        .skip(startAt)
+        .limit(maxNumberOfLogs)
+        .exec(function(err, logs) {
+            if (err) {
+                return res.status(400).send({
+                    message: errorHandler.getErrorMessage(err)
+                });
+            } else {
+                res.jsonp(logs);
+            }
         });
-      } else {
-        res.jsonp(logs);
-      }
-    });
 
 
-  }
+    //if(req.query.lastLogId === undefined ){
+    //
+    //Log.find({
+    //    'task': req.task._id
+    //  })
+    //  .limit(10)
+    //  .sort({'_id': -1})
+    //  .exec(function(err, logs) {
+    //    if (err) {
+    //      return res.status(400).send({
+    //        message: errorHandler.getErrorMessage(err)
+    //      });
+    //    } else {
+    //      res.jsonp(logs);
+    //    }
+    //  });
+    //} else {
+    //  Log.find({
+    //    'task': req.task._id,
+    //    '_id': {'$lt': req.query.lastLogId}
+    //  })
+    //  .limit(10)
+    //  .sort({'_id': -1})
+    //  .exec(function(err, logs) {
+    //    if (err) {
+    //      return res.status(400).send({
+    //        message: errorHandler.getErrorMessage(err)
+    //      });
+    //    } else {
+    //      res.jsonp(logs);
+    //    }
+    //  });
+    //
+    //
+    //}
 };
 
 /**
  * Show the current log
  */
 exports.read = function(req, res) {
-  res.jsonp(req.log);
+    res.jsonp(req.log);
 };
 
 
@@ -65,11 +85,11 @@ exports.read = function(req, res) {
  * Log middleware
  */
 exports.logByID = function(req, res, next, id) {
-  Log.findById(id).exec(function(err, log) {
-    if (err) return next(err);
-    if (!log) return next(new Error('Failed to load Log ' + id));
+    Log.findById(id).exec(function(err, log) {
+        if (err) return next(err);
+        if (!log) return next(new Error('Failed to load Log ' + id));
 
-    req.log = log;
-    next();
-  });
+        req.log = log;
+        next();
+    });
 };

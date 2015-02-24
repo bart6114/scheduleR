@@ -12,14 +12,14 @@
         <a class="btn btn-primary" data-ng-click="remove();">
             <i class="glyphicon glyphicon-trash"></i>
         </a>
-        <a class="btn btn-default" data-ng-show="shinyApp.running" data-ng-click="stopApp();">
+        <a class="btn btn-default" data-ng-show="shinyApp.running" data-ng-click="stopApp(); getLogs();">
             <i class="glyphicon glyphicon-stop"></i>
         </a>
-        <a class="btn btn-success" data-ng-show="!shinyApp.running" data-ng-click="startApp();">
+        <a class="btn btn-success" data-ng-show="!shinyApp.running" data-ng-click="startApp(); getLogs();">
             <i class="glyphicon glyphicon-play"></i>
         </a>
         <a data-ng-href="/app/{{shinyApp.urlSuffix}}" class="btn btn-default" data-ng-show="shinyApp.running">
-          <span class="glyphicon glyphicon-link"></span>
+            <span class="glyphicon glyphicon-link"></span>
         </a>
 
     </div>
@@ -39,4 +39,34 @@
             <span data-ng-bind="shinyApp.user.displayName"></span>
         </em>
     </small>
+
+    <h3>Logs</h3>
+
+    <div class="list-group">
+        <a href="/#!/logs/specific/{{log._id}}" data-ng-repeat="log in logs"  class="list-group-item">
+            <i class="label pull-right"
+            data-ng-class="{'label-primary': log.success, 'label-warning': !log.success}">
+            {{log.success ? "normal execution" : "exited with error"}}
+            </i>
+            <p>
+                <small>{{log.created | date: "dd-MM-yyyy HH:mm:ss"}}</small>
+            </p>
+            <p>
+                <code>{{log.msg | getTail : 50}}</code> <i> ...</i>
+            </p>
+
+        </a>
+    </div>
+
+    <div id="pagination" class="pull-right">
+        <a class="btn btn-xs btn-default" data-ng-show="logPage>0" data-ng-click="logPage = logPage - 1; getLogs();">
+            <i class="glyphicon glyphicon-chevron-left"></i>
+        </a>
+        {{logPage + 1}}
+        <a class="btn btn-xs btn-default" data-ng-show="logs.length>=maxNumberOfLogs" data-ng-click="logPage = logPage + 1; getLogs();">
+            <i class="glyphicon glyphicon-chevron-right"></i>
+        </a>
+    </div>
+    <br>
+
 </section>

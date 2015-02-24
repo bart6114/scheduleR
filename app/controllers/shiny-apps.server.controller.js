@@ -85,9 +85,6 @@ exports.create = function(req, res) {
  * Show the current Shiny app
  */
 exports.read = function(req, res) {
-    // check if app is running
-    req.shinyApp = req.shinyApp.toObject();
-    req.shinyApp.running = shinyAppList.isRunning(req.shinyApp) ? true : false;
 
     res.jsonp(req.shinyApp);
 };
@@ -164,6 +161,19 @@ exports.shinyAppByID = function(req, res, next, id) {
         next();
     });
 };
+
+/**
+* Shiny app middleware, annotate with running status
+*/
+
+exports.checkStatus = function(req, res, next){
+  // check if app is running
+  req.shinyApp = req.shinyApp.toObject();
+  req.shinyApp.running = shinyAppList.isRunning(req.shinyApp) ? true : false;
+  next();
+
+};
+
 //
 // /**
 //  * Shiny app authorization middleware

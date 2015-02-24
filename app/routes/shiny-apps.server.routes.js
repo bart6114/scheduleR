@@ -10,7 +10,7 @@ module.exports = function(app) {
 		.post(users.requiresLogin, shinyApps.create);
 
 	app.route('/shiny-apps/:shinyAppId')
-		.get(users.requiresLogin, shinyApps.read)
+		.get(users.requiresLogin, shinyApps.checkStatus, shinyApps.read)
 		.put(users.requiresLogin, shinyApps.update)
 		.delete(users.requiresLogin, shinyApps.delete);
 
@@ -21,7 +21,7 @@ module.exports = function(app) {
 		.post(users.requiresLogin, shinyApps.stopApp);
 
 
-		// Access running shiny apps
+		// access running shiny app
 		app.route('/app/:shinyAppUrlSuffix')
 		.get(shinyApps.gotoApp);
 
