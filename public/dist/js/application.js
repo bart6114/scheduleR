@@ -33996,6 +33996,15 @@ ApplicationConfiguration.registerModule('core');
 
 'use strict';
 
+// Use application configuration module to register a new module
+ApplicationConfiguration.registerModule('logs');
+
+'use strict';
+
+// Use applicaion configuration module to register a new module
+ApplicationConfiguration.registerModule('shiny-apps');
+'use strict';
+
 
 // Use applicaion configuration module to register a new module
 ApplicationConfiguration.registerModule('tasks', ['angularFileUpload']);
@@ -34061,24 +34070,28 @@ angular.module('core').controller('HeaderController', ['$scope', 'Authentication
 
 
 angular.module('core').controller('HomeController', ['$scope', '$http', '$timeout', 'Authentication',
-	function($scope, $http, $timeout, Authentication) {
-		// This provides Authentication context.
-		$scope.authentication = Authentication;
-		$scope.XKCDurl = '#';
+    function($scope, $http, $timeout, Authentication) {
+        // This provides Authentication context.
+        $scope.authentication = Authentication;
+        $scope.XKCDurl = '#';
 
-		$http.jsonp('http://dynamic.xkcd.com/api-0/jsonp/comic/?callback=JSON_CALLBACK')
-			.success(function(data, status, headers, config) {
-				$timeout(function() {
-					$scope.XKCDurl = data.img;
-				});
-			});
-
-
+        $http.jsonp('http://dynamic.xkcd.com/api-0/jsonp/comic/?callback=JSON_CALLBACK')
+            .success(function(data, status, headers, config) {
+                $timeout(function() {
+                    $scope.XKCDurl = data.img;
+                });
+            });
 
 
+        $http.get('/get_stats')
+            .success(function(data, status, headers, config) {
+              $scope.stats = data;
 
-
-	}
+            })
+            .error(function(data, status, headers, config) {
+                console.log('Error with getting stats...');
+            });
+    }
 ]);
 
 'use strict';
@@ -34249,6 +34262,298 @@ angular.module('core').service('Menus', [
 ]);
 'use strict';
 
+//Setting up route
+angular.module('logs').config(['$stateProvider',
+	function($stateProvider) {
+		// Logs state routing
+		$stateProvider.
+		state('logs', {
+			url: '/logs/specific/:logId',
+			templateUrl: 'modules/logs/views/view-log.client.view.html'
+		});
+	}
+]);
+'use strict';
+
+angular.module('logs').controller('LogsController', ['$scope', '$stateParams', '$location', 'Authentication', 'Tasks', 'Logs',
+	function($scope, $stateParams, $location, Authentication, Tasks, Logs ) {
+		// Logs controller logic
+		// ...
+		
+
+		// Find existing Task
+		$scope.findOne = function() {
+            console.log(332);
+
+			$scope.log = Logs.get({
+				objectId: $stateParams.objectId,
+				logId: $stateParams.logId
+			}); 
+
+		};
+
+        $scope.previousPage = function() {
+            window.history.back();
+        };
+	}
+]);
+
+'use strict';
+
+angular.module('tasks').filter('getTail', [
+	function() {
+		return function(text, n){
+            return text.substr(text.length - n);
+    };
+		}
+]);
+
+'use strict';
+
+//Logs service used to communicate Tasks REST endpoints
+angular.module('logs').factory('LogsArray', ['$resource',
+  function($resource) {
+    return $resource('logs/list/:objectId', {
+      objectId: '@_id'
+    }, {
+      get: {
+        method: 'GET',
+        isArray: true
+      }
+
+    });
+  }
+]);
+
+//Logs service used to communicate Tasks REST endpoints
+angular.module('logs').factory('Logs', ['$resource',
+  function($resource) {
+    return $resource('logs/specific/:logId', {
+      taskId: '@_id'
+    }
+    );
+  }
+]);
+
+'use strict';
+
+// Configuring the Articles module
+angular.module('shiny-apps').run(['Menus',
+	function(Menus) {
+		// Set top bar menu items
+		Menus.addMenuItem('topbar', 'Shiny apps', 'shiny-apps', 'dropdown', '/shiny-apps(/create)?', undefined, undefined, 99);
+		Menus.addSubMenuItem('topbar', 'shiny-apps', 'List apps', 'shiny-apps');
+		Menus.addSubMenuItem('topbar', 'shiny-apps', 'New app', 'shiny-apps/create');
+	}
+]);
+
+'use strict';
+
+//Setting up route
+angular.module('shiny-apps').config(['$stateProvider',
+	function($stateProvider) {
+		// Shiny apps state routing
+		$stateProvider.
+		state('listShinyApps', {
+			url: '/shiny-apps',
+			templateUrl: 'modules/shiny-apps/views/list-shiny-apps.client.view.html'
+		}).
+		state('createShinyApp', {
+			url: '/shiny-apps/create',
+			templateUrl: 'modules/shiny-apps/views/create-edit-shiny-app.client.view.html'
+		}).
+		state('viewShinyApp', {
+			url: '/shiny-apps/:shinyAppId',
+			templateUrl: 'modules/shiny-apps/views/view-shiny-app.client.view.html'
+		}).
+		state('editShinyApp', {
+			url: '/shiny-apps/:shinyAppId/edit',
+			templateUrl: 'modules/shiny-apps/views/create-edit-shiny-app.client.view.html'
+		});
+	}
+]);
+
+'use strict';
+
+// Shiny apps controller
+angular.module('shiny-apps').controller('ShinyAppsController', ['$scope', '$stateParams', '$upload', '$http', '$location', 'Authentication', 'ShinyApps', 'LogsArray',
+    function($scope, $stateParams, $upload, $http, $location, Authentication, ShinyApps, LogsArray) {
+        $scope.authentication = Authentication;
+
+        // Start app
+        $scope.startApp = function() {
+            $http.post('/shiny-apps/' + $scope.shinyApp._id + '/start')
+                .success(function(data, status, headers, config) {
+                    console.log('Shiny app launched!');
+                    $scope.shinyApp.running = true;
+                })
+                .error(function(err) {
+                    console.log('Error when starting app...');
+                    console.log(err);
+                });
+
+        };
+
+        // Start app
+        $scope.stopApp = function() {
+            $http.post('/shiny-apps/' + $scope.shinyApp._id + '/stop')
+                .success(function(data, status, headers, config) {
+                    console.log('Shiny app stopped... :(');
+                    $scope.shinyApp.running = false;
+                })
+                .error(function(err) {
+                    console.log('Error when stopping app...');
+                    console.log(err);
+                });
+
+        };
+
+
+        // Init create/edit from
+        $scope.create_or_edit = function() {
+
+            if ($stateParams.shinyAppId) {
+                $scope.findOne();
+                $scope.editing = true;
+            } else {
+                $scope.shinyApp = new ShinyApps();
+            }
+        };
+
+        // Create new Shiny app
+        $scope.create = function() {
+
+            // make suffix url friendly
+            $scope.shinyApp.urlSuffix = encodeURI($scope.shinyApp.urlSuffix);
+
+            // Redirect after save
+            $scope.shinyApp.$save(function(response) {
+                $location.path('shiny-apps/' + response._id);
+
+                // Clear form fields
+                $scope.name = '';
+            }, function(errorResponse) {
+                $scope.error = errorResponse.data.message;
+            });
+        };
+
+        // Remove existing Shiny app
+        $scope.remove = function(shinyApp) {
+            if (shinyApp) {
+                shinyApp.$remove();
+
+                for (var i in $scope.shinyApps) {
+                    if ($scope.shinyApps[i] === shinyApp) {
+                        $scope.shinyApps.splice(i, 1);
+                    }
+                }
+            } else {
+                $scope.shinyApp.$remove(function() {
+                    $location.path('shiny-apps');
+                });
+            }
+        };
+
+        // Update existing Shiny app
+        $scope.update = function() {
+
+            // make suffix url friendly
+            $scope.shinyApp.urlSuffix = encodeURI($scope.shinyApp.urlSuffix);
+
+            var shinyApp = $scope.shinyApp;
+
+            shinyApp.$update(function() {
+                $location.path('shiny-apps/' + shinyApp._id);
+            }, function(errorResponse) {
+                $scope.error = errorResponse.data.message;
+            });
+        };
+
+        // Find a list of Shiny apps
+        $scope.find = function() {
+            $scope.shinyApps = ShinyApps.query();
+        };
+
+        // Find existing Shiny app
+        $scope.findOne = function() {
+            $scope.shinyApp = ShinyApps.get({
+                shinyAppId: $stateParams.shinyAppId
+            }, function(shinyApp){
+
+                $scope.logPage = 0;
+                $scope.maxNumberOfLogs = 5;
+                $scope.getLogs();
+
+            });
+
+
+        };
+
+        $scope.getLogs = function() {
+
+            $scope.logs = LogsArray.get({
+                objectId: $scope.shinyApp._id,
+                startAt: $scope.logPage * $scope.maxNumberOfLogs,
+                maxNumberOfLogs: $scope.maxNumberOfLogs
+            });
+        };
+
+
+        $scope.onFileSelect = function($files) {
+            //$files: an array of files selected, each file has name, size, and type.
+            var file = $files[0];
+            var ext = file.name.substr(file.name.lastIndexOf('.') + 1);
+
+            console.log(ext.toLowerCase());
+
+            // upload exceptions
+            if (file.size > 5000000) {
+                console.log('File too large! (' + file.size + ')');
+                $scope.newAppForm.appfile.$setValidity('size', false);
+
+
+
+            } else if (ext.toLowerCase() !== 'zip') {
+                console.log('File is not a .zip package!');
+                $scope.newAppForm.appfile.$setValidity('filetype', false);
+
+            } else {
+                $scope.upload = $upload.upload({
+                    url: 'uploads/', //upload.php script, node.js route, or servlet url
+                    method: 'POST',
+                    file: file
+                }).progress(function(evt) {
+                    console.log('percent: ' + parseInt(100.0 * evt.loaded / evt.total));
+                }).success(function(data, status, headers, config) {
+                    // file is uploaded successfully
+                    $scope.shinyApp.packageNewFilename = data.filename.replace(/^.*[\\\/]/, '');
+                    $scope.shinyApp.packageOriginalFilename = file.name;
+                    console.log($scope.shinyApp.packageOriginalFilename + ' uploaded as ' + $scope.shinyApp.packageNewFilename);
+                });
+            }
+
+        };
+
+
+
+    }
+]);
+
+'use strict';
+
+//Shiny apps service used to communicate Shiny apps REST endpoints
+angular.module('shiny-apps').factory('ShinyApps', ['$resource',
+	function($resource) {
+		return $resource('shiny-apps/:shinyAppId', { shinyAppId: '@_id'
+		}, {
+			update: {
+				method: 'PUT'
+			}
+		});
+	}
+]);
+'use strict';
+
 // Configuring the Articles module
 angular.module('tasks').run(['Menus',
 	function(Menus) {
@@ -34285,35 +34590,6 @@ angular.module('tasks').config(['$stateProvider',
 			url: '/tasks/:taskId/edit',
 			templateUrl: 'modules/tasks/views/create-edit-task.client.view.html'
 		});
-	}
-]);
-
-'use strict';
-
-angular.module('tasks').controller('LogsController', ['$scope', '$stateParams', '$location', 'Authentication', 'Tasks', 'Logs',
-	function($scope, $stateParams, $location, Authentication, Tasks, Logs ) {
-		// Logs controller logic
-		// ...
-		
-
-		// Find existing Task
-		$scope.findOne = function() {
-
-			$scope.task = Tasks.get({
-				taskId: $stateParams.taskId
-			});
-
-			// clean up array return (should be object) 
-			$scope.log = Logs.get({
-				taskId: $stateParams.taskId,
-				logId: $stateParams.logId
-			}); 
-
-
-
-
-
-		};
 	}
 ]);
 
@@ -34360,7 +34636,7 @@ angular.module('tasks').controller('TasksController', ['$scope', '$stateParams',
 
 
 		$scope.runOnce = function() {
-			$http.post('/tasks/' + $scope.task._id + '/run', {msg:'hello word!'})
+			$http.post('/tasks/' + $scope.task._id + '/run')
 				.success(function(data, status, headers, config) {
 					console.log('Running once');
 				})
@@ -34525,6 +34801,7 @@ angular.module('tasks').controller('TasksController', ['$scope', '$stateParams',
 		// Find existing Task
 		$scope.findOneWithLogs = function() {
 
+
 			$scope.task = Tasks.get({
 				taskId: $stateParams.taskId
 			}, function(task){
@@ -34544,21 +34821,22 @@ angular.module('tasks').controller('TasksController', ['$scope', '$stateParams',
 					$scope.nextRuntime = later.schedule(laterSchedule).next(1);
 				}
 
+                $scope.logPage = 0;
+                $scope.maxNumberOfLogs = 5;
+                $scope.getLogs();
 			});
-
-			$scope.logs = LogsArray.get({
-				taskId: $stateParams.taskId
-			});
-
 
 		};
 
-		$scope.getOlderLogs = function() {
+
+
+		$scope.getLogs = function() {
 
 			$scope.logs = LogsArray.get({
-				taskId: $stateParams.taskId,
-				lastLogId: $scope.logs[$scope.logs.length-1]._id
-			});
+				objectId: $scope.task._id,
+                startAt: $scope.logPage * $scope.maxNumberOfLogs,
+                maxNumberOfLogs: $scope.maxNumberOfLogs
+            });
 		};
 
 
@@ -34598,38 +34876,35 @@ angular.module('tasks').factory('Tasks', ['$resource',
     });
   }
 ]);
-
-//Logs service used to communicate Tasks REST endpoints
-angular.module('tasks').factory('LogsArray', ['$resource',
-  function($resource) {
-    return $resource('tasks/:taskId/logs/:logId', {
-      taskId: '@_id'
-    }, {
-      update: {
-        method: 'PUT'
-      },
-      get: {
-        method: 'GET',
-        isArray: true
-      }
-
-    });
-  }
-]);
+//
+////Logs service used to communicate Tasks REST endpoints
+//angular.module('tasks').factory('LogsArray', ['$resource',
+//  function($resource) {
+//    return $resource('logs/list/:objectId', {
+//      objectId: '@_id'
+//    }, {
+//      get: {
+//        method: 'GET',
+//        isArray: true
+//      }
+//
+//    });
+//  }
+//]);
 
 
-//Logs service used to communicate Tasks REST endpoints
-angular.module('tasks').factory('Logs', ['$resource',
-  function($resource) {
-    return $resource('tasks/:taskId/logs/:logId', {
-      taskId: '@_id'
-    }, {
-      update: {
-        method: 'PUT'
-      }
-    });
-  }
-]);
+////Logs service used to communicate Tasks REST endpoints
+//angular.module('tasks').factory('Logs', ['$resource',
+//  function($resource) {
+//    return $resource('tasks/:taskId/logs/:logId', {
+//      taskId: '@_id'
+//    }, {
+//      update: {
+//        method: 'PUT'
+//      }
+//    });
+//  }
+//]);
 
 'use strict';
 
