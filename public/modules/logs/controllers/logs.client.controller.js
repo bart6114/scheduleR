@@ -18,7 +18,7 @@ angular.module('logs').controller('LogsController', ['$scope', '$stateParams', '
 		};
 
         $scope.previousPage = function() {
-            window.history.back()
+            window.history.back();
         };
 	}
 ]);

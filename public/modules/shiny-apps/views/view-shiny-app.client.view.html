@@ -49,7 +49,7 @@
             {{log.success ? "normal execution" : "exited with error"}}
             </i>
             <p>
-                <small>{{log.created | date: "dd-MM-yyyy HH:mm:ss"}}</small>
+                <small>App started at {{    log.created | date: "dd-MM-yyyy HH:mm:ss"}}</small>
             </p>
             <p>
                 <code>{{log.msg | getTail : 50}}</code> <i> ...</i>

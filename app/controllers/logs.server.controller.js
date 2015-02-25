@@ -20,7 +20,7 @@ exports.list = function(req, res) {
     var maxNumberOfLogs = parseInt(req.query.maxNumberOfLogs);
 
     Log.find({
-        'task': req.param("objectId")
+        'task': req.param('objectId')
     })
         .sort({'_id': -1})
         .skip(startAt)

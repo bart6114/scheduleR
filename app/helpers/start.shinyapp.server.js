@@ -153,7 +153,7 @@ var ShinyAppList = function() {
 
             var client = net.connect({port: this.apps[shinyApp._id].port},
                 function() { //'connect' listener
-                    console.log('client connected');
+                    //console.log('client connected');
                     client.end();
                 });
 
