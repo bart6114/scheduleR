@@ -11,7 +11,7 @@ var mongoose = require('mongoose'),
 	Log = mongoose.model('Log'),
 	_ = require('lodash'),
 	async = require('async'),
-	taskList = require('../helpers/start.tasks.server');
+	taskList = require('../helpers/start.task.server.js');
 
 /**
  * Create a Task

@@ -1,0 +1,92 @@
+<section data-ng-controller="ReportsController" data-ng-init="findOneWithLogs()" style="margin-bottom:5px;">
+    <div class="page-header">
+        <h1 data-ng-bind="report.name"></h1>
+
+    </div>
+    <div class="pull-right"> <!-- data-ng-show="authentication.user._id == report.user._id"> -->
+        <a class="btn btn-primary" href="/#!/reports/{{report._id}}/edit">
+            <i class="glyphicon glyphicon-edit"></i>
+        </a>
+        <a class="btn btn-primary" data-ng-click="remove();">
+            <i class="glyphicon glyphicon-trash"></i>
+        </a>
+        <a class="btn btn-default" data-ng-show="report.enabled" data-ng-click="toggleEnabled();">
+            <i class="glyphicon glyphicon-stop"></i>
+        </a>
+        <a class="btn btn-success" data-ng-show="!report.enabled" data-ng-click="toggleEnabled();">
+            <i class="glyphicon glyphicon-play"></i>
+        </a>
+        <a class="btn btn-default" data-ng-click="runOnce();">
+            <i class="glyphicon glyphicon-play">1</i>
+        </a>
+
+    </div>
+
+    <p><strong>Description:</strong> <span data-ng-bind="report.description"></span></p>
+    <p><strong>Filename:</strong> <span data-ng-bind="report.scriptOriginalFilename"></span></p>
+    <p><strong>Arguments:</strong> <span data-ng-bind="report.arguments"></span></p>
+    <p><strong>Cron:</strong> <span data-ng-bind="report.cron"></span></p>
+    <p><strong>Type:</strong>
+		<span class="label label-info report-info">
+                {{report.Rmarkdown ? 'Rmarkdown' : 'Rscript'}}
+		</span>
+    </p>
+    <p><strong>Activated:</strong>
+	<span class="label report-info" data-ng-class="report.enabled ? 'label-success' : 'label-default'">
+		{{report.enabled ? 'enabled' : 'disabled'}}
+	</span>
+    </p>
+    <p data-ng-show="report.enabled"><strong>Next runtime:</strong>  <span >{{ nextRuntime | date: 'medium'}}</span></p>
+    <p><strong>Notify on success</strong>
+        <span class="label label-primary mail-address" data-ng-repeat="mail in report.mailOnSuccess">{{mail}}</span>
+    </p>
+
+    <p><strong>Notify on error</strong>
+
+        <span class="label label-primary mail-address" data-ng-repeat="mail in report.mailOnError">{{mail}}</span>
+    </p>
+
+    <p data-ng-show="report.Rmarkdown"><strong>Mail report to</strong>
+        <span class="label label-primary mail-address" data-ng-repeat="mail in report.mailRmdReport">{{mail}}</span>
+    </p>
+
+    <small>
+        <em class="text-muted">
+            Created on
+            <span data-ng-bind="report.created | date:'mediumDate'"></span>
+            by
+            <span data-ng-bind="report.user.displayName"></span>
+        </em>
+    </small>
+    <br><br>
+
+    <h3>Logs</h3>
+
+    <div class="list-group">
+        <a href="/#!/logs/specific/{{log._id}}" data-ng-repeat="log in logs"  class="list-group-item">
+            <i class="label pull-right"
+               data-ng-class="{'label-primary': log.success, 'label-warning': !log.success}">
+                {{log.success ? "success" : "error"}}
+            </i>
+            <p>
+                <small>{{log.created | date: "dd-MM-yyyy HH:mm:ss"}}</small>
+            </p>
+            <p>
+                <code>{{log.msg | getTail : 50}}</code> <i> ...</i>
+            </p>
+
+        </a>
+    </div>
+
+
+    <div id="pagination" class="pull-right">
+        <a class="btn btn-xs btn-default" data-ng-show="logPage>0" data-ng-click="logPage = logPage - 1; getLogs();">
+            <i class="glyphicon glyphicon-chevron-left"></i>
+        </a>
+        {{logPage + 1}}
+        <a class="btn btn-xs btn-default" data-ng-show="logs.length>=maxNumberOfLogs" data-ng-click="logPage = logPage + 1; getLogs();">
+            <i class="glyphicon glyphicon-chevron-right"></i>
+        </a>
+    </div>
+    <br>
+</section>

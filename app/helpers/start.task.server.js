@@ -1,0 +1,223 @@
+'use strict';
+
+
+var cron = require('cron'),
+    mongoose = require('mongoose'),
+    Task = mongoose.model('Task'),
+    Report = mongoose.model('Report'),
+    Log = mongoose.model('Log'),
+    config = require('../../config/config'),
+    mailer = require('../helpers/mailer'),
+    fileCopy = require('../helpers/file.copy'),
+    CronJob = require('cron').CronJob,
+    spawn = require('child_process').spawn,
+    path = require('path'),
+    temp = require('temp'),
+    async = require('async'),
+    fs = require('fs');
+
+// Automatically track and cleanup files at exit
+temp.track();
+
+var runTask;
+runTask = function(task){
+
+    var task = task;
+    var log = new Log({
+        task: task._id
+    });
+
+
+    var runScript;
+    runScript = config.runRscript;
+
+    console.log('Running task: ' + task.name + ' -- from file: ' + task.scriptOriginalFilename);
+
+    async.waterfall([
+        function(callback){
+            // create a temporary directory to run r files in
+            temp.mkdir('scheduleR', function(err, dirPath){
+
+                callback(err, dirPath);
+            });
+            //callback(err, 4);
+
+        },
+        function(dirPath, callback){
+            // determine arguments to Rscript
+
+            var args = config.userConfig.RstandardArguments.concat(
+                [runScript,
+                    dirPath,
+                    path.normalize(config.userConfig.uploadDir + '/' + task.scriptNewFilename),
+                    task.arguments
+                ]);
+
+            // actually spawn the process
+            var child = spawn(config.userConfig.RscriptExecutable, args, {
+                detached: true
+            });
+
+            var resp = '';
+
+            // push stderr / stdout to logs
+            child.on('error', function(err) {
+                console.log(err);
+            });
+
+            child.
+                stdout.on('data', function(buffer) {
+                    resp += buffer.toString();
+
+                });
+
+            child.stderr.on('data', function(buffer) {
+                resp += buffer.toString();
+
+            });
+
+            var errs;
+            child.stdout.on('end', function() {
+                log.msg = resp;
+
+                log.save(function(err) {
+                    if (err) console.log(err);
+                    errs = err;
+
+                });
+            });
+
+            child.on('exit', function(code) {
+
+                // if unsuccessful execution
+                if (code !== 0) {
+                    log.success = false;
+
+                    log.save(function (err) {
+                        if (err) console.log(err);
+                    });
+
+                    callback(errs, dirPath, false);
+                } else {
+                    callback(errs, dirPath, true);
+                }
+            });
+
+        },
+        function(dirPath, successfulExecution, callback){
+            var errs;
+
+            // if successfulExecution send success notification mail
+            if(successfulExecution) {
+                mailer.sendNotificationMail(
+                    config.userConfig.mailer.from,
+                    task.mailOnSuccess, {
+                        name: task.name,
+                        status: log.success,
+                        time: log.created,
+                        log: log.msg
+                    },
+                    function(err) {
+                        log.msg = log.msg + '\n\n==> Mail error (not R related):\n' + err.toString();
+                        log.success = false;
+                        log.save(function(err) {
+                            if (err) console.log(err);
+                            errs = err;
+                        });
+                    });
+
+            }
+            else {
+                // if !successfulExecution send error notification mail
+                mailer.sendNotificationMail(
+                    config.userConfig.mailer.from,
+                    task.mailOnError, {
+                        name: task.name,
+                        status: log.success,
+                        time: log.created,
+                        log: log.msg
+                    },
+                    function (err) {
+                        log.msg = log.msg + '\n\n==> Mail error (not R related):\n' + err.toString();
+                        log.save(function (err) {
+                            if (err) console.log(err);
+                            errs = err;
+                        });
+                    });
+
+            }
+
+            callback(errs);
+
+        }
+    ], function(err){
+        if(err) console.log(err);
+        temp.cleanup(function(err, stats) {
+            //console.log(stats);
+            if(err) console.log(err);
+        });
+
+    });
+
+};
+
+var startJob;
+startJob = function(task){
+    return(
+        new CronJob(task.cron, function(){
+                runTask(task)
+            },
+            null,
+            true)
+    )
+
+};
+
+
+var tasklist = function() {
+    this.tasks = {};
+    this.addTaskAndStart = function(task) {
+        this.tasks[task._id] = startJob(task);
+    };
+    this.runTaskOnce = function(task) {
+        runTask(task);
+    };
+    this.removeTask = function(task) {
+        this.stopTask(task);
+        delete this.tasks[task._id];
+
+    };
+    this.stopTask = function(task) {
+        if (task._id in this.tasks) this.tasks[task._id].stop();
+    };
+    this.stopAllTasks = function() {
+        for (var taskId in this.tasks) {
+            this.tasks[taskId].stop();
+        }
+    };
+    this.startAllTasks = function() {
+        for (var taskId in this.tasks) {
+            this.tasks[taskId].start();
+        }
+    };
+    this.restart = function() {
+        this.stopAllTasks();
+        this.startAllTasks();
+    };
+
+    this.numberOfEnabledTasks = function() {
+        var key,
+            count = 0;
+
+        for (key in this.tasks) {
+            if (this.tasks[key].running) count++;
+        }
+
+        return (count);
+    };
+
+};
+
+var TaskList = new tasklist();
+module.exports = TaskList;
+

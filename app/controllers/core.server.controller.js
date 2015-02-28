@@ -2,7 +2,7 @@
 
 var config = require('../../config/config'),
     shinyAppList = require('../helpers/start.shinyapp.server'),
-    taskList = require('../helpers/start.tasks.server');
+    taskList = require('../helpers/start.task.server.js');
 
 
 /**

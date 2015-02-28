@@ -1,0 +1,38 @@
+<section data-ng-controller="ReportsController" data-ng-init="find()">
+    <div class="page-header">
+        <h1>Reports</h1>
+    </div>
+    <div class="list-group">
+        <a data-ng-repeat="report in reports" data-ng-href="#!/reports/{{report._id}}" class="list-group-item">
+            <span class="label pull-right report-info" data-ng-class="report.success ? 'label-success' : 'label-danger'">
+                Status
+                <span class="glyphicon glyphicon-ok" data-ng-class="report.success ? 'glyphicon-ok' : 'glyphicon-remove'"></span>
+            </span>
+
+            <span class="label label-info report-info pull-right">
+                <span>{{report.Rmarkdown ? 'Rmarkdown' : 'R script'}}</span>
+            </span>
+
+            <span class="label report-info pull-right" data-ng-class="report.enabled ? 'label-success' : 'label-default'">
+                {{report.enabled ? 'enabled' : 'disabled'}}
+            </span>
+
+
+            <small class="list-group-item-text text-muted">
+                Created on
+                <span data-ng-bind="report.created | date:'medium'"></span>
+                by
+                <span data-ng-bind="report.user.displayName"></span>
+            </small>
+
+            <h4 class="list-group-item-heading">
+                <span data-ng-class="report.enabled ? 'text-primary' : 'text-muted'" data-ng-bind="report.name"></span>
+            </h4>
+            <small data-ng-bind="report.scriptOriginalFilename"></small>:
+            <small class="small" data-ng-bind="report.cron"></small>
+        </a>
+    </div>
+    <div class="alert alert-warning text-center" data-ng-hide="!reports.$resolved || reports.length">
+        No Reports yet, why don't you <a href="/#!/reports/create">create one</a>?
+    </div>
+</section>

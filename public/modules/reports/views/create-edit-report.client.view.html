@@ -1,10 +1,10 @@
-<section data-ng-controller="TasksController" data-ng-init="create_or_edit()">
+<section data-ng-controller="ReportsController" data-ng-init="create_or_edit()">
     <div class="page-header">
-        <h1>{{editing ? "Edit Task" : "New Task"}}</h1>
+        <h1>{{editing ? "Edit Report" : "New Report"}}</h1>
     </div>
 
     <div class="col-md-12">
-        <form name = "newTaskForm" class="form-horizontal" data-ng-submit="editing ? update() : create()" novalidate>
+        <form name = "newReportForm" class="form-horizontal" data-ng-submit="editing ? update() : create()" novalidate>
             <fieldset>
 
 
@@ -12,7 +12,7 @@
                 <div class="form-group">
                     <label class="col-md-2 control-label" for="name">Name</label>
                     <div class="col-md-6">
-                        <input id="name" name="name" type="text" placeholder="Name" class="form-control input-md" required="" data-ng-model="task.name">
+                        <input id="name" name="name" type="text" placeholder="Name" class="form-control input-md" required="" data-ng-model="report.name">
 
                     </div>
                 </div>
@@ -21,7 +21,7 @@
                 <div class="form-group">
                     <label class="col-md-2 control-label" for="description">Description</label>
                     <div class="col-md-6">
-                        <textarea class="form-control" id="description" name="description" placeholder="Enter optional description" data-ng-model="task.description"></textarea>
+                        <textarea class="form-control" id="description" name="description" placeholder="Enter optional description" data-ng-model="report.description"></textarea>
                     </div>
                 </div>
 
@@ -31,12 +31,12 @@
                 <div class="form-group">
                     <label class="col-md-2 control-label" for="scriptfile">Script file</label>
                     <div class="col-md-6">
-                        <span class="error text-info" ng-show="task.scriptOriginalFilename">
-                                    Current file: {{task.scriptOriginalFilename}}
+                        <span class="error text-info" ng-show="report.scriptOriginalFilename">
+                                    Current file: {{report.scriptOriginalFilename}}
                             </span>
                         <input id="scriptfile" name="scriptfile" class="input-file" type="file"
                                ng-file-select="onFileSelect($files)" data-ng-model="scriptfile">
-                             <span class="error" ng-show="newTaskForm['scriptfile'].$error.size">
+                             <span class="error" ng-show="newReportForm['scriptfile'].$error.size">
                                     File is too large (max. 500kb)
                             </span>
                     </div>
@@ -46,7 +46,7 @@
                 <div class="form-group">
                     <label class="col-md-2 control-label" for="arguments">Extra arguments</label>
                     <div class="col-md-6">
-                        <input id="arguments" name="arguments" type="text" placeholder="Additional arguments will be added to the Rscript run command" class="form-control input-md" required="" data-ng-model="task.arguments">
+                        <input id="arguments" name="arguments" type="text" placeholder="Additional arguments will be added to the Rscript run command" class="form-control input-md" required="" data-ng-model="report.arguments">
                     </div>
                 </div>
 
@@ -54,7 +54,65 @@
                 <div class="form-group">
                     <label class="col-md-2 control-label" for="enabled">Enabled</label>
                     <div class="col-md-6">
-                        <input type="checkbox" name="enabled" id="enabled" data-ng-model="task.enabled" value=1 checked>
+                        <input type="checkbox" name="enabled" id="enabled" data-ng-model="report.enabled" value=1 checked>
+                    </div>
+                </div>
+
+
+                <br><br>
+                <h4>Rmarkdown</h4>
+                <hr>
+
+                <div class="form-group">
+                  <label class="col-md-2 control-label" for="RmdFilenameTimestamp">Add timestamp to filename</label>
+                  <div class="col-md-6">
+                    <input type="checkbox" name="RmdFilenameTimestamp" id="RmdFilenameTimestamp" data-ng-model="report.RmdFilenameTimestamp">
+                  </div>
+                </div>
+
+
+                <div class="form-group">
+                    <label class="col-md-2 control-label" for="RmdOutputPath">Rmd output path</label>
+                    <div class="col-md-6">
+                        <input id="RmdOutputPath" name="RmdOutputPath" type="text"
+                               placeholder="Enter optional output path (for writing document to local/network path)"
+                               class="form-control input-md" required="" data-ng-model="report.RmdOutputPath">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-md-2 control-label" for="RmdAccompanyingMsg">Rmd mail message</label>
+                    <div class="col-md-6">
+                        <textarea rows="10" id="RmdAccompanyingMsg" name="RmdAccompanyingMsg"
+                                  placeholder="Enter message to accompany report mail (supports markdown formatting)"
+                                  class="form-control input-md" required="" data-ng-model="report.RmdAccompanyingMsg"></textarea>
+                    </div>
+                </div>
+
+                <div class="row mail-addresses">
+                    <div class = "col-md-offset-2 col-md-6">
+                        <ul class="list-unstyled">
+                            <li data-ng-repeat="addr in mailAddresses.rmdReport track by $index">
+                                <span class="label label-default mail-address">
+                                    {{addr}}
+                                    <span class="glyphicon glyphicon-trash" data-ng-click="deleteEmailAddress($index, mailAddresses.rmdReport)"></span>
+                                </span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="row">
+                        <label class="col-md-2 control-label" for="rmdReport">Mail report to</label>
+                        <div class="col-md-6">
+                            <input id="rmdReport" name="rmdReport" type="email" placeholder="Enter email (and press enter)" class="form-control input-md" required=""
+                                   data-ng-model="rmdReport" data-ng-keyup="($event.keyCode == 13 && !newReportForm['rmdReport'].$error.email) && addEmailAddress(rmdReport, mailAddresses.rmdReport)" prevent-form-submit-on-enter>
+                            <span class="error" ng-show="newReportForm['rmdReport'].$error.email">
+                                Not valid a valid email address
+                            </span>
+                        </div>
+
                     </div>
                 </div>
 
@@ -121,7 +179,7 @@
                 <div class="form-group">
                     <label class="col-md-2 control-label text-muted" for="cron">Generated cron string</label>
                     <div class="col-md-6">
-                        <input id="cron" name="cron" type="text" placeholder="Cron string" class="form-control input-md" required="" data-ng-model="task.cron" disabled>
+                        <input id="cron" name="cron" type="text" placeholder="Cron string" class="form-control input-md" required="" data-ng-model="report.cron" disabled>
 
                     </div>
                 </div>
@@ -156,8 +214,8 @@
                         <label class="col-md-2 control-label" for="onSuccess">On success</label>
                         <div class="col-md-6">
                             <input id="onSuccess" name="onSuccess" type="email" placeholder="Enter email (and press enter)" class="form-control input-md" required=""
-                                   data-ng-model="onSuccess" data-ng-keyup="($event.keyCode == 13 && !newTaskForm['onSuccess'].$error.email) && addEmailAddress(onSuccess, mailAddresses.onSuccess)" prevent-form-submit-on-enter>
-                            <span class="error" ng-show="newTaskForm['onSuccess'].$error.email">
+                                   data-ng-model="onSuccess" data-ng-keyup="($event.keyCode == 13 && !newReportForm['onSuccess'].$error.email) && addEmailAddress(onSuccess, mailAddresses.onSuccess)" prevent-form-submit-on-enter>
+                            <span class="error" ng-show="newReportForm['onSuccess'].$error.email">
                                 Not valid a valid email address
                             </span>
                         </div>
@@ -183,8 +241,8 @@
                         <label class="col-md-2 control-label" for="onError">On error</label>
                         <div class="col-md-6">
                             <input id="onError" name="onError" type="email" placeholder="Enter email (and press enter)" class="form-control input-md" required=""
-                                   data-ng-model="onError" data-ng-keyup="($event.keyCode == 13 && !newTaskForm['onError'].$error.email) && addEmailAddress(onError, mailAddresses.onError)" prevent-form-submit-on-enter>
-                            <span class="error" ng-show="newTaskForm['onError'].$error.email">
+                                   data-ng-model="onError" data-ng-keyup="($event.keyCode == 13 && !newReportForm['onError'].$error.email) && addEmailAddress(onError, mailAddresses.onError)" prevent-form-submit-on-enter>
+                            <span class="error" ng-show="newReportForm['onError'].$error.email">
                                 Not valid a valid email address
                             </span>
                         </div>
