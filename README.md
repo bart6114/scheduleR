@@ -95,6 +95,12 @@ Create a new issue at [scheduleR's GitHub site](https://github.com/Bart6114/sche
 
 ## Changes
 
+### v.0.0.12
+
+- Added __experimental__ support for Shiny apps
+- Separated R _tasks_ from R markdown _reports_
+- A lot of refactoring
+
 ### v.0.0.11
 
 - Added (limited) pagination to logs in detailed task view in order to improve performance

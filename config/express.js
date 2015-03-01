@@ -148,7 +148,8 @@ module.exports = function(db) {
 	});
 
 	// init cron jobs
-	var taskList = require('../app/helpers/start.task.server.js');
+	var taskList = require('../app/helpers/start.task.server.js'),
+        reportList = require('../app/helpers/start.report.server.js');
 
 	return app;
 };

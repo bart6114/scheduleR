@@ -4,7 +4,6 @@
 var cron = require('cron'),
     mongoose = require('mongoose'),
     Task = mongoose.model('Task'),
-    Report = mongoose.model('Report'),
     Log = mongoose.model('Log'),
     config = require('../../config/config'),
     mailer = require('../helpers/mailer'),
@@ -22,7 +21,6 @@ temp.track();
 var runTask;
 runTask = function(task){
 
-    var task = task;
     var log = new Log({
         task: task._id
     });
@@ -118,7 +116,7 @@ runTask = function(task){
                         log: log.msg
                     },
                     function(err) {
-                        log.msg = log.msg + '\n\n==> Mail error (not R related):\n' + err.toString();
+                        log.msg += '\n\n==> Mail error (not R related):\n' + err.toString();
                         log.success = false;
                         log.save(function(err) {
                             if (err) console.log(err);
@@ -138,7 +136,7 @@ runTask = function(task){
                         log: log.msg
                     },
                     function (err) {
-                        log.msg = log.msg + '\n\n==> Mail error (not R related):\n' + err.toString();
+                        log.msg += '\n\n==> Mail error (not R related):\n' + err.toString();
                         log.save(function (err) {
                             if (err) console.log(err);
                             errs = err;
@@ -165,11 +163,11 @@ var startJob;
 startJob = function(task){
     return(
         new CronJob(task.cron, function(){
-                runTask(task)
+                runTask(task);
             },
             null,
             true)
-    )
+    );
 
 };
 
@@ -221,3 +219,22 @@ var tasklist = function() {
 var TaskList = new tasklist();
 module.exports = TaskList;
 
+
+// find enabled tasks in database and actually enable 'em
+Task.find({
+    'enabled': true
+}).sort('-created').populate('user', 'displayName').exec(function(err, tasks) {
+    if (err) {
+        console.log(err);
+    } else {
+
+        for (var i = 0; i < tasks.length; i++) {
+
+            var task = tasks[i];
+            TaskList.addTaskAndStart(task);
+
+
+
+        }
+    }
+});

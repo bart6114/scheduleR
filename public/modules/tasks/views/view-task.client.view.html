@@ -26,11 +26,7 @@
     <p><strong>Filename:</strong> <span data-ng-bind="task.scriptOriginalFilename"></span></p>
     <p><strong>Arguments:</strong> <span data-ng-bind="task.arguments"></span></p>
     <p><strong>Cron:</strong> <span data-ng-bind="task.cron"></span></p>
-    <p><strong>Type:</strong>
-		<span class="label label-info task-info">
-                {{task.Rmarkdown ? 'Rmarkdown' : 'Rscript'}}
-		</span>
-    </p>
+
     <p><strong>Activated:</strong>
 	<span class="label task-info" data-ng-class="task.enabled ? 'label-success' : 'label-default'">
 		{{task.enabled ? 'enabled' : 'disabled'}}

@@ -87,7 +87,7 @@
 
 			//// Set GET response
 			$httpBackend.expectGET(/tasks\/([0-9a-fA-F]{24})$/).respond(sampleTask);
-			$httpBackend.expectGET(/tasks\/([0-9a-fA-F]{24})\/logs$/).respond([sampleLog]);
+            $httpBackend.expectGET(/logs\/list\?maxNumberOfLogs=5&startAt=0$/).respond([sampleLog]); // should usually contain id but isn't know at testing
 
 			// Run controller functionality
 			scope.findOneWithLogs();
@@ -103,8 +103,7 @@
 				name: 'New Task',
 				cron: '* * * * *',
 				mailOnError: [],
-				mailOnSuccess: [],
-				mailRmdReport: []
+				mailOnSuccess: []
 			});
 
 			// Create a sample Task response

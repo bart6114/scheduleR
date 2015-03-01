@@ -8,8 +8,7 @@ angular.module('tasks').controller('TasksController', ['$scope', '$stateParams',
 
         $scope.mailAddresses = {
             onError: [],
-            onSuccess: [],
-            rmdReport: []
+            onSuccess: []
         };
 
         $scope.scheduleOptions = {
@@ -65,7 +64,7 @@ angular.module('tasks').controller('TasksController', ['$scope', '$stateParams',
 
 
             }
-            else if(ext !== "r" ){
+            else if(ext !== 'r' ){
                 // file should be an .R file
                 console.log('File is not an .R file');
                 $scope.newTaskForm.scriptfile.$setValidity('filetype', false); // TODO: fix
@@ -93,7 +92,7 @@ angular.module('tasks').controller('TasksController', ['$scope', '$stateParams',
             target.push(value);
             $scope.onError = '';
             $scope.onSuccess = '';
-            $scope.rmdReport = '';
+
 
 
         };

@@ -25,24 +25,6 @@ var TaskSchema = new Schema({
 		type: Boolean,
 		default: true
 	},
-	Rmarkdown: {
-		type: Boolean,
-		default: false
-	},
-	RmdFilenameTimestamp: {
-		type: Boolean,
-		default: false
-	},
-	RmdOutputPath: {
-		type: String,
-		default: '',
-		trim: true
-	},
-	RmdAccompanyingMsg: {
-		type: String,
-		default: '',
-		trim: true
-	},
 	cron: {
 		type: String,
 		default: '',
@@ -66,7 +48,6 @@ var TaskSchema = new Schema({
 	},
 	mailOnError: [String],
 	mailOnSuccess: [String],
-	mailRmdReport: [String],
 	created: {
 		type: Date,
 		default: Date.now

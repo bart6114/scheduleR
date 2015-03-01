@@ -26,11 +26,7 @@
     <p><strong>Filename:</strong> <span data-ng-bind="report.scriptOriginalFilename"></span></p>
     <p><strong>Arguments:</strong> <span data-ng-bind="report.arguments"></span></p>
     <p><strong>Cron:</strong> <span data-ng-bind="report.cron"></span></p>
-    <p><strong>Type:</strong>
-		<span class="label label-info report-info">
-                {{report.Rmarkdown ? 'Rmarkdown' : 'Rscript'}}
-		</span>
-    </p>
+
     <p><strong>Activated:</strong>
 	<span class="label report-info" data-ng-class="report.enabled ? 'label-success' : 'label-default'">
 		{{report.enabled ? 'enabled' : 'disabled'}}
@@ -61,6 +57,10 @@
     <br><br>
 
     <h3>Logs</h3>
+    <!--<a class="btn btn-xs btn-default" data-ng-show="logs.length>0" href="/#!/logs/purge/{{report._id}}" style="margin-bottom: 5px;">-->
+        <!--<i class="glyphicon glyphicon-trash"></i> Purge logs-->
+    <!--</a>-->
+
 
     <div class="list-group">
         <a href="/#!/logs/specific/{{log._id}}" data-ng-repeat="log in logs"  class="list-group-item">
@@ -89,4 +89,7 @@
         </a>
     </div>
     <br>
+
+
+
 </section>

@@ -70,17 +70,24 @@
 			expect(scope.shinyApps).toEqualData(sampleShinyApps);
 		}));
 
-		it('$scope.findOne() should create an array with one Shiny app object fetched from XHR using a shinyAppId URL parameter', inject(function(ShinyApps) {
+		it('$scope.findOne() should create an array with one Shiny app object fetched from XHR using a shinyAppId URL parameter', inject(function(ShinyApps, LogsArray) {
 			// Define a sample Shiny app object
 			var sampleShinyApp = new ShinyApps({
-				name: 'New Shiny app'
+				name: 'New Shiny app',
+                urlSuffix: 'testurl'
 			});
+
+            var sampleLog = new LogsArray([{
+                msg: 'test',
+                task: sampleShinyApp._id
+            }]);
 
 			// Set the URL parameter
 			$stateParams.shinyAppId = '525a8422f6d0f87f0e407a33';
 
 			// Set GET response
 			$httpBackend.expectGET(/shiny-apps\/([0-9a-fA-F]{24})$/).respond(sampleShinyApp);
+            $httpBackend.expectGET(/logs\/list\?maxNumberOfLogs=5&startAt=0$/).respond([sampleLog]); // should usually contain id but isn't know at testing
 
 			// Run controller functionality
 			scope.findOne();
