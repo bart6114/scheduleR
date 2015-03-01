@@ -4,16 +4,12 @@
     </div>
     <div class="list-group">
         <a data-ng-repeat="report in reports" data-ng-href="#!/reports/{{report._id}}" class="list-group-item">
-            <span class="label pull-right report-info" data-ng-class="report.success ? 'label-success' : 'label-danger'">
+            <span class="label pull-right task-info" data-ng-class="report.success ? 'label-success' : 'label-danger'">
                 Status
                 <span class="glyphicon glyphicon-ok" data-ng-class="report.success ? 'glyphicon-ok' : 'glyphicon-remove'"></span>
             </span>
 
-            <span class="label label-info report-info pull-right">
-                <span>{{report.Rmarkdown ? 'Rmarkdown' : 'R script'}}</span>
-            </span>
-
-            <span class="label report-info pull-right" data-ng-class="report.enabled ? 'label-success' : 'label-default'">
+            <span class="label task-info pull-right" data-ng-class="report.enabled ? 'label-success' : 'label-default'">
                 {{report.enabled ? 'enabled' : 'disabled'}}
             </span>
 

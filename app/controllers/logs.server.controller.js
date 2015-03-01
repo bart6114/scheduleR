@@ -34,43 +34,6 @@ exports.list = function(req, res) {
                 res.jsonp(logs);
             }
         });
-
-
-    //if(req.query.lastLogId === undefined ){
-    //
-    //Log.find({
-    //    'task': req.task._id
-    //  })
-    //  .limit(10)
-    //  .sort({'_id': -1})
-    //  .exec(function(err, logs) {
-    //    if (err) {
-    //      return res.status(400).send({
-    //        message: errorHandler.getErrorMessage(err)
-    //      });
-    //    } else {
-    //      res.jsonp(logs);
-    //    }
-    //  });
-    //} else {
-    //  Log.find({
-    //    'task': req.task._id,
-    //    '_id': {'$lt': req.query.lastLogId}
-    //  })
-    //  .limit(10)
-    //  .sort({'_id': -1})
-    //  .exec(function(err, logs) {
-    //    if (err) {
-    //      return res.status(400).send({
-    //        message: errorHandler.getErrorMessage(err)
-    //      });
-    //    } else {
-    //      res.jsonp(logs);
-    //    }
-    //  });
-    //
-    //
-    //}
 };
 
 /**

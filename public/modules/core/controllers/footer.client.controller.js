@@ -6,7 +6,8 @@ angular.module('core').controller('FooterController', ['$scope', 'Authentication
 
 		$http.get('/version')
 			.success(function(data) {
-				$scope.appVersion = JSON.parse(data);
+                $scope.versionInfo = data;
+                $scope.upToDate = parseInt(data.currentVersion.split('.').join('')) < parseInt(data.latestVersion.split('.').join('')) ? false : true;
 			});
 	}
 ]);
