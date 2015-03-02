@@ -170,7 +170,8 @@ runReport = function(report){
                     var newFilePath;
                     // add timestamp to filename if requested
                     if (report.RmdFilenameTimestamp === true) {
-                        newFilePath = dirPath + '/' + originalBaseFilename + '_' + new Date().toISOString().replace(/\..+/, '') + path.extname(files[i]);
+                        var timestamp = new Date().toISOString().replace(/\..+/, '').replace(/:/g, '');
+                        newFilePath = dirPath + '/' + originalBaseFilename + '_' + timestamp + path.extname(files[i]);
                     } else {
                         newFilePath = dirPath + '/' + originalBaseFilename + path.extname(files[i]);
                     }
