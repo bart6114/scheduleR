@@ -124,7 +124,7 @@ When adding new app, the following input fields are available:
 
 See an example below:
 
-<video width="683" height="393" preload controls><source src="http://s1.webmshare.com/o89eg.webm"/></video>
+<a href="http://webmshare.com/o89eg" ><img src="http://s1.webmshare.com/t/o89eg.jpg" title="Hosted by webmshare.com" /></a>
 
 ## Test scripts
 
