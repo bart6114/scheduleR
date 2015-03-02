@@ -63,8 +63,7 @@ runReport = function(report){
                 console.log(err);
             });
 
-            child.
-                stdout.on('data', function(buffer) {
+            child.stdout.on('data', function(buffer) {
                     resp += buffer.toString();
 
                 });

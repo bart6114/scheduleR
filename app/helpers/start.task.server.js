@@ -61,20 +61,19 @@ runTask = function(task){
             // push stderr / stdout to logs
             child.on('error', function(err) {
                 console.log(err);
+
             });
+            var errs;
+            child.stdout.on('data', function(buffer) {
+                resp += buffer.toString();
 
-            child.
-                stdout.on('data', function(buffer) {
-                    resp += buffer.toString();
-
-                });
+            });
 
             child.stderr.on('data', function(buffer) {
                 resp += buffer.toString();
 
             });
 
-            var errs;
             child.stdout.on('end', function() {
                 log.msg = resp;
 
