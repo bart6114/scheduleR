@@ -143,6 +143,12 @@ Bug fixes are very welcome.
 
 ## Changes
 
+### v.0.0.13
+
+- fixed bug that didn't correctly show report status in list view
+- correct link to reports from 'enabled reports' button
+- added list of mail-to addresses to detailed report view
+
 ### v.0.0.12
 
 - Added __experimental__ support for Shiny apps

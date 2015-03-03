@@ -112,7 +112,7 @@ exports.list = function(req, res) {
 
                 async.map(reports, function(report, callback) {
                     Log.findOne()
-                        .where({'report': report._id})
+                        .where({'task': report._id})
                         .sort({ $natural: -1 })
                         .limit(1)
                         .exec(function(err, log) {
