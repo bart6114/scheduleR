@@ -25,6 +25,10 @@ var TaskSchema = new Schema({
 		type: Boolean,
 		default: true
 	},
+    ignoreLock: {
+        type: Boolean,
+        default: false
+    },
 	cron: {
 		type: String,
 		default: '',

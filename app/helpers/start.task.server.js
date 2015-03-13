@@ -19,7 +19,9 @@ var cron = require('cron'),
 temp.track();
 
 var runTask;
-runTask = function(task){
+runTask = function(task, lock){
+
+    lock(true);
 
     var log = new Log({
         task: task._id
@@ -154,15 +156,19 @@ runTask = function(task){
             if(err) console.log(err);
         });
 
+        lock(false);
+
     });
+
 
 };
 
 var startJob;
-startJob = function(task){
+startJob = function(task, lock, isLocked){
+
     return(
         new CronJob(task.cron, function(){
-                runTask(task);
+                if(!isLocked(task) || task.ignoreLock) runTask(task, lock);
             },
             null,
             true)
@@ -172,13 +178,42 @@ startJob = function(task){
 
 
 var tasklist = function() {
+    var parent = this;
     this.tasks = {};
+    this.lockedTasks = [];
+
+    this.lock = function(task, locked) {
+        if(locked){
+            this.lockedTasks.push(task._id);
+        }
+        else {
+            var i = this.lockedTasks.indexOf(task._id);
+            if(i > -1) this.lockedTasks.splice(i, 1);
+        }
+
+    };
+
+    this.isLocked = function(task){
+        return this.lockedTasks.indexOf(task._id) > -1 ? true : false;
+
+    };
+
     this.addTaskAndStart = function(task) {
-        this.tasks[task._id] = startJob(task);
+        this.tasks[task._id] = startJob(task, function(locked){
+            parent.lock(task, locked);
+        }, function(task){
+            return parent.isLocked(task);
+        });
     };
+
     this.runTaskOnce = function(task) {
-        runTask(task);
+        if(!this.isLocked(task) || task.ignoreLock) {
+            runTask(task, function (locked) {
+                parent.lock(task, locked);
+            });
+        }
     };
+
     this.removeTask = function(task) {
         this.stopTask(task);
         delete this.tasks[task._id];
@@ -208,7 +243,10 @@ var tasklist = function() {
 
         for (key in this.tasks) {
             if (this.tasks[key].running) count++;
+            console.log(this.tasks[key].connected, 33);
         }
+
+
 
         return (count);
     };

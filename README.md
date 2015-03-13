@@ -86,8 +86,9 @@ Using **new task** one can schedule a new script:
 - **script file** upload the .R file
 - **extra arguments** potential extra arguments to call the script with
 - **enabled** should the task be enabled after saving
+- **ignore lock** if disabled, tasks are locked when executing, meaning that no other instance can be started when previous instance hasn't finished
 - **mail report to** addresses to the resulting report to (as attachment) - make sure to press enter after each address
-- **schedule** the desired schedule (see the [cron manual](http://unixhelp.ed.ac.uk/CGI/man-cgi?crontab+5)
+- **schedule** the desired schedule (see the [cron manual](http://unixhelp.ed.ac.uk/CGI/man-cgi?crontab+5))
 - **on success** addresses to send _successful execution_ notification to - make sure to press enter after each address
 - **on error** addresses to send _unsuccesful execution_ notification to - make sure to press enter after each address
 
@@ -142,6 +143,10 @@ Bug fixes are very welcome.
 
 
 ## Changes
+
+### v.0.0.14
+- tasks are locked when executing, meaning that no other instance of the task can be started if the previous instance hasn't finished (behaviour can be overruled in the task's settings, see docs)
+
 
 ### v.0.0.13
 
