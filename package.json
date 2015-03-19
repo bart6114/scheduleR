@@ -55,7 +55,8 @@
     "cron": "~1.0.5",
     "temp": "~0.8.1",
     "marked": "~0.3.2",
-    "request": "~2.53.0"
+    "request": "~2.53.0",
+    "node-coveralls": "~2.1.0"
   },
   "devDependencies": {
     "supertest": "~0.14.0",
