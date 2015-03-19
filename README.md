@@ -144,9 +144,11 @@ Bug fixes are very welcome.
 
 ## Changes
 
+### v0.0.15
+- report generation bugfix: files could only be copied if email addresses were present
+
 ### v.0.0.14
 - tasks are locked when executing, meaning that no other instance of the task can be started if the previous instance hasn't finished (behaviour can be overruled in the task's settings, see docs)
-
 
 ### v.0.0.13
 
