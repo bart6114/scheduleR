@@ -1,5 +1,5 @@
 {
-  "uploadDir": "/path/to/upload/directory/",
+  "uploadDir": "/home/bart/tmp",
   "RscriptExecutable": "Rscript",
   "RstandardArguments": [
     "--verbose",
