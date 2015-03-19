@@ -64,9 +64,9 @@ runReport = function(report){
             });
 
             child.stdout.on('data', function(buffer) {
-                    resp += buffer.toString();
+                resp += buffer.toString();
 
-                });
+            });
 
             child.stderr.on('data', function(buffer) {
                 resp += buffer.toString();
@@ -150,7 +150,7 @@ runReport = function(report){
         },
         function(dirPath, successfulExecution, callback){
 
-            if(successfulExecution && report.mailRmdReport.length>0){
+            if(successfulExecution && report.mailRmdReport.length>0) {
 
                 /////////
                 // rename generated files to match original Rmd file basename
@@ -161,7 +161,7 @@ runReport = function(report){
                 // only rename resulting html and pdf file with generated base filename
                 var fileFilter = [scriptBaseFilename.toLowerCase() + '.html', scriptBaseFilename.toLowerCase() + '.pdf'];
                 var files = fs.readdirSync(dirPath)
-                    .filter(function(f) {
+                    .filter(function (f) {
                         return fileFilter.indexOf(f.toLowerCase()) >= 0;
                     });
 
@@ -188,32 +188,32 @@ runReport = function(report){
                         msg: report.RmdAccompanyingMsg
                     },
                     dirPath,
-                    function(err) {
+                    function (err) {
                         log.msg = log.msg + '\n\n==> Mail error (not R related):\n' + err.toString();
+                        log.success = false;
+                        log.save(function (err) {
+                            if (err) console.log(err);
+                        });
+                    });
+            }
+            //////
+            // copy files to specified dir
+            //////
+
+            if (report.RmdOutputPath) {
+                fileCopy(dirPath, report.RmdOutputPath, function(err) {
+                    if (err) {
+                        console.log(err);
+                        log.msg = log.msg + '\n\n==> File copy error (not R related):\n' + err.toString();
                         log.success = false;
                         log.save(function(err) {
                             if (err) console.log(err);
                         });
-                    });
+                    }
+                });
 
-                //////
-                // copy files to specified dir
-                //////
-
-                if (report.RmdOutputPath) {
-                    fileCopy(dirPath, report.RmdOutputPath, function(err) {
-                        if (err) {
-                            console.log(err);
-                            log.msg = log.msg + '\n\n==> File copy error (not R related):\n' + err.toString();
-                            log.success = false;
-                            log.save(function(err) {
-                                if (err) console.log(err);
-                            });
-                        }
-                    });
-
-                }
             }
+
         }
     ], function(err){
         if(err) console.log(err);
