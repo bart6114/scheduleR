@@ -7,3 +7,5 @@ services:
   - mongodb
 before_script:
   - "bower install"
+after_success:
+  - ./node_modules/coveralls/bin/coveralls.js
