@@ -99,7 +99,7 @@ function sendNotificationMail(from, mailAddresses, JSONvalues, errCallback){
                 var mailOptions = {
                     to: mailAddresses,
                     from: from,
-                    subject: 'Rschedule ' +  status + ' notification: ' + JSONvalues.name,
+                    subject: 'scheduleR ' +  status + ' notification: ' + JSONvalues.name,
                     html: HTMLstring
                 };
 
