@@ -8,3 +8,4 @@ app/tests/coverage/
 .bower-*/
 .idea/
 coverage/
+.Rhistory

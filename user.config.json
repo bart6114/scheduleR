@@ -16,8 +16,8 @@
       "secure": true,
       "port": 465,
       "auth": {
-        "user": "...@gmail.com",
-        "pass": "..."
+        "user": "ltboolean@gmail.com",
+        "pass": "explodingbooleans"
       }
     }
   },
