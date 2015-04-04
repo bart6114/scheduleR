@@ -2,7 +2,7 @@
 
 # scheduleR
 
-__scheduleR__ is a framework that can be used to deploy R tasks, reports and apps. 
+__scheduleR__ is a framework that can be used to deploy R tasks, reports and apps.
 
 * __Tasks__ are 'regular' R scripts that you want to schedule to be  executed on a regular basis (often ETL related scripts).
 * __Reports__ are Rmarkdown (.Rmd) reports that can be converted to a PDF or HTML. See [rmarkdown](https://github.com/rstudio/rmarkdown) for more info.
@@ -42,7 +42,7 @@ First download the repository using the latest [tarball](https://api.github.com/
 Next, run the following command to install dependencies (might require admin rights).
 
     npm install
-    
+
 #### Known issues
 
 If when using ```npm install``` you get an error like ```Error: ENOENT ...``` try updating npm to the latest version: ```npm update -g npm``` (might require admin rights).
@@ -143,6 +143,10 @@ Bug fixes are very welcome.
 
 
 ## Changes
+
+### v0.0.16
+- fixed bug where some files didn't get properly renamed before copying
+- fixed up some jslint warnings
 
 ### v0.0.15
 - report generation bugfix: files could only be copied if email addresses were present
