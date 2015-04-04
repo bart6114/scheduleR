@@ -1,5 +1,6 @@
 'use strict';
 
+/*global later */
 
 // Reports controller
 angular.module('reports').controller('ReportsController', ['$scope', '$stateParams', '$upload', '$http', '$location', 'Authentication', 'Reports', 'LogsArray',

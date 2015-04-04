@@ -1,5 +1,5 @@
 'use strict';
-
+/*global later */
 
 // Tasks controller
 angular.module('tasks').controller('TasksController', ['$scope', '$stateParams', '$upload', '$http', '$location', 'Authentication', 'Tasks', 'LogsArray',

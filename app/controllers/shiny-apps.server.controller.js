@@ -22,6 +22,7 @@ exports.gotoApp = function(req, res) {
             res.redirect(redirectUrl);
             return;
         } else {
+          /*jshint multistr: true */
           res.status(404).send('<p>App not found or not running.... </p> <p>But maybe this cat gives you some relief?</p> \
           <a href="http://thecatapi.com"><img src="http://thecatapi.com/api/images/get?format=src&type=gif"></a>');
         }

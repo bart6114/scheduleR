@@ -150,33 +150,33 @@ runReport = function(report){
         },
         function(dirPath, successfulExecution, callback){
 
-            if(successfulExecution && report.mailRmdReport.length>0) {
+            /////////
+            // rename generated files to match original Rmd file basename
+            ////////
+            var originalBaseFilename = path.basename(report.scriptOriginalFilename, path.extname(report.scriptOriginalFilename));
+            var scriptBaseFilename = path.basename(report.scriptNewFilename, path.extname(report.scriptNewFilename));
 
-                /////////
-                // rename generated files to match original Rmd file basename
-                ////////
-                var originalBaseFilename = path.basename(report.scriptOriginalFilename, path.extname(report.scriptOriginalFilename));
-                var scriptBaseFilename = path.basename(report.scriptNewFilename, path.extname(report.scriptNewFilename));
+            // only rename resulting html and pdf file with generated base filename
+            var fileFilter = [scriptBaseFilename.toLowerCase() + '.html', scriptBaseFilename.toLowerCase() + '.pdf'];
+            var files = fs.readdirSync(dirPath)
+                .filter(function (f) {
+                    return fileFilter.indexOf(f.toLowerCase()) >= 0;
+                });
 
-                // only rename resulting html and pdf file with generated base filename
-                var fileFilter = [scriptBaseFilename.toLowerCase() + '.html', scriptBaseFilename.toLowerCase() + '.pdf'];
-                var files = fs.readdirSync(dirPath)
-                    .filter(function (f) {
-                        return fileFilter.indexOf(f.toLowerCase()) >= 0;
-                    });
-
-                for (var i = 0; i < files.length; i++) {
-                    var newFilePath;
-                    // add timestamp to filename if requested
-                    if (report.RmdFilenameTimestamp === true) {
-                        var timestamp = new Date().toISOString().replace(/\..+/, '').replace(/:/g, '');
-                        newFilePath = dirPath + '/' + originalBaseFilename + '_' + timestamp + path.extname(files[i]);
-                    } else {
-                        newFilePath = dirPath + '/' + originalBaseFilename + path.extname(files[i]);
-                    }
-
-                    fs.renameSync(dirPath + '/' + files[i], newFilePath);
+            for (var i = 0; i < files.length; i++) {
+                var newFilePath;
+                // add timestamp to filename if requested
+                if (report.RmdFilenameTimestamp === true) {
+                    var timestamp = new Date().toISOString().replace(/\..+/, '').replace(/:/g, '');
+                    newFilePath = dirPath + '/' + originalBaseFilename + '_' + timestamp + path.extname(files[i]);
+                } else {
+                    newFilePath = dirPath + '/' + originalBaseFilename + path.extname(files[i]);
                 }
+
+                fs.renameSync(dirPath + '/' + files[i], newFilePath);
+            }
+
+            if(successfulExecution && report.mailRmdReport.length>0) {
 
                 ////////
                 // send report to onsuccess adresses
