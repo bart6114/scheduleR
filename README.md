@@ -144,6 +144,9 @@ Bug fixes are very welcome.
 
 ## Changes
 
+### v.0.0.17
+- removed 'detached' setting when spawning processes from node (caused some problems on Windows machines)
+
 ### v0.0.16
 - fixed bug where some files didn't get properly renamed before copying
 - fixed up some jslint warnings
