@@ -50,11 +50,8 @@ runReport = function(report){
                     report.arguments
                 ]);
 
-
             // actually spawn the process
-            var child = spawn(config.userConfig.RscriptExecutable, args, {
-                detached: true
-            });
+            var child = spawn(config.userConfig.RscriptExecutable, args);
 
             var resp = '';
 

@@ -54,9 +54,7 @@ runTask = function(task, lock){
                 ]);
 
             // actually spawn the process
-            var child = spawn(config.userConfig.RscriptExecutable, args, {
-                detached: true
-            });
+            var child = spawn(config.userConfig.RscriptExecutable, args);
 
             var resp = '';
 
@@ -243,7 +241,6 @@ var tasklist = function() {
 
         for (key in this.tasks) {
             if (this.tasks[key].running) count++;
-            console.log(this.tasks[key].connected, 33);
         }
 
 

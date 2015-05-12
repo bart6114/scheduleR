@@ -32,9 +32,7 @@ var startApp = function(shinyApp, port, callback) {
         ]);
 
 
-    var child = spawn(config.userConfig.RscriptExecutable, args, {
-        detached: true
-    });
+    var child = spawn(config.userConfig.RscriptExecutable, args);
 
     var resp = '';
 
