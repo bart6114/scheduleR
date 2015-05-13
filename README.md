@@ -159,7 +159,7 @@ Bug fixes are very welcome.
 ## Changes
 
 ### v0.0.18
-- switched scheduling engine from node-cron to schedule-node (cron string specification now more in line with crontab)
+- switched scheduling engine from ```node-cron``` to ```schedule-node``` (cron string specification now more in line with crontab)
 - some extra refactoring of the scheduling code
 
 ### v.0.0.17
