@@ -12,6 +12,7 @@
     "angular-ui-router": "~0.2.10",
     "ng-file-upload": "~1.6.12",
     "later": "*",
-    "bootswatch-dist": "lumen"
+    "bootswatch-dist": "lumen",
+    "underscore": "~1.8.3"
   }
 }
