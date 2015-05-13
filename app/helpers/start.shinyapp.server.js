@@ -1,7 +1,6 @@
 'use strict';
 
-var cron = require('cron'),
-    net = require('net'),
+var net = require('net'),
     mongoose = require('mongoose'),
     ShinyApp = mongoose.model('ShinyApp'),
     Log = mongoose.model('Log'),
