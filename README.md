@@ -148,9 +148,6 @@ It is a good idea to always run the following after an update:
 ```
 npm install
 npm prune
-
-bower install
-bower prune
 ```
 
 ## Issues, questions, feedback
