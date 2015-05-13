@@ -1,7 +1,7 @@
 'use strict';
 
 
-var cron = require('cron'),
+var schedule = require('node-schedule'),
     mongoose = require('mongoose'),
     Report = mongoose.model('Report'),
     Log = mongoose.model('Log'),
@@ -226,13 +226,10 @@ runReport = function(report){
 var startJob;
 startJob = function(report){
     return(
-        new CronJob(report.cron, function(){
+        new schedule.scheduleJob(report.cron, function(){
                 runReport(report);
-            },
-            null,
-            true)
+            })
     );
-
 };
 
 
@@ -250,11 +247,11 @@ var reportlist = function() {
 
     };
     this.stopReport = function(report) {
-        if (report._id in this.reports) this.reports[report._id].stop();
+        if (report._id in this.reports) this.reports[report._id].cancel();
     };
     this.stopAllReports = function() {
         for (var reportId in this.reports) {
-            this.reports[reportId].stop();
+            this.reports[reportId].cancel();
         }
     };
     this.startAllReports = function() {

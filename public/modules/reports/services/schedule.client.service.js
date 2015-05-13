@@ -1,5 +1,7 @@
 'use strict';
 
+/*global _ */
+
 //Menu service used for managing  menus
 angular.module('reports').factory('ScheduleService',
     function(){

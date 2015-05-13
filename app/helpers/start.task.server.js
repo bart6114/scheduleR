@@ -1,7 +1,7 @@
 'use strict';
 
 
-var cron = require('cron'),
+var schedule = require('node-schedule'),
     mongoose = require('mongoose'),
     Task = mongoose.model('Task'),
     Log = mongoose.model('Log'),
@@ -165,11 +165,9 @@ var startJob;
 startJob = function(task, lock, isLocked){
 
     return(
-        new CronJob(task.cron, function(){
+        new schedule.scheduleJob(task.cron, function(){
                 if(!isLocked(task) || task.ignoreLock) runTask(task, lock);
-            },
-            null,
-            true)
+            })
     );
 
 };
@@ -218,11 +216,11 @@ var tasklist = function() {
 
     };
     this.stopTask = function(task) {
-        if (task._id in this.tasks) this.tasks[task._id].stop();
+        if (task._id in this.tasks) this.tasks[task._id].cancel();
     };
     this.stopAllTasks = function() {
         for (var taskId in this.tasks) {
-            this.tasks[taskId].stop();
+            this.tasks[taskId].cancel();
         }
     };
     this.startAllTasks = function() {

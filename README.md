@@ -135,14 +135,35 @@ In the ```examples``` directory you can find a few example scripts to test sched
 
 Up to now only tested on a recent Chrome browser. Testing on different browsers is appreciated.
 
+## Updating
+
+When a new version is available it will be shown in the footer. Updating is easiest when you've done an install using ```git clone```, in this case you can simply do a ```pull```:
+
+```
+git pull
+```
+
+It is a good idea to always run the following after an update:
+
+```
+npm install
+npm prune
+
+bower install
+bower prune
+```
+
 ## Issues, questions, feedback
 
 For support and bug reports create a new issue at [scheduleR's GitHub site](https://github.com/Bart6114/scheduleR/issues).
 
 Bug fixes are very welcome.
 
-
 ## Changes
+
+### v0.0.18
+- switched scheduling engine from node-cron to schedule-node (cron string specification now more in line with crontab)
+- some extra refactoring of the scheduling code
 
 ### v.0.0.17
 - removed 'detached' setting when spawning processes from node (caused some problems on Windows machines)
