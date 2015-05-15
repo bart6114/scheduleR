@@ -216,32 +216,9 @@ var tasklist = function() {
     this.stopTask = function(task) {
         if (task._id in this.tasks) this.tasks[task._id].cancel();
     };
-    this.stopAllTasks = function() {
-        for (var taskId in this.tasks) {
-            this.tasks[taskId].cancel();
-        }
-    };
-    this.startAllTasks = function() {
-        for (var taskId in this.tasks) {
-            this.tasks[taskId].start();
-        }
-    };
-    this.restart = function() {
-        this.stopAllTasks();
-        this.startAllTasks();
-    };
 
     this.numberOfEnabledTasks = function() {
-        var key,
-            count = 0;
-
-        for (key in this.tasks) {
-            if (this.tasks[key].running) count++;
-        }
-
-
-
-        return (count);
+        return (Object.keys(this.tasks).length);
     };
 
 };

@@ -248,30 +248,9 @@ var reportlist = function() {
     this.stopReport = function(report) {
         if (report._id in this.reports) this.reports[report._id].cancel();
     };
-    this.stopAllReports = function() {
-        for (var reportId in this.reports) {
-            this.reports[reportId].cancel();
-        }
-    };
-    this.startAllReports = function() {
-        for (var reportId in this.reports) {
-            this.reports[reportId].start();
-        }
-    };
-    this.restart = function() {
-        this.stopAllReports();
-        this.startAllReports();
-    };
 
     this.numberOfEnabledReports = function() {
-        var key,
-            count = 0;
-
-        for (key in this.reports) {
-            if (this.reports[key].running) count++;
-        }
-
-        return (count);
+        return (Object.keys(this.reports).length);
     };
 
 };
